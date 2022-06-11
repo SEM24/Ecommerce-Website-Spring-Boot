@@ -17,13 +17,11 @@ public class Test1 {
                 .buildSessionFactory(); Session session = factory.getCurrentSession()) {
 
             User user = new User("Egor", "+3809313", "sandy@shop.com", "Kharkiv", 2);
-            OrderStatus orderStatus = new OrderStatus(EOrderStatus.Обработка);
-            // Orders orders = new Orders(500, 1);
+            OrderStatus orderStatus = new OrderStatus();
+            orderStatus.setId(2);
 
-            Orders orders = new Orders(500, 1, 1);
+            Orders orders = new Orders(500, orderStatus, 1);
             user.addOrderToUser(orders);
-
-            // orderStatus.addOrderToStatus(orders);
 
             session.beginTransaction();
             session.save(orders);
