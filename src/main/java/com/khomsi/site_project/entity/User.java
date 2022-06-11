@@ -44,6 +44,7 @@ public class User {
     //строка тут
 
     //У одного пользователя может быть много заказов
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<Orders> ordersListUser;
 
