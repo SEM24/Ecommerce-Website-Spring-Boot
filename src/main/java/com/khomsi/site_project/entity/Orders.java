@@ -24,6 +24,8 @@ public class Orders {
     @Column(name = "price")
     private int price;
 
+    //TODO    @NonNull Надо сюда?
+
     // @ManyToOne should annotate a field not a collection.
     // For collection fields the right annotation is @OneToMany.
     @ToString.Exclude
