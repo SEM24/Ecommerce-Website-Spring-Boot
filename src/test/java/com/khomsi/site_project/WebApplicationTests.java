@@ -1,4 +1,4 @@
-package com.sem.site_project;
+package com.khomsi.site_project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
