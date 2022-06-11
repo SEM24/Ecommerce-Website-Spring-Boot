@@ -3,6 +3,8 @@ package com.khomsi.site_project.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "order_status")
@@ -19,6 +21,29 @@ public class OrderStatus {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status")
+    @Column(name = "status_name")
     private EOrderStatus orderStatus;
+
+    //FIXME эти строки вроде даже не нужны
+    //TODO я хз еще надо ли тут  @ToString.Exclude, типо нужна ли эта
+    //строка тут
+    //У одного пользователя может быть много заказов
+//    {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.REFRESH,CascadeType.MERGE}
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderStatusId")
+//    private List<Orders> ordersListStatus;
+
+
+//    @OneToMany(cascade =  {CascadeType.PERSIST, CascadeType.DETACH,
+//            CascadeType.REFRESH,CascadeType.MERGE}, mappedBy = "orderStatusId")
+//    private List<Orders> ordersListStatus;
+//
+//
+//    //Этот пользователь будет пользователем данного заказа
+//    public void addOrderToStatus(Orders orders) {
+//        if (ordersListStatus == null) ordersListStatus = new ArrayList<>();
+//
+//        ordersListStatus.add(orders);
+//        orders.setOrderStatusId(this);
+//    }
 }

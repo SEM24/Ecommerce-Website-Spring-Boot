@@ -24,16 +24,23 @@ public class Orders {
     @Column(name = "price")
     private int price;
 
-    //FIXME тут проверить на всякий, @ManyToOne should annotate a field not a collection.
+    // @ManyToOne should annotate a field not a collection.
     // For collection fields the right annotation is @OneToMany.
-
-    @NonNull
+    @ToString.Exclude
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User userId;
 
+
+//    @NonNull
+//    @Column(name = "order_status_id")
+//    private int orderStatusId;
+
     @NonNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
+            CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatusId;
 
