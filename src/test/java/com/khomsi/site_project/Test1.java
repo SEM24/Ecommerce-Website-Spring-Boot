@@ -1,6 +1,5 @@
 package com.khomsi.site_project;
 
-import com.khomsi.site_project.entity.EOrderStatus;
 import com.khomsi.site_project.entity.OrderStatus;
 import com.khomsi.site_project.entity.Orders;
 import com.khomsi.site_project.entity.User;
