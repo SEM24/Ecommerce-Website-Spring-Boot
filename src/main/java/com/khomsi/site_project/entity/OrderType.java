@@ -1,6 +1,6 @@
 package com.khomsi.site_project.entity;
 
-public enum EOrderStatus {
+public enum OrderType {
     Оплачено,
     Отмена,
     В_ожидании_оплаты,

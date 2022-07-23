@@ -3,8 +3,6 @@ package com.khomsi.site_project.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "order_status")
@@ -22,7 +20,7 @@ public class OrderStatus {
     @NonNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status_name")
-    private EOrderStatus orderStatus;
+    private OrderType orderStatus;
 
     //FIXME эти строки вроде даже не нужны
     //TODO я хз еще надо ли тут  @ToString.Exclude, типо нужна ли эта
