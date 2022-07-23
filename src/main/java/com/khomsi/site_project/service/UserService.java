@@ -5,9 +5,15 @@ import com.khomsi.site_project.entity.User;
 import java.util.List;
 
 public interface UserService {
-    void deleteUser(Integer id);
 
-    User findById(int id);
+    public List<User> getAllUsers();
 
-    List<User> findAll();
+    public void saveUser(User user);
+
+    public User getUser(int id);
+
+    public User getUserByLogin(String login);
+
+    public void deleteUser(int id);
+
 }
