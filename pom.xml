@@ -73,12 +73,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--Прочитать и убрать зависимость, если надо-->
-        <dependency>
-            <groupId>net.javacrumbs.shedlock</groupId>
-            <artifactId>shedlock-spring</artifactId>
-            <version>4.27.0</version>
-        </dependency>
+        <!--        <dependency>-->
+<!--            <groupId>net.javacrumbs.shedlock</groupId>-->
+<!--            <artifactId>shedlock-spring</artifactId>-->
+<!--            <version>4.27.0</version>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.webjars.npm/normalize.css -->
         <dependency>
             <groupId>org.webjars.npm</groupId>
