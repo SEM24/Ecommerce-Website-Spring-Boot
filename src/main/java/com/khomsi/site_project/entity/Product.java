@@ -1,32 +1,31 @@
 package com.khomsi.site_project.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "product")
-@Data
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Product {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+ //   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    // @NotNull
     @Column(name = "title")
     private String title;
 
-    @NotNull
+    //@NotNull
     @Column(name = "description")
     private String description;
 
-    @NotNull
+    //@NotNull
     @Column(name = "price")
     private int price;
 

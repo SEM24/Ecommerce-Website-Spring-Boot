@@ -8,16 +8,16 @@ import javax.persistence.*;
 @Table(name = "category")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class Category {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+ //   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "title")
-    @NonNull
+   // @NonNull
     private String title;
 }

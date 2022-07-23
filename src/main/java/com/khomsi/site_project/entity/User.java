@@ -17,8 +17,18 @@ import java.util.List;
 public class User {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+ //   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    //TODO добавить эту колонку в бд
+    @NonNull
+    @Column(name = "login")
+    private String login;
+
+    //TODO добавить эту колонку в бд
+    @NonNull
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "name")
     @NonNull
@@ -39,6 +49,12 @@ public class User {
     @Column(name = "qty")
     @NonNull
     private int qty;
+
+    //TODO добавить эту колонку в бд
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
 
     //TODO я хз еще надо ли тут  @ToString.Exclude, типо нужна ли эта
     //строка тут
