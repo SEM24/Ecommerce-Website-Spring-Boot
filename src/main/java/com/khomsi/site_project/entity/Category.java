@@ -3,6 +3,7 @@ package com.khomsi.site_project.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -14,10 +15,15 @@ import javax.persistence.*;
 public class Category {
     @Id
     @Column(name = "id")
- //   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToMany(mappedBy = "category")
+    @ToString.Exclude
+    private List<Product> products;
+
     @Column(name = "title")
-   // @NonNull
     private String title;
+
+
 }

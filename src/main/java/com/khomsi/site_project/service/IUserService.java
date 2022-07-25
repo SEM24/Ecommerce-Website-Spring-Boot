@@ -4,7 +4,7 @@ import com.khomsi.site_project.entity.User;
 
 import java.util.List;
 
-public interface UserService {
+public interface IUserService {
 
     public List<User> getAllUsers();
 

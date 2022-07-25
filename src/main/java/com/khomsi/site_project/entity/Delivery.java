@@ -15,6 +15,10 @@ public class Delivery {
     @Id
     @Column(name = "orders_id")
     private int orders_id;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "orders_id")
+    private Orders orders;
 
     @Column(name = "shippingType")
     private int shippingType;
@@ -22,5 +26,7 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private DeliveryStatus status;
+
+
 
 }
