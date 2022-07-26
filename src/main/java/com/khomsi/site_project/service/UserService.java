@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 
-public class UserServiceImpl implements IUserService {
+public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository;

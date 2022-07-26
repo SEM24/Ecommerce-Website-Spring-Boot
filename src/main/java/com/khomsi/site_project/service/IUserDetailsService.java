@@ -9,7 +9,7 @@ public interface IUserDetailsService {
 
     public List<UserDetails> getAllUserDetails();
 
-    public void saveUserDetail(User user);
+    public void saveUserDetail(UserDetails userDetails);
 
     public UserDetails getUserDetail(int id);
 
