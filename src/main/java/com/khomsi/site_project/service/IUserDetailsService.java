@@ -1,6 +1,5 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.User;
 import com.khomsi.site_project.entity.UserDetails;
 
 import java.util.List;
