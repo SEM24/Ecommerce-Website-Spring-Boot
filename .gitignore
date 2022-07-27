@@ -32,4 +32,3 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/sql/WebShopDB.mwb.bak
-/src/main/resources/sql/WebShopDB.mwb
