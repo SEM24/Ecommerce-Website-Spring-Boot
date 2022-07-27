@@ -1,6 +1,9 @@
 package com.khomsi.site_project.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+
 
 /* https://stackoverflow.com/questions/19525380/difference-between-role-and-grantedauthority-in-spring-security */
 public enum Role implements GrantedAuthority {

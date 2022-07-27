@@ -1,6 +1,8 @@
 package com.khomsi.site_project.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -44,8 +46,8 @@ public class Orders {
     // For collection fields the right annotation is @OneToMany.
 
     @ToString.Exclude
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User userId;
 

@@ -1,6 +1,8 @@
 package com.khomsi.site_project.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,7 +41,8 @@ public class User {
 
     //У одного пользователя может быть много заказов
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(mappedBy = "userId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Orders> ordersListUser;
 
     //Если заказа нету, создать его, если есть, добавить его в лист

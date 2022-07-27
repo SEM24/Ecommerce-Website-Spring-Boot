@@ -3,10 +3,11 @@ package com.khomsi.site_project.service;
 import com.khomsi.site_project.entity.UserDetails;
 import com.khomsi.site_project.repository.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class UserDetailsService implements IUserDetailsService {
     @Autowired
     private UserDetailsRepository userDetailsRepository;

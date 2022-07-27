@@ -27,14 +27,15 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-    @ToString.Exclude
-    @ManyToOne(cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    //    @ManyToOne(cascade = {CascadeType.PERSIST,
+//            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
-    @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL)
+    //    @ManyToOne(cascade = {CascadeType.PERSIST,
+//            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

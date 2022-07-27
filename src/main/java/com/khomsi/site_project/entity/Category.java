@@ -18,7 +18,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(mappedBy = "category")
+    //TODO затестить эти каскады под продукт
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
     @ToString.Exclude
     private List<Product> products;
 
