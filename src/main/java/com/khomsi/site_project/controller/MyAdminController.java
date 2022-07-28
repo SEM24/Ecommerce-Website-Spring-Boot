@@ -245,4 +245,12 @@ public class MyAdminController {
         vendorRepository.save(vendor);
         return "redirect:/admin/allVendors";
     }
+
+    @GetMapping("/allOrders")
+    public String allOrders(Model model) {
+        List<Orders> orders = ordersRepository.findAll();
+        model.addAttribute("allOrders", orders);
+
+        return "admin/orders/all-orders";
+    }
 }
