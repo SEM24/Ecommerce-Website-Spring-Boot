@@ -1,13 +1,7 @@
 package com.khomsi.site_project.controller;
 
-import com.khomsi.site_project.entity.Category;
-import com.khomsi.site_project.entity.Product;
-import com.khomsi.site_project.entity.User;
-import com.khomsi.site_project.entity.UserDetails;
-import com.khomsi.site_project.repository.CategoryRepository;
-import com.khomsi.site_project.repository.ProductRepository;
-import com.khomsi.site_project.repository.UserDetailsRepository;
-import com.khomsi.site_project.repository.UserRepository;
+import com.khomsi.site_project.entity.*;
+import com.khomsi.site_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +21,11 @@ public class MyAdminController {
     private UserDetailsRepository userDetailsRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private VendorRepository vendorRepository;
+
+    @Autowired
+    private OrdersRepository ordersRepository;
 
     @GetMapping({"", "/", "/admin-panel"})
     public String showAdminPanel() {
@@ -199,8 +198,51 @@ public class MyAdminController {
     }
 
     @PostMapping("/addCategory")
-    public String createUser(Category category) {
+    public String createCategory(Category category) {
         categoryRepository.save(category);
         return "redirect:/admin/allCategories";
+    }
+
+
+    @GetMapping("/allVendors")
+    public String allVendors(Model model) {
+        List<Vendor> vendors = vendorRepository.findAll();
+        model.addAttribute("allVendors", vendors);
+
+        return "admin/vendor/all-vendors";
+    }
+
+    @GetMapping("/allVendors/{id}")
+    public String updateVendor(@PathVariable int id, Model model) {
+        Vendor vendor = vendorRepository.getReferenceById(id);
+        model.addAttribute("updateVendor", vendor);
+        return "admin/vendor/update-vendor";
+    }
+
+    @PostMapping("/allVendors/{id}")
+    public String saveVendor(@PathVariable int id, @ModelAttribute Vendor vendor) {
+        Vendor newVendor = vendorRepository.getReferenceById(id);
+        newVendor.setTitle(vendor.getTitle());
+        vendorRepository.save(newVendor);
+        return "redirect:/admin/allVendors";
+    }
+
+    @PostMapping("/allVendors/{id}/delete")
+    public String deleteVendor(@PathVariable int id) {
+        vendorRepository.deleteById(id);
+        return "redirect:/admin/allVendors";
+    }
+
+    @GetMapping("/addVendor")
+    public String addVendor(Model model) {
+        Vendor vendor = new Vendor();
+        model.addAttribute("addVendor", vendor);
+        return "admin/vendor/add-vendor";
+    }
+
+    @PostMapping("/addVendor")
+    public String createVendor(Vendor vendor) {
+        vendorRepository.save(vendor);
+        return "redirect:/admin/allVendors";
     }
 }

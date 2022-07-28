@@ -26,6 +26,12 @@
     </div>
     <br>
     <div>
+        <form th:action="@{/admin/allOrders}" method="get">
+            <input type="submit" value="Orders page"/>
+        </form>
+    </div>
+    <br>
+    <div>
         <form th:action="@{/admin/allUserDetails}" method="get">
             <input type="submit" value="UserDetails page"/>
         </form>
@@ -34,6 +40,12 @@
     <div>
         <form th:action="@{/admin/allCategories}" method="get">
             <input type="submit" value="Category page"/>
+        </form>
+    </div>
+    <br>
+    <div>
+        <form th:action="@{/admin/allVendors}" method="get">
+            <input type="submit" value="Vendor page"/>
         </form>
     </div>
     <br>

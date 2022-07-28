@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All orders</title>
+    <title>All vendors</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
@@ -10,11 +10,12 @@
 </head>
 <body>
 <div class="container">
-   <br> <h3>Orders List</h3>
+    <br>
+    <h3>Vendor List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addOrder}" method="get">
-            <input type="submit" value="Add Order">
+        <form th:action="@{/admin/addVendor}" method="get">
+            <input type="submit" value="Add Vendor">
         </form>
     </div>
     <br><br>
@@ -22,28 +23,22 @@
         <thead style="text-align: center">
         <tr>
             <th>ID</th>
-            <th>User ID</th>
-            <th>Order status ID</th>
-            <th>Shipping type</th>
+            <th>Title</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
-        <tr th:each="order : ${allOrders}">
-            <td th:text="${order.id}"></td>
-            <td th:text="${product.title}"></td>
-            <td th:text="${product.description}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product?.vendor?.id}"></td>
-            <td th:text="${product?.category?.id}"></td>
+        <tr th:each="vendor : ${allVendors}">
+            <td th:text="${vendor.id}"></td>
+            <td th:text="${vendor.title}"></td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}(id=${product.id})}" method="get">
+                <form th:action="@{/admin/allVendors/{id}(id=${vendor.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}/delete(id=${product.id})}" method="post">
+                <form th:action="@{/admin/allVendors/{id}/delete(id=${vendor.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>
@@ -54,7 +49,8 @@
         <form th:action="@{/admin}" method="get">
             <input type="submit" value="Return to mage page">
         </form>
-    </div><br>
+    </div>
+    <br>
 </div>
 </body>
 </html>
