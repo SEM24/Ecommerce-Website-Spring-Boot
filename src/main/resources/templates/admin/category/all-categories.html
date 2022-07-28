@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All category</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+          crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <br>
+    <h3>Category List</h3>
+    <hr/>
+    <div>
+        <form th:action="@{/admin/addCategory}" method="get">
+            <input type="submit" value="Add Category">
+        </form>
+    </div>
+    <br><br>
+    <table class="table table-bordered table-striped">
+        <thead style="text-align: center">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody style="text-align: center">
+        <tr th:each="category : ${allCategories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.title}"></td>
+            <td>
+                <form th:action="@{/admin/allCategories/{id}(id=${category.id})}" method="get">
+                    <input type="submit" value=Update>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/admin/allCategories/{id}/delete(id=${category.id})}" method="post">
+                    <input type="submit" value=Delete>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <form th:action="@{/admin}" method="get">
+            <input type="submit" value="Return to mage page">
+        </form>
+    </div>
+    <br>
+</div>
+</body>
+</html>

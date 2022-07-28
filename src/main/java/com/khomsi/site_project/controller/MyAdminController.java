@@ -1,8 +1,10 @@
 package com.khomsi.site_project.controller;
 
+import com.khomsi.site_project.entity.Category;
 import com.khomsi.site_project.entity.Product;
 import com.khomsi.site_project.entity.User;
 import com.khomsi.site_project.entity.UserDetails;
+import com.khomsi.site_project.repository.CategoryRepository;
 import com.khomsi.site_project.repository.ProductRepository;
 import com.khomsi.site_project.repository.UserDetailsRepository;
 import com.khomsi.site_project.repository.UserRepository;
@@ -23,6 +25,8 @@ public class MyAdminController {
     private UserRepository userRepository;
     @Autowired
     private UserDetailsRepository userDetailsRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping({"", "/", "/admin-panel"})
     public String showAdminPanel() {
@@ -157,4 +161,46 @@ public class MyAdminController {
 //        userDetailsRepository.deleteById(id);
 //        return "redirect:/admin/allUserDetails";
 //    }
+
+    @GetMapping("/allCategories")
+    public String allCategories(Model model) {
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("allCategories", categories);
+
+        return "admin/category/all-categories";
+    }
+
+    @GetMapping("/allCategories/{id}")
+    public String updateCategory(@PathVariable int id, Model model) {
+        Category category = categoryRepository.getReferenceById(id);
+        model.addAttribute("updateCategory", category);
+        return "admin/category/update-category";
+    }
+
+    @PostMapping("/allCategories/{id}")
+    public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
+        Category newCategory = categoryRepository.getReferenceById(id);
+        newCategory.setTitle(category.getTitle());
+        categoryRepository.save(newCategory);
+        return "redirect:/admin/allCategories";
+    }
+
+    @PostMapping("/allCategories/{id}/delete")
+    public String deleteCategory(@PathVariable int id) {
+        categoryRepository.deleteById(id);
+        return "redirect:/admin/allCategories";
+    }
+
+    @GetMapping("/addCategory")
+    public String addCategory(Model model) {
+        Category category = new Category();
+        model.addAttribute("addCategory", category);
+        return "admin/category/add-category";
+    }
+
+    @PostMapping("/addCategory")
+    public String createUser(Category category) {
+        categoryRepository.save(category);
+        return "redirect:/admin/allCategories";
+    }
 }
