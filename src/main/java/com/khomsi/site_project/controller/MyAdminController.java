@@ -154,13 +154,6 @@ public class MyAdminController {
         return "redirect:/admin/allUserDetails";
     }
 
-    //FIXME тут мем какой-то, детали не удаляет, а просто страницу обновляет
-//    @PostMapping("/allUserDetails/{id}/delete")
-//    public String deleteUserDetails(@PathVariable int id) {
-//        userDetailsRepository.deleteById(id);
-//        return "redirect:/admin/allUserDetails";
-//    }
-
     @GetMapping("/allCategories")
     public String allCategories(Model model) {
         List<Category> categories = categoryRep.findAll();
