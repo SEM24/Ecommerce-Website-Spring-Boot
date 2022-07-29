@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-//target table
 public class User {
     @Id
     @Column(name = "id")
@@ -38,9 +37,6 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-    //FIXME
-    //У одного пользователя может быть много заказов
-    // @ToString.Exclude
     @OneToMany(mappedBy = "userId")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude

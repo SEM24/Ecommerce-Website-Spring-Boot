@@ -24,6 +24,4 @@ public class Delivery {
     @Column(name = "status")
     private DeliveryStatus status;
 
-
-
 }

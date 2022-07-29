@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-//source table
 public class Orders {
 
     @Id
@@ -22,24 +22,12 @@ public class Orders {
     @Column(name = "id")
     private int id;
 
-
-    @ManyToMany(cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "order_basket",
-            joinColumns = @JoinColumn(name = "orders_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    @ToString.Exclude
-    private List<Product> productList;
-
-
     @OneToOne(mappedBy = "orders", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Delivery delivery;
 
     // @ManyToOne should annotate a field not a collection.
     // For collection fields the right annotation is @OneToMany.
-//FIXME
     @ToString.Exclude
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -54,4 +42,23 @@ public class Orders {
 
     @Column(name = "shipping_type")
     private int shippingType;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "order_basket",
+            joinColumns = @JoinColumn(name = "orders_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @ToString.Exclude
+    private List<Product> productList;
+
+    /*
+     * Many-to-Many relationShip for table order_basket
+     */
+    public void addProductToOrder(Product product) {
+        if (product == null) {
+            productList = new ArrayList<>();
+        }
+        productList.add(product);
+    }
 }

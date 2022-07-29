@@ -47,4 +47,6 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "orders_id"))
     @ToString.Exclude
     private List<Orders> ordersList;
+
+
 }
