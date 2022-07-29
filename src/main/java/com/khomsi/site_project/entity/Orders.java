@@ -22,11 +22,6 @@ public class Orders {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "price")
-    private int price;
-
-    @Column(name = "shippingType")
-    private int shippingType;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,
             CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
@@ -44,7 +39,7 @@ public class Orders {
 
     // @ManyToOne should annotate a field not a collection.
     // For collection fields the right annotation is @OneToMany.
-
+//FIXME
     @ToString.Exclude
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -57,4 +52,6 @@ public class Orders {
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatusId;
 
+    @Column(name = "shipping_type")
+    private int shippingType;
 }

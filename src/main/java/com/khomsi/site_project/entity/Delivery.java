@@ -20,9 +20,6 @@ public class Delivery {
     @JoinColumn(name = "orders_id")
     private Orders orders;
 
-    @Column(name = "shippingType")
-    private int shippingType;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private DeliveryStatus status;

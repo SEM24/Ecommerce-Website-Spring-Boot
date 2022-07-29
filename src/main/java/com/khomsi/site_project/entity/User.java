@@ -5,7 +5,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,10 +38,12 @@ public class User {
     @Column(name = "role")
     private Role role;
 
+    //FIXME
     //У одного пользователя может быть много заказов
-    @ToString.Exclude
+    // @ToString.Exclude
     @OneToMany(mappedBy = "userId")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @ToString.Exclude
     private List<Orders> ordersListUser;
 
     //Если заказа нету, создать его, если есть, добавить его в лист
