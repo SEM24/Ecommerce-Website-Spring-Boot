@@ -13,13 +13,13 @@ import javax.persistence.*;
 @ToString
 public class UserDetails {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_details_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userDetailsId;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_details_id")
     private User user;
 
     @Column(name = "name")

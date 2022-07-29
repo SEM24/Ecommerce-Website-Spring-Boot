@@ -11,42 +11,33 @@
 <body>
 <div class="container">
     <br>
-    <h3>Products List</h3>
+    <h3>Order List</h3>
     <hr/>
-    <div>
-        <form th:action="@{/admin/addProduct}" method="get">
-            <input type="submit" value="Add Product">
-        </form>
-    </div>
     <br><br>
     <table class="table table-bordered table-striped">
         <thead style="text-align: center">
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Vendor id</th>
-            <th>Category id</th>
+            <th>User ID</th>
+            <th>Order status</th>
+            <th>Shipping type</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
-        <tr th:each="product : ${allProducts}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.title}"></td>
-            <td th:text="${product.description}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product?.vendor?.id}"></td>
-            <td th:text="${product?.category?.id}"></td>
+        <tr th:each="order : ${allOrders}">
+            <td th:text="${order.id}"></td>
+            <td th:text="${order?.userId?.id}"></td>
+            <td th:text="${order?.orderStatusId?.orderType}"></td>
+            <td th:text="${order.shippingType}"></td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}(id=${product.id})}" method="get">
+                <form th:action="@{/admin/allOrders/{id}(id=${order.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}/delete(id=${product.id})}" method="post">
+                <form th:action="@{/admin/allOrders/{id}/delete(id=${order.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>
