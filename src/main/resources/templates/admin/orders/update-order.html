@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update product</title>
+    <title>Update order</title>
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
@@ -11,44 +11,32 @@
 <body>
 <div class="container">
     <br>
-    <h3>Update Product</h3>
+    <h3>Update Order</h3>
     <hr/>
-    <form th:action="@{/admin/allProducts/{id}(id=${updateProduct.id})}" th:object="${updateProduct}" method="post">
+    <form th:action="@{/admin/allOrders/{id}(id=${updateOrder.id})}" th:object="${updateOrder}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Vendor id</th>
-                <th>Category id</th>
+                <th>User ID</th>
+                <th>Order status</th>
+                <th>Shipping type</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
             <tr>
                 <td>
                     <label>
-                        <input type="text" th:field="*{title}">
+                        <input type="number" th:field="*{userId.id}">
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="text" th:field="*{description}">
+                        <input type="number" th:field="*{orderStatusId.id}">
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="number" th:field="*{price}">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="number" th:field="*{vendor.id}">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="number" th:field="*{category.id}">
+                        <input type="number" th:field="*{shippingType}">
                     </label>
                 </td>
             </tr>
@@ -60,7 +48,7 @@
         <br>
     </form>
     <div>
-        <form th:action="@{/admin/allProducts}" method="get">
+        <form th:action="@{/admin/allOrders}" method="get">
             <input type="submit" value="Return to product page">
         </form>
     </div>

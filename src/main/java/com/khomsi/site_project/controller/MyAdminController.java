@@ -13,19 +13,19 @@ import java.util.List;
 @RequestMapping("/admin")
 public class MyAdminController {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository productRep;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRep;
     @Autowired
-    private UserDetailsRepository userDetailsRepository;
+    private UserDetailsRepository userDetailsRep;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryRepository categoryRep;
     @Autowired
-    private VendorRepository vendorRepository;
+    private VendorRepository vendorRep;
 
     @Autowired
-    private OrdersRepository ordersRepository;
+    private OrdersRepository ordersRep;
 
     @GetMapping({"", "/", "/admin-panel"})
     public String showAdminPanel() {
@@ -34,7 +34,7 @@ public class MyAdminController {
 
     @GetMapping("/allProducts")
     public String allProducts(Model model) {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRep.findAll();
         model.addAttribute("allProducts", products);
 
         return "admin/product/all-product";
@@ -42,27 +42,27 @@ public class MyAdminController {
 
     @GetMapping("/allProducts/{id}")
     public String updateProduct(@PathVariable int id, Model model) {
-        Product product = productRepository.getReferenceById(id);
+        Product product = productRep.getReferenceById(id);
         model.addAttribute("updateProduct", product);
         return "admin/product/update-product";
     }
 
     @PostMapping("/allProducts/{id}")
     public String saveProduct(@PathVariable int id, @ModelAttribute Product product) {
-        Product newProduct = productRepository.getReferenceById(id);
+        Product newProduct = productRep.getReferenceById(id);
 
         newProduct.setTitle(product.getTitle());
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
         newProduct.setVendor(product.getVendor());
         newProduct.setCategory(product.getCategory());
-        productRepository.save(newProduct);
+        productRep.save(newProduct);
         return "redirect:/admin/allProducts";
     }
 
     @PostMapping("/allProducts/{id}/delete")
     public String deleteProduct(@PathVariable int id) {
-        productRepository.deleteById(id);
+        productRep.deleteById(id);
         return "redirect:/admin/allProducts";
     }
 
@@ -75,13 +75,13 @@ public class MyAdminController {
 
     @PostMapping("/addProduct")
     public String createProduct(Product product) {
-        productRepository.save(product);
+        productRep.save(product);
         return "redirect:/admin/allProducts";
     }
 
     @GetMapping("/allUsers")
     public String allUsers(Model model) {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRep.findAll();
         model.addAttribute("allUsers", users);
 
         return "admin/user/all-users";
@@ -89,25 +89,25 @@ public class MyAdminController {
 
     @GetMapping("/allUsers/{id}")
     public String updateUser(@PathVariable int id, Model model) {
-        User user = userRepository.getReferenceById(id);
+        User user = userRep.getReferenceById(id);
         model.addAttribute("updateUser", user);
         return "admin/user/update-user";
     }
 
     @PostMapping("/allUsers/{id}")
     public String saveUser(@PathVariable int id, @ModelAttribute User user) {
-        User newUser = userRepository.getReferenceById(id);
+        User newUser = userRep.getReferenceById(id);
         newUser.setLogin(user.getLogin());
         newUser.setPassword(user.getPassword());
         newUser.setRole(user.getRole());
         newUser.setQty(user.getQty());
-        userRepository.save(newUser);
+        userRep.save(newUser);
         return "redirect:/admin/allUsers";
     }
 
     @PostMapping("/allUsers/{id}/delete")
     public String deleteUser(@PathVariable int id) {
-        userRepository.deleteById(id);
+        userRep.deleteById(id);
         return "redirect:/admin/allUsers";
     }
 
@@ -122,15 +122,15 @@ public class MyAdminController {
 
     @PostMapping("/addUser")
     public String createUser(UserDetails userDetails, User user) {
-        userRepository.save(user);
+        userRep.save(user);
         userDetails.setUser(user);
-        userDetailsRepository.save(userDetails);
+        userDetailsRep.save(userDetails);
         return "redirect:/admin/allUsers";
     }
 
     @GetMapping("/allUserDetails")
     public String allUserDetails(Model model) {
-        List<UserDetails> userDetails = userDetailsRepository.findAll();
+        List<UserDetails> userDetails = userDetailsRep.findAll();
         model.addAttribute("allUserDetails", userDetails);
 
         return "admin/userDetails/all-userDetails";
@@ -138,19 +138,19 @@ public class MyAdminController {
 
     @GetMapping("/allUserDetails/{id}")
     public String updateUserDetails(@PathVariable int id, Model model) {
-        UserDetails userDetails = userDetailsRepository.getReferenceById(id);
+        UserDetails userDetails = userDetailsRep.getReferenceById(id);
         model.addAttribute("updateUserDetails", userDetails);
         return "admin/userDetails/update-userDetails";
     }
 
     @PostMapping("/allUserDetails/{id}")
     public String saveUserDetails(@PathVariable int id, @ModelAttribute UserDetails userDetails) {
-        UserDetails newUserDetails = userDetailsRepository.getReferenceById(id);
+        UserDetails newUserDetails = userDetailsRep.getReferenceById(id);
         newUserDetails.setName(userDetails.getName());
         newUserDetails.setPhone(userDetails.getPhone());
         newUserDetails.setEmail(userDetails.getEmail());
         newUserDetails.setCity(userDetails.getCity());
-        userDetailsRepository.save(newUserDetails);
+        userDetailsRep.save(newUserDetails);
         return "redirect:/admin/allUserDetails";
     }
 
@@ -163,7 +163,7 @@ public class MyAdminController {
 
     @GetMapping("/allCategories")
     public String allCategories(Model model) {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRep.findAll();
         model.addAttribute("allCategories", categories);
 
         return "admin/category/all-categories";
@@ -171,22 +171,22 @@ public class MyAdminController {
 
     @GetMapping("/allCategories/{id}")
     public String updateCategory(@PathVariable int id, Model model) {
-        Category category = categoryRepository.getReferenceById(id);
+        Category category = categoryRep.getReferenceById(id);
         model.addAttribute("updateCategory", category);
         return "admin/category/update-category";
     }
 
     @PostMapping("/allCategories/{id}")
     public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
-        Category newCategory = categoryRepository.getReferenceById(id);
+        Category newCategory = categoryRep.getReferenceById(id);
         newCategory.setTitle(category.getTitle());
-        categoryRepository.save(newCategory);
+        categoryRep.save(newCategory);
         return "redirect:/admin/allCategories";
     }
 
     @PostMapping("/allCategories/{id}/delete")
     public String deleteCategory(@PathVariable int id) {
-        categoryRepository.deleteById(id);
+        categoryRep.deleteById(id);
         return "redirect:/admin/allCategories";
     }
 
@@ -199,14 +199,14 @@ public class MyAdminController {
 
     @PostMapping("/addCategory")
     public String createCategory(Category category) {
-        categoryRepository.save(category);
+        categoryRep.save(category);
         return "redirect:/admin/allCategories";
     }
 
 
     @GetMapping("/allVendors")
     public String allVendors(Model model) {
-        List<Vendor> vendors = vendorRepository.findAll();
+        List<Vendor> vendors = vendorRep.findAll();
         model.addAttribute("allVendors", vendors);
 
         return "admin/vendor/all-vendors";
@@ -214,22 +214,22 @@ public class MyAdminController {
 
     @GetMapping("/allVendors/{id}")
     public String updateVendor(@PathVariable int id, Model model) {
-        Vendor vendor = vendorRepository.getReferenceById(id);
+        Vendor vendor = vendorRep.getReferenceById(id);
         model.addAttribute("updateVendor", vendor);
         return "admin/vendor/update-vendor";
     }
 
     @PostMapping("/allVendors/{id}")
     public String saveVendor(@PathVariable int id, @ModelAttribute Vendor vendor) {
-        Vendor newVendor = vendorRepository.getReferenceById(id);
+        Vendor newVendor = vendorRep.getReferenceById(id);
         newVendor.setTitle(vendor.getTitle());
-        vendorRepository.save(newVendor);
+        vendorRep.save(newVendor);
         return "redirect:/admin/allVendors";
     }
 
     @PostMapping("/allVendors/{id}/delete")
     public String deleteVendor(@PathVariable int id) {
-        vendorRepository.deleteById(id);
+        vendorRep.deleteById(id);
         return "redirect:/admin/allVendors";
     }
 
@@ -242,15 +242,39 @@ public class MyAdminController {
 
     @PostMapping("/addVendor")
     public String createVendor(Vendor vendor) {
-        vendorRepository.save(vendor);
+        vendorRep.save(vendor);
         return "redirect:/admin/allVendors";
     }
 
     @GetMapping("/allOrders")
     public String allOrders(Model model) {
-        List<Orders> orders = ordersRepository.findAll();
+        List<Orders> orders = ordersRep.findAll();
         model.addAttribute("allOrders", orders);
 
         return "admin/orders/all-orders";
     }
+
+    @GetMapping("/allOrders/{id}")
+    public String updateOrder(@PathVariable int id, Model model) {
+        Orders order = ordersRep.getReferenceById(id);
+        model.addAttribute("updateOrder", order);
+        return "admin/orders/update-order";
+    }
+
+    @PostMapping("/allOrders/{id}")
+    public String saveOrder(@PathVariable int id, @ModelAttribute Orders orders) {
+        Orders newOrders = ordersRep.getReferenceById(id);
+        newOrders.setUserId(orders.getUserId());
+        newOrders.setOrderStatusId(orders.getOrderStatusId());
+        newOrders.setShippingType(orders.getShippingType());
+        ordersRep.save(newOrders);
+        return "redirect:/admin/allOrders";
+    }
+
+    @PostMapping("/allOrders/{id}/delete")
+    public String deleteOrder(@PathVariable int id) {
+        ordersRep.deleteById(id);
+        return "redirect:/admin/allOrders";
+    }
+
 }
