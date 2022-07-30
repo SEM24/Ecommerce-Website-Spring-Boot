@@ -18,21 +18,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+    /*
+        loginPage() – the custom login page
+        loginProcessingUrl() – the URL to submit the username and password
+        defaultSuccessUrl() – the landing page after a successful login
+        failureUrl() – the landing page after an unsuccessful login
+        logoutUrl() – the custom logout
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("", "/").access("hasRole('USER')")
-//                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
-//                .and()
-//                .formLogin()
-//               // .loginPage("/login")
-//               // .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", true)
-//                .permitAll()
-//                .and()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/")
-//                .permitAll();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
+                .antMatchers("/js/**", "/css/**", "/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
     }
 
     @Override

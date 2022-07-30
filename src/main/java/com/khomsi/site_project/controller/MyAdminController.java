@@ -3,6 +3,7 @@ package com.khomsi.site_project.controller;
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,9 @@ public class MyAdminController {
 
     @Autowired
     private OrdersRepository ordersRep;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping({"", "/", "/admin-panel"})
     public String showAdminPanel() {
@@ -97,7 +101,7 @@ public class MyAdminController {
     @PostMapping("/allUsers/{id}")
     public String saveUser(@PathVariable int id, @ModelAttribute User user) {
         User newUser = userRep.getReferenceById(id);
-        newUser.setLogin(user.getLogin());
+        newUser.setLogin(passwordEncoder.encode(user.getPassword()));
         newUser.setPassword(user.getPassword());
         newUser.setRole(user.getRole());
         newUser.setQty(user.getQty());
@@ -122,6 +126,7 @@ public class MyAdminController {
 
     @PostMapping("/addUser")
     public String createUser(UserDetails userDetails, User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRep.save(user);
         userDetails.setUser(user);
         userDetailsRep.save(userDetails);
