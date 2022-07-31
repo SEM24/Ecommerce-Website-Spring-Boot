@@ -32,6 +32,27 @@
             <input type="submit" value="Log out"/>
         </form>
     </div>
+    <br>
+    <form th:action="@{/catalog}" method="get">
+        <input type="submit" value="Catalog"/>
+    </form>
+    <br>
+    <form th:action="@{/basket}" method="get">
+        <input type="submit" value="Basket"/>
+    </form>
+    <br>
+    <div sec:authorize="isAnonymous()">
+        <form th:action="@{/orders}" method="get">
+            <input type="submit" value="Orders"/>
+        </form>
+    </div>
+    <br>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/profile}" method="get">
+            <input type="submit" value="Profile"/>
+        </form>
+    </div>
+    <br>
 </div>
 </body>
 </html>
