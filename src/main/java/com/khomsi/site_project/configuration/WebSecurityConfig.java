@@ -23,7 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         loginProcessingUrl() – the URL to submit the username and password
         defaultSuccessUrl() – the landing page after a successful login
         failureUrl() – the landing page after an unsuccessful login
-        logoutUrl() – the custom logout
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -37,8 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                .logout().logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().and().exceptionHandling()
+                .accessDeniedPage("/error403");
     }
 
     @Override
