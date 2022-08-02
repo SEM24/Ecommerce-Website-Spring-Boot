@@ -13,7 +13,7 @@
     <br>
     <h3>Update User</h3>
     <hr/>
-    <form th:action="@{/admin/allUserDetails/{id}(id=${updateUserDetails.getUserInfoId})}"
+    <form th:action="@{/admin/allUserDetails/{id}(id=${updateUserDetails.id})}"
           th:object="${updateUserDetails}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
@@ -33,17 +33,17 @@
                 </td>
                 <td>
                     <label>
+                        <input type="text" th:field="*{surname}">
+                    </label>
+                </td>
+                <td>
+                    <label>
                         <input type="text" th:field="*{phone}">
                     </label>
                 </td>
                 <td>
                     <label>
                         <input type="text" th:field="*{email}">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="text" th:field="*{city}">
                     </label>
                 </td>
             </tr>

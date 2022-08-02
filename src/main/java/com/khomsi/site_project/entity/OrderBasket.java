@@ -30,7 +30,7 @@ public class OrderBasket {
     @ToString.Exclude
     private User user;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private int quantity;
 
     @OneToMany(mappedBy = "orderBasket")
