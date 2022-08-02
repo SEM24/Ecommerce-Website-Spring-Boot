@@ -24,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         defaultSuccessUrl() – the landing page after a successful login
         failureUrl() – the landing page after an unsuccessful login
      */
+//
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
