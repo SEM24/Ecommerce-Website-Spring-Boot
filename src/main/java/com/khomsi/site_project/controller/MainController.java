@@ -74,4 +74,9 @@ public class MainController {
     public String error404() {
         return "/error/404";
     }
+
+    @GetMapping("/checkout")
+    public String checkOut() {
+        return "checkout";
+    }
 }

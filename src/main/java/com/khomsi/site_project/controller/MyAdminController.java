@@ -60,6 +60,7 @@ public class MyAdminController {
         newProduct.setPrice(product.getPrice());
         newProduct.setVendor(product.getVendor());
         newProduct.setCategory(product.getCategory());
+        newProduct.setImageURL(product.getImageURL());
         productRep.save(newProduct);
         return "redirect:/admin/allProducts";
     }

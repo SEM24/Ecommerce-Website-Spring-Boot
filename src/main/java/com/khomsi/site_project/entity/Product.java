@@ -48,5 +48,7 @@ public class Product {
     @ToString.Exclude
     private List<Orders> ordersList;
 
+    @Column(name = "image")
+    private String imageURL;
 
 }
