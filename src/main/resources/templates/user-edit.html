@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <br>
-    <h3>Edit your profile, <span th:text="${user.userDetails.name}"></span>!</h3>
+    <h3>Edit your profile, <span th:text="${user.userInfo.name}"></span>!</h3>
     <hr/>
     <form th:action="@{/profile/edit}" th:object="${user}" method="post">
         <table class="table table-bordered table-striped">
@@ -20,9 +20,9 @@
                 <th>Login</th>
                 <th>Password</th>
                 <th>Name</th>
+                <th>Surname</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>City</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -42,22 +42,22 @@
                 </td>
                 <td>
                     <label>
-                        <input type="text" th:field="*{userDetails.name}">
+                        <input type="text" th:field="*{userInfo.name}">
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="text" th:field="*{userDetails.phone}">
+                        <input type="text" th:field="*{userInfo.surname}">
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="text" th:field="*{userDetails.email}">
+                        <input type="text" th:field="*{userInfo.phone}">
                     </label>
                 </td>
                 <td>
                     <label>
-                        <input type="text" th:field="*{userDetails.city}">
+                        <input type="text" th:field="*{userInfo.email}">
                     </label>
                 </td>
             </tr>

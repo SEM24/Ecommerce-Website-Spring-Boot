@@ -20,7 +20,6 @@
                 <th>Login</th>
                 <th>Password</th>
                 <th>Role</th>
-                <th>Qty</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -40,11 +39,6 @@
                         <option th:each="roleList : ${T(com.khomsi.site_project.entity.Role).values()}"
                                 th:value="${roleList}" th:text="${roleList}"></option>
                     </select>
-                </td>
-                <td>
-                    <label>
-                        <input type="number" th:field="*{qty}">
-                    </label>
                 </td>
             </tr>
             </tbody>

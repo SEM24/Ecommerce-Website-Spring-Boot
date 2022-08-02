@@ -1,7 +1,7 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.UserDetails;
-import com.khomsi.site_project.repository.UserDetailsRepository;
+import com.khomsi.site_project.entity.UserInfo;
+import com.khomsi.site_project.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,30 +10,30 @@ import java.util.Optional;
 @Service
 public class UserDetailsService implements IUserDetailsService {
     @Autowired
-    private UserDetailsRepository userDetailsRepository;
+    private UserInfoRepository userInfoRepository;
 
     @Override
-    public List<UserDetails> getAllUserDetails() {
-        return userDetailsRepository.findAll();
+    public List<UserInfo> getAllUserDetails() {
+        return userInfoRepository.findAll();
     }
 
     @Override
-    public void saveUserDetail(UserDetails userDetails) {
-        userDetailsRepository.save(userDetails);
+    public void saveUserDetail(UserInfo userInfo) {
+        userInfoRepository.save(userInfo);
     }
 
     @Override
-    public UserDetails getUserDetail(int id) {
-        UserDetails userDetails = null;
-        Optional<UserDetails> optional = userDetailsRepository.findById(id);
+    public UserInfo getUserDetail(int id) {
+        UserInfo userInfo = null;
+        Optional<UserInfo> optional = userInfoRepository.findById(id);
         if (optional.isPresent()) {
-            userDetails = optional.get();
+            userInfo = optional.get();
         }
-        return userDetails;
+        return userInfo;
     }
 
     @Override
     public void deleteUserDetail(int id) {
-        userDetailsRepository.deleteById(id);
+        userInfoRepository.deleteById(id);
     }
 }

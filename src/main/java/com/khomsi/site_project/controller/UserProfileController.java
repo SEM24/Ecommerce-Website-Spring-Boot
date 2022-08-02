@@ -1,7 +1,7 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.User;
-import com.khomsi.site_project.entity.UserDetails;
+import com.khomsi.site_project.entity.UserInfo;
 import com.khomsi.site_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,8 +26,8 @@ public class UserProfileController {
     @GetMapping({"/", ""})
     public String getUserInfo(Principal principal, Model model) {
         User user = userRepository.findByLogin(principal.getName());
-        UserDetails userDetails = user.getUserDetails();
-        model.addAttribute("userDetails", userDetails);
+        UserInfo userInfo = user.getUserInfo();
+        model.addAttribute("userDetails", userInfo);
         model.addAttribute("user", user);
 
         return "user-main";
@@ -36,8 +36,8 @@ public class UserProfileController {
     @GetMapping("/edit")
     public String showEditPage(Principal principal, Model model) {
         User user = userRepository.findByLogin(principal.getName());
-        UserDetails userDetails = user.getUserDetails();
-        model.addAttribute("userDetails", userDetails);
+        UserInfo userInfo = user.getUserInfo();
+        model.addAttribute("userDetails", userInfo);
         model.addAttribute("user", user);
 
         return "user-edit";
@@ -58,10 +58,10 @@ public class UserProfileController {
                 return "user-edit";
             }
         }
-        newUser.getUserDetails().setName(user.getUserDetails().getName());
-        newUser.getUserDetails().setPhone(user.getUserDetails().getPhone());
-        newUser.getUserDetails().setEmail(user.getUserDetails().getEmail());
-        newUser.getUserDetails().setCity(user.getUserDetails().getCity());
+        newUser.getUserInfo().setName(user.getUserInfo().getName());
+        newUser.getUserInfo().setSurname(user.getUserInfo().getSurname());
+        newUser.getUserInfo().setPhone(user.getUserInfo().getPhone());
+        newUser.getUserInfo().setEmail(user.getUserInfo().getEmail());
         userRepository.save(newUser);
 
         return "redirect:/profile";

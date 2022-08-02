@@ -1,15 +1,15 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.Orders;
+import com.khomsi.site_project.entity.Order;
 
 import java.util.List;
 
 public interface IOrdersService {
-    public List<Orders> getAllOrders();
+    public List<Order> getAllOrders();
 
-    public void saveOrder(Orders orders);
+    public void saveOrder(Order orders);
 
-    public Orders getOrder(int id);
+    public Order getOrder(int id);
 
     public void deleteOrder(int id);
 }

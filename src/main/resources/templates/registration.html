@@ -12,11 +12,11 @@
         <form class="login-form" th:action="@{/registration}" th:object="${user}" method="post">
             <input type="text" placeholder="Login/Username" th:field="*{login}"/>
             <input type="text" placeholder="Password" th:field="*{password}"/>
-            <div th:object="${userDetails}">
+            <div th:object="${userInfo}">
                 <input type="text" placeholder="Name" th:field="*{name}"/>
+                <input type="text" placeholder="Surname" th:field="*{surname}"/>
                 <input type="text" placeholder="Phone number" th:field="*{phone}"/>
                 <input type="text" placeholder="Email" th:field="*{email}"/>
-                <input type="text" placeholder="City" th:field="*{city}"/>
             </div>
             <button type="submit" value="Create">Create</button>
             <p class="message">Already registered? <a href="/login">Sign In</a></p>

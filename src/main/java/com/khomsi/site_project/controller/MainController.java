@@ -2,7 +2,7 @@ package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.Role;
 import com.khomsi.site_project.entity.User;
-import com.khomsi.site_project.entity.UserDetails;
+import com.khomsi.site_project.entity.UserInfo;
 import com.khomsi.site_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -42,24 +42,24 @@ public class MainController {
     @GetMapping("/registration")
     public String registration(Model userModel, Model userDetailsModel) {
         User user = new User();
-        UserDetails userDetails = new UserDetails();
+        UserInfo userInfo = new UserInfo();
         userModel.addAttribute("user", user);
-        userDetailsModel.addAttribute("userDetails", userDetails);
+        userDetailsModel.addAttribute("userInfo", userInfo);
 
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, UserDetails userDetails, Model model) {
+    public String addUser(User user, UserInfo userInfo, Model model) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
-        user.setUserDetails(userDetails);
-        userDetails.setUser(user);
+        user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         try {
             userRepository.save(user);
         } catch (JpaSystemException ex) {
             model.addAttribute("error", ex.getCause().getCause().getMessage());
-            model.addAttribute("userDetails", userDetails);
+            model.addAttribute("userInfo", userInfo);
             return "registration";
         }
         return "redirect:/";

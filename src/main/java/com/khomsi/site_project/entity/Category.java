@@ -5,26 +5,24 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "category")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @ToString
+@Entity
+@Table(name = "category")
 public class Category {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    //TODO затестить эти каскады под продукт
+    @Column(name = "title", nullable = false, length = 155)
+    private String title;
+
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
     @ToString.Exclude
     private List<Product> products;
-
-    @Column(name = "title")
-    private String title;
-
 
 }

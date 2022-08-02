@@ -26,6 +26,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Image URL</th>
             <th>Vendor id</th>
             <th>Category id</th>
             <th>Update</th>
@@ -38,6 +39,7 @@
             <td th:text="${product.title}"></td>
             <td th:text="${product.description}"></td>
             <td th:text="${product.price}"></td>
+            <td th:text="${product.imageURL}"></td>
             <td th:text="${product?.vendor?.id}"></td>
             <td th:text="${product?.category?.id}"></td>
             <td>

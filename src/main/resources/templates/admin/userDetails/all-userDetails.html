@@ -24,21 +24,21 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Surname</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>City</th>
             <th>Update</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
-        <tr th:each="userDetails : ${allUserDetails}">
-            <td th:text="${userDetails.userDetailsId}"></td>
-            <td th:text="${userDetails.name}"></td>
-            <td th:text="${userDetails.phone}"></td>
-            <td th:text="${userDetails.email}"></td>
-            <td th:text="${userDetails.city}"></td>
+        <tr th:each="userInfo : ${allUserDetails}">
+            <td th:text="${userInfo.id}"></td>
+            <td th:text="${userInfo.name}"></td>
+            <td th:text="${userInfo.surname}"></td>
+            <td th:text="${userInfo.phone}"></td>
+            <td th:text="${userInfo.email}"></td>
             <td>
-                <form th:action="@{/admin/allUserDetails/{id}(id=${userDetails.userDetailsId})}" method="get">
+                <form th:action="@{/admin/allUserDetails/{id}(id=${userInfo.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>

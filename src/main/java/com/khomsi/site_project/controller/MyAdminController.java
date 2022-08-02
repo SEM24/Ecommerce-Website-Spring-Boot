@@ -19,14 +19,18 @@ public class MyAdminController {
     @Autowired
     private UserRepository userRep;
     @Autowired
-    private UserDetailsRepository userDetailsRep;
+    private UserInfoRepository userDetailsRep;
     @Autowired
     private CategoryRepository categoryRep;
     @Autowired
     private VendorRepository vendorRep;
 
     @Autowired
-    private OrdersRepository ordersRep;
+    private OrderRepository ordersRep;
+
+    @Autowired
+    private OrderBasketRepository orderBasketRep;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -105,7 +109,6 @@ public class MyAdminController {
         newUser.setLogin(passwordEncoder.encode(user.getPassword()));
         newUser.setPassword(user.getPassword());
         newUser.setRole(user.getRole());
-        newUser.setQty(user.getQty());
         userRep.save(newUser);
         return "redirect:/admin/allUsers";
     }
@@ -119,24 +122,24 @@ public class MyAdminController {
     @GetMapping("/addUser")
     public String addUser(Model userModel, Model userDetailsModel) {
         User user = new User();
-        UserDetails userDetails = new UserDetails();
+        UserInfo userInfo = new UserInfo();
         userModel.addAttribute("addUser", user);
-        userDetailsModel.addAttribute("addUserDetails", userDetails);
+        userDetailsModel.addAttribute("addUserDetails", userInfo);
         return "admin/user/add-user";
     }
 
     @PostMapping("/addUser")
-    public String createUser(UserDetails userDetails, User user) {
+    public String createUser(UserInfo userInfo, User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRep.save(user);
-        userDetails.setUser(user);
-        userDetailsRep.save(userDetails);
+        userInfo.setUser(user);
+        userDetailsRep.save(userInfo);
         return "redirect:/admin/allUsers";
     }
 
     @GetMapping("/allUserDetails")
     public String allUserDetails(Model model) {
-        List<UserDetails> userDetails = userDetailsRep.findAll();
+        List<UserInfo> userDetails = userDetailsRep.findAll();
         model.addAttribute("allUserDetails", userDetails);
 
         return "admin/userDetails/all-userDetails";
@@ -144,19 +147,19 @@ public class MyAdminController {
 
     @GetMapping("/allUserDetails/{id}")
     public String updateUserDetails(@PathVariable int id, Model model) {
-        UserDetails userDetails = userDetailsRep.getReferenceById(id);
-        model.addAttribute("updateUserDetails", userDetails);
+        UserInfo userInfo = userDetailsRep.getReferenceById(id);
+        model.addAttribute("updateUserDetails", userInfo);
         return "admin/userDetails/update-userDetails";
     }
 
     @PostMapping("/allUserDetails/{id}")
-    public String saveUserDetails(@PathVariable int id, @ModelAttribute UserDetails userDetails) {
-        UserDetails newUserDetails = userDetailsRep.getReferenceById(id);
-        newUserDetails.setName(userDetails.getName());
-        newUserDetails.setPhone(userDetails.getPhone());
-        newUserDetails.setEmail(userDetails.getEmail());
-        newUserDetails.setCity(userDetails.getCity());
-        userDetailsRep.save(newUserDetails);
+    public String saveUserDetails(@PathVariable int id, @ModelAttribute UserInfo userInfo) {
+        UserInfo newUserInfo = userDetailsRep.getReferenceById(id);
+        newUserInfo.setName(userInfo.getName());
+        newUserInfo.setSurname(userInfo.getSurname());
+        newUserInfo.setPhone(userInfo.getPhone());
+        newUserInfo.setEmail(userInfo.getEmail());
+        userDetailsRep.save(newUserInfo);
         return "redirect:/admin/allUserDetails";
     }
 
@@ -247,7 +250,7 @@ public class MyAdminController {
 
     @GetMapping("/allOrders")
     public String allOrders(Model model) {
-        List<Orders> orders = ordersRep.findAll();
+        List<Order> orders = ordersRep.findAll();
         model.addAttribute("allOrders", orders);
 
         return "admin/orders/all-orders";
@@ -255,17 +258,20 @@ public class MyAdminController {
 
     @GetMapping("/allOrders/{id}")
     public String updateOrder(@PathVariable int id, Model model) {
-        Orders order = ordersRep.getReferenceById(id);
+        Order order = ordersRep.getReferenceById(id);
         model.addAttribute("updateOrder", order);
         return "admin/orders/update-order";
     }
 
     @PostMapping("/allOrders/{id}")
-    public String saveOrder(@PathVariable int id, @ModelAttribute Orders orders) {
-        Orders newOrders = ordersRep.getReferenceById(id);
-        newOrders.setUserId(orders.getUserId());
-        newOrders.setOrderStatusId(orders.getOrderStatusId());
+    public String saveOrder(@PathVariable int id, @ModelAttribute Order orders) {
+        Order newOrders = ordersRep.getReferenceById(id);
+        newOrders.setOrderStatus(orders.getOrderStatus());
+        newOrders.setOrderBasket(orders.getOrderBasket());
         newOrders.setShippingType(orders.getShippingType());
+        newOrders.setCity(orders.getCity());
+        newOrders.setAddress(orders.getAddress());
+        newOrders.setTotalPrice(orders.getTotalPrice());
         ordersRep.save(newOrders);
         return "redirect:/admin/allOrders";
     }
@@ -276,4 +282,11 @@ public class MyAdminController {
         return "redirect:/admin/allOrders";
     }
 
+    @GetMapping("/allOrderBaskets")
+    public String allOrderBasket(Model model) {
+        List<OrderBasket> orderBaskets = orderBasketRep.findAll();
+        model.addAttribute("allOrderBaskets", orderBaskets);
+
+        return "admin/order_basket/all-order_baskets";
+    }
 }

@@ -1,16 +1,16 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.UserDetails;
+import com.khomsi.site_project.entity.UserInfo;
 
 import java.util.List;
 
 public interface IUserDetailsService {
 
-    public List<UserDetails> getAllUserDetails();
+    public List<UserInfo> getAllUserDetails();
 
-    public void saveUserDetail(UserDetails userDetails);
+    public void saveUserDetail(UserInfo userInfo);
 
-    public UserDetails getUserDetail(int id);
+    public UserInfo getUserDetail(int id);
 
     public void deleteUserDetail(int id);
 }

@@ -11,36 +11,34 @@
 <body>
 <div class="container">
     <br>
-    <h3>Welcome, <span th:text="${user.userDetails.name}"></span>!</h3>
+    <h3>Welcome, <span th:text="${user.userInfo.name}"></span>!</h3>
     <hr/>
     <table class="table table-bordered table-striped">
         <thead style="text-align: center">
         <tr>
             <th>Login</th>
-            <th>Amount of orders</th>
             <th>Name</th>
+            <th>Surname</th>
             <th>Phone</th>
             <th>Email</th>
-            <th>City</th>
         </tr>
         </thead>
         <tbody style="text-align: center">
         <tr th:each="user : ${user}">
             <td th:text="${user.login}"></td>
-            <td th:text="${user.qty}"></td>
-            <td th:text="${user.userDetails.name}"></td>
-            <td th:text="${user.userDetails.phone}"></td>
-            <td th:text="${user.userDetails.email}"></td>
-            <td th:text="${user.userDetails.city}"></td>
+            <td th:text="${user.userInfo.name}"></td>
+            <td th:text="${user.userInfo.surname}"></td>
+            <td th:text="${user.userInfo.phone}"></td>
+            <td th:text="${user.userInfo.email}"></td>
         </tr>
         </tbody>
     </table>
     <form th:action="@{/profile/edit/}" method="get">
         <input type="submit" value='Edit information'>
     </form>
-<!--    <form th:action="@{/admin/allUsers/{id}/delete(id=${user.id})}" method="get">-->
-<!--        <input type="submit" value='Show buy history'>-->
-<!--    </form>-->
+    <!--    <form th:action="@{/admin/allUsers/{id}/delete(id=${user.id})}" method="get">-->
+    <!--        <input type="submit" value='Show buy history'>-->
+    <!--    </form>-->
     <div>
         <form th:action="@{/}" method="get">
             <input type="submit" value="Return to mage page">
