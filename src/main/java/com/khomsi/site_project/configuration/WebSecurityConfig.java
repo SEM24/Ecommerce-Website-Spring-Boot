@@ -17,6 +17,8 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /*
         loginPage() – the custom login page
@@ -45,13 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .passwordEncoder(encoder())
+                .passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery("select login, password, 'true' as enabled from user where login=?")
                 .authoritiesByUsernameQuery("select login, role from user where login=?");
     }
-
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
+    
 }

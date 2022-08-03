@@ -13,11 +13,13 @@ public class OrderBasketService implements IOrderBasketService {
     @Autowired
     private OrderBasketRepository orderBasketRep;
 
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public List<OrderBasket> listOrderBasket(User user) {
         return orderBasketRep.findByUser(user);
     }
-
-
 }
+

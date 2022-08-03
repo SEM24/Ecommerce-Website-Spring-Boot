@@ -1,8 +1,10 @@
 package com.khomsi.site_project.service;
 
 import com.khomsi.site_project.entity.User;
+import com.khomsi.site_project.entity.UserInfo;
 import com.khomsi.site_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,4 +45,15 @@ public class UserService implements IUserService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
+
+//    public User getCurrentlyLoggedInUser(Authentication authentication) {
+//        if (authentication == null) return null;
+//
+//        User user = null;
+//        Object principal = authentication.getPrincipal();
+//
+//        if (principal instanceof UserInfo) {
+//            user = ((UserInfo) principal).getUser();
+//        } else if (principal instanceof )
+//    }
 }

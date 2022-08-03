@@ -4,7 +4,7 @@ import com.khomsi.site_project.entity.UserInfo;
 
 import java.util.List;
 
-public interface IUserDetailsService {
+public interface IUserInfoService {
 
     public List<UserInfo> getAllUserDetails();
 
