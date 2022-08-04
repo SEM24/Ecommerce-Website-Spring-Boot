@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IOrderBasketService {
     public List<OrderBasket> listOrderBasket(User user);
+    public Integer addProduct(Integer productId, Integer quantity, User user);
 }

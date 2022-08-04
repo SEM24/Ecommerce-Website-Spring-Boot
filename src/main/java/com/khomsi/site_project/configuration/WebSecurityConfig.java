@@ -29,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
+//        http.csrf().disable().authorizeRequests()
+        http.authorizeRequests().antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
                 .antMatchers("/js/**", "/css/**", "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -51,5 +51,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select login, password, 'true' as enabled from user where login=?")
                 .authoritiesByUsernameQuery("select login, role from user where login=?");
     }
-    
+
 }

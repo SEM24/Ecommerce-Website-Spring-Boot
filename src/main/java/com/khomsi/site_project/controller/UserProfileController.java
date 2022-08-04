@@ -30,7 +30,7 @@ public class UserProfileController {
         model.addAttribute("userDetails", userInfo);
         model.addAttribute("user", user);
 
-        return "user-main";
+        return "/user/user-main";
     }
 
     @GetMapping("/edit")
@@ -40,7 +40,7 @@ public class UserProfileController {
         model.addAttribute("userDetails", userInfo);
         model.addAttribute("user", user);
 
-        return "user-edit";
+        return "/user/user-edit";
     }
 
     @PostMapping("/edit")
@@ -55,7 +55,7 @@ public class UserProfileController {
                         "The password must not be the same.");
                 bindingResult.addError(error);
                 System.err.println(bindingResult.hasErrors());
-                return "user-edit";
+                return "/user/user-edit";
             }
         }
         newUser.getUserInfo().setName(user.getUserInfo().getName());

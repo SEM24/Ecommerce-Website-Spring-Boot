@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class ShoppingCardController {
+public class ShoppingCartController {
     @Autowired
     private OrderBasketService orderBasketService;
 
@@ -28,15 +28,19 @@ public class ShoppingCardController {
     @GetMapping("/basket")
     public String showShoppingCard(Model model,
                                    Principal principal) {
+        //TODO тут исправить
         if (principal != null) {
             List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
 
             model.addAttribute("orderBaskets", orderBaskets);
+            //TODO проверить нужно ли это
             model.addAttribute("pageTitle", "Shopping Cart");
         } else return "/login";
-        return "shopping_card";
+//        return "shopping_card";
+        return "shopping-cart";
     }
 
+    //TODO реализовать этот метод
     @GetMapping("/removeProduct/{id}")
     public String removeProductFromBasket() {
         return null;
