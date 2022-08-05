@@ -8,9 +8,11 @@ import com.khomsi.site_project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderBasketService implements IOrderBasketService {
     @Autowired
     private OrderBasketRepository orderBasketRep;
@@ -45,5 +47,20 @@ public class OrderBasketService implements IOrderBasketService {
         orderBasketRep.save(orderBasket);
         return addedQuantity;
     }
+
+    @Override
+    public float updateQuantity(Integer productId, Integer quantity, User user) {
+        orderBasketRep.updateQuantity(quantity, productId, user.getId());
+        Product product = productRep.getReferenceById(productId);
+
+        float subtotal = product.getPrice() * quantity;
+        return subtotal;
+    }
+
+    @Override
+    public void removeProduct(Integer productId, User user) {
+        orderBasketRep.deleteByUserAndProduct(user.getId(), productId);
+    }
+
 }
 

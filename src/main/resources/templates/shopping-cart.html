@@ -28,54 +28,60 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-lg-8">
-                        <div class="items" th:each="product, status: ${orderBaskets}">
-                            <div class="product">
+                        <div class="items" th:each="basketItem, status: ${orderBaskets}">
+                            <div class="product" th:with="product = ${basketItem.product}"
+                                 th:id="'row' + ${status.count}">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>
-                                            <a class="bi-trash" style="color:red"
-                                               th:href="@{'/basket/removeProductFromBasket/{id}'(id=${product.id})}"></a>
+                                            <a class="bi-trash link-remove" style="color:red"
+                                               th:rowNumber="${status.count}"
+                                               th:href="@{'/basket/remove/' +${product.id}}">
+                                            </a>
                                         </div>
                                         <img class="img-fluid mx-auto d-block image"
-                                             th:src="@{${product.getProduct().imageURL}}" width="130" height="130"/>
+                                             th:src="@{${product.imageURL}}" width="130" height="130"/>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="info">
                                             <div class="row">
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
-                                                        <a th:text="${product.getProduct().title}"
-                                                           th:href="@{'/product/' + ${product.getProduct().id}}"></a>
+                                                        <a th:text="${product.title}"
+                                                           th:href="@{'/product/' + ${product.id}}"></a>
                                                         <div class="product-info">
-                                                            <div>Vendor: <span class="value">[[${product.getProduct().vendor.title}]]</span>
+                                                            <div>Vendor: <span
+                                                                    class="value">[[${product.vendor.title}]]</span>
                                                             </div>
-                                                            <div>Category: <span class="value">[[${product.getProduct().category.title}]]</span>
+                                                            <div>Category: <span class="value">[[${product.category.title}]]</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 quantity">
-                                                    <div th:replace="/blocks/quantity_control :: quantity_control(${product.quantity}, ${product.getProduct().id})">
+                                                    <div th:replace="/blocks/quantity_control :: quantity_control(${basketItem.quantity}, ${product.id})">
                                                     </div>
-                                                    <div class="subtotal">
-                                                        <span>x [[${product.getProduct().price}]]₴</span>
+                                                    <div class="subtotal" style="float: left;">
+                                                        <span>x [[${product.price}]]</span><span>₴</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 price">
-                                                    <span>[[${product.getProduct().price}]]₴</span>
+                                                    <span class="productSubtotal" style="width:800px; margin:0 auto;"
+                                                          th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span><span>₴</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
+<!--                            <hr/>-->
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4" th:unless="${#lists.isEmpty(orderBaskets)}">
                         <div class="summary">
                             <h3>Summary</h3>
-                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span>
+                            <div class="summary-item"><span class="text">Total</span>
+                                <span class="price" id="totalAmount"></span>
                             </div>
                             <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
                             <div class="d-flex justify-content-center">
@@ -92,9 +98,15 @@
         </div>
     </section>
 </main>
+<div th:replace="/blocks/modal-fragments :: showModal"></div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/shopping-cart.js}"></script>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]"
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+</script>
 </html>

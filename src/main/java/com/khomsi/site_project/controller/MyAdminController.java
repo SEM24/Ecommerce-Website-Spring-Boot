@@ -3,6 +3,7 @@ package com.khomsi.site_project.controller;
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +72,13 @@ public class MyAdminController {
 
     @PostMapping("/allProducts/{id}/delete")
     public String deleteProduct(@PathVariable int id) {
-        productRep.deleteById(id);
+        try {
+            productRep.deleteById(id);
+            //TODO подумать, как вывести такое на экран, если ошибка из триггера
+        } catch (JpaSystemException exception) {
+            System.err.println(exception.getCause().getCause().getMessage());
+            return "redirect:/admin/allProducts";
+        }
         return "redirect:/admin/allProducts";
     }
 

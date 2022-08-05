@@ -98,13 +98,14 @@
 }
 
 .shopping-cart .summary .text {
-    font-size: 1em;
+    font-size: 1.3em;
     font-weight: 600;
 }
 
 .shopping-cart .summary .price {
-    font-size: 1em;
+    font-size: 1.3em;
     float: right;
+    font-weight: 600;
 }
 
 .shopping-cart .summary button {
@@ -137,11 +138,11 @@
         text-align: center;
     }
 
-    .col-md-3 {
-        position: relative;
-        width: 100%;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 25px;
-    }
+    /*.col-md-3 {*/
+    /*    position: relative;*/
+    /*    width: 100%;*/
+    /*    min-height: 1px;*/
+    /*    padding-right: 15px;*/
+    /*    padding-left: 25px;*/
+    /*}*/
 }

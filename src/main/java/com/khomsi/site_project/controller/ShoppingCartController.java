@@ -1,12 +1,16 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.OrderBasket;
+import com.khomsi.site_project.repository.OrderBasketRepository;
+import com.khomsi.site_project.repository.ProductRepository;
 import com.khomsi.site_project.service.OrderBasketService;
 import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,6 +23,11 @@ public class ShoppingCartController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderBasketRepository orderBasketRep;
+
+    @Autowired
+    private ProductRepository productRep;
     /**
      * User must login before use orderBasket
      *
@@ -36,29 +45,7 @@ public class ShoppingCartController {
             //TODO проверить нужно ли это
             model.addAttribute("pageTitle", "Shopping Cart");
         } else return "/login";
-//        return "shopping_card";
         return "shopping-cart";
     }
 
-    //TODO реализовать этот метод
-    @GetMapping("/removeProduct/{id}")
-    public String removeProductFromBasket() {
-        return null;
-    }
-
-//    @GetMapping("/basket")
-//    public String showShoppingCard(Model model,
-//                                   Principal principal) {
-//        //TODO тут возможно надо вернуть в модель просто лист из корзины
-//        if (principal != null) {
-//            List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
-//            OrderBasket orderBasket = null;
-//            if (!orderBaskets.isEmpty()) {
-//                orderBasket = orderBaskets.get(orderBaskets.size() - 1);
-//            }
-//            model.addAttribute("orderBasket", orderBasket);
-//            model.addAttribute("pageTitle", "Shopping Cart");
-//        }
-//        return "shopping_card";
-//    }
 }

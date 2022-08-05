@@ -37,4 +37,9 @@ public class OrderBasket {
     @ToString.Exclude
     private List<Order> orders;
 
+    //We use temporary field that is not in db for business logic(we don't need to save it in db)
+    @Transient
+    public float getSubtotal() {
+        return this.product.getPrice() * quantity;
+    }
 }
