@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/signin.css}"/>
+</head>
+<body>
+<div class="login-page">
+    <div class="form">
+        <div th:if="${param.error}">
+            <h4>Invalid username and password.</h4>
+        </div>
+        <div th:if="${param.logout}">
+            <h4>You have been logged out.</h4>
+        </div>
+        <h3>Login</h3>
+        <form class="login-form" th:action="@{/login}" method="post">
+            <input type="text" placeholder="Username" name="username"/>
+            <input type="password" placeholder="Password" name="password"/>
+            <button type="submit" value="Login">Login</button>
+            <p class="message">Not registered? <a href="/registration">Create an account</a></p>
+            <p class="message">Changed mind? <a href="/">Return to main page</a></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

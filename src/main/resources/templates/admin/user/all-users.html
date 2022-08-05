@@ -26,7 +26,6 @@
             <th>Login</th>
             <th>Password</th>
             <th>Role</th>
-            <th>Qty</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -37,7 +36,6 @@
             <td th:text="${user.login}"></td>
             <td th:text="${user.password}"></td>
             <td th:text="${user.role}"></td>
-            <td th:text="${user.qty}"></td>
             <td>
                 <form th:action="@{/admin/allUsers/{id}(id=${user.id})}" method="get">
                     <input type="submit" value=Update>

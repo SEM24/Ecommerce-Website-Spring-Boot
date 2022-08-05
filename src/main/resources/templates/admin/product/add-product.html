@@ -20,6 +20,7 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Image URL</th>
                 <th>Vendor id</th>
                 <th>Category id</th>
             </tr>
@@ -39,6 +40,11 @@
                 <td>
                     <label>
                         <input type="number" th:field="*{price}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="url" th:field="*{imageURL}">
                     </label>
                 </td>
                 <td>

@@ -17,26 +17,46 @@
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
-                <th>User ID</th>
+                <th>Order ID</th>
                 <th>Order status</th>
                 <th>Shipping type</th>
+                <th>City</th>
+                <th>Address</th>
+                <th>Total price</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
             <tr>
                 <td>
                     <label>
-                        <input type="number" th:field="*{userId.id}">
+                        <input type="number" th:field="*{id}">
                     </label>
                 </td>
+
                 <td>
                     <label>
-                        <input type="number" th:field="*{orderStatusId.id}">
+                        <input type="number" th:field="*{orderStatus.id}">
                     </label>
                 </td>
+
                 <td>
                     <label>
                         <input type="number" th:field="*{shippingType}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{city}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{address}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{totalPrice}">
                     </label>
                 </td>
             </tr>

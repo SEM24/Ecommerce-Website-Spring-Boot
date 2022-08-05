@@ -21,7 +21,6 @@
                 <th>Login</th>
                 <th>Password</th>
                 <th>Role</th>
-                <th>Qty</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -42,11 +41,6 @@
                                 th:value="${roleList}" th:text="${roleList}"></option>
                     </select>
                 </td>
-                <td>
-                    <label>
-                        <input type="number" th:field="*{qty}">
-                    </label>
-                </td>
             </tr>
             </tbody>
         </table>
@@ -59,9 +53,9 @@
                 <thead style="text-align: center">
                 <tr>
                     <th>Name</th>
+                    <th>Surname</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>City</th>
                 </tr>
                 </thead>
                 <tbody style="text-align: center">
@@ -73,17 +67,17 @@
                     </td>
                     <td>
                         <label>
+                            <input type="text" th:field="*{surname}">
+                        </label>
+                    </td>
+                    <td>
+                        <label>
                             <input type="text" th:field="*{phone}">
                         </label>
                     </td>
                     <td>
                         <label>
                             <input type="text" th:field="*{email}">
-                        </label>
-                    </td>
-                    <td>
-                        <label>
-                            <input type="text" th:field="*{city}">
                         </label>
                     </td>
                 </tr>

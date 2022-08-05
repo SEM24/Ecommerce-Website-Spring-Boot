@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Modal section-->
+<div th:replace="/blocks/modal-fragments :: showModal"></div>
+<!-- Product section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                       th:src="@{${showProduct.imageURL}}"></div>
+            <div class="col-md-6">
+                <h1 class="display-5 fw-bolder"><span th:text="*{showProduct.title}"></span></h1>
+                <div class="fs-2 mb-5">
+                    <span th:text="*{showProduct.price}"></span>₴
+                </div>
+                <p class="lead"><span th:text="*{showProduct.description}"></span></p>
+                <div class="d-flex">
+                    <div th:replace="/blocks/quantity_control :: quantity_control(1, ${showProduct.id})"
+                         style="max-width: 3rem">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-outline-dark flex-shrink-0" type="submit" id="addToCartBtn">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/added_to_cart.js}"></script>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]"
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+    var productId = "[[${showProduct.id}]]";
+</script>
+</html>

@@ -1,7 +1,7 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.Orders;
-import com.khomsi.site_project.repository.OrdersRepository;
+import com.khomsi.site_project.entity.Order;
+import com.khomsi.site_project.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,28 +10,28 @@ import java.util.Optional;
 @Service
 public class OrdersService implements IOrdersService {
     @Autowired
-    private OrdersRepository ordersRepository;
+    private OrderRepository orderRepository;
 
     @Override
-    public List<Orders> getAllOrders() {
-        return ordersRepository.findAll();
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
     @Override
-    public void saveOrder(Orders orders) {
-        ordersRepository.save(orders);
+    public void saveOrder(Order orders) {
+        orderRepository.save(orders);
     }
 
     @Override
-    public Orders getOrder(int id) {
-        Orders orders = null;
-        Optional<Orders> optional = ordersRepository.findById(id);
+    public Order getOrder(int id) {
+        Order orders = null;
+        Optional<Order> optional = orderRepository.findById(id);
         if (optional.isPresent()) orders = optional.get();
         return orders;
     }
 
     @Override
     public void deleteOrder(int id) {
-        ordersRepository.deleteById(id);
+        orderRepository.deleteById(id);
     }
 }

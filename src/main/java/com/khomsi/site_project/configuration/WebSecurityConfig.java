@@ -17,34 +17,39 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    /*
+        loginPage() – the custom login page
+        loginProcessingUrl() – the URL to submit the username and password
+        defaultSuccessUrl() – the landing page after a successful login
+        failureUrl() – the landing page after an unsuccessful login
+     */
+//
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("", "/").access("hasRole('USER')")
-//                .antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
-//                .and()
-//                .formLogin()
-//               // .loginPage("/login")
-//               // .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", true)
-//                .permitAll()
-//                .and()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/")
-//                .permitAll();
+//        http.csrf().disable().authorizeRequests()
+        http.authorizeRequests().antMatchers("/admin/**").hasAuthority(Role.ADMIN.getAuthority())
+                .antMatchers("/js/**", "/css/**", "/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .permitAll()
+                .and()
+                .logout().logoutSuccessUrl("/")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().and().exceptionHandling()
+                .accessDeniedPage("/error403");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .passwordEncoder(encoder())
+                .passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery("select login, password, 'true' as enabled from user where login=?")
                 .authoritiesByUsernameQuery("select login, role from user where login=?");
     }
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

@@ -1,22 +1,26 @@
 package com.khomsi.site_project.entity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "product")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@Entity
+@Table(name = "product")
 public class Product {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "title")
     private String title;
@@ -27,24 +31,22 @@ public class Product {
     @Column(name = "price")
     private int price;
 
-    //    @ManyToOne(cascade = {CascadeType.PERSIST,
-//            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @ManyToOne
+    @Column(name = "image")
+    private String imageURL;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "vendor_id")
+    @ToString.Exclude
     private Vendor vendor;
 
-    //    @ManyToOne(cascade = {CascadeType.PERSIST,
-//            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "category_id")
+    @ToString.Exclude
     private Category category;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "order_basket",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "orders_id"))
+    @OneToMany(mappedBy = "product")
     @ToString.Exclude
-    private List<Orders> ordersList;
+    private List<OrderBasket> orderBaskets;
+
 }

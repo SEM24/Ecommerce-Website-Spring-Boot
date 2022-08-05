@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Store</title>
@@ -10,13 +11,52 @@
 </head>
 <body>
 <div class="container">
-    <br> <h3>Welcome to the store!</h3>
+    <br>
+    <h3>Welcome to the store!</h3>
     <hr/>
-    <div>
+    <div sec:authorize="hasAuthority('ADMIN')">
         <form th:action="@{/admin}" method="get">
             <input type="submit" value="Admin page"/>
         </form>
     </div>
+    <br>
+    <div sec:authorize="isAnonymous()">
+        <form th:action="@{/login}" method="get">
+            <input type="submit" value="Login"/>
+        </form>
+    </div>
+    <br>
+    <br>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="get">
+            <input type="submit" value="Log out"/>
+        </form>
+    </div>
+    <br>
+    <form th:action="@{/catalog}" method="get">
+        <input type="submit" value="Catalog"/>
+    </form>
+    <br>
+<!--    <div th:replace="modal-shopping-cart :: showShoppingCart"></div>-->
+<!--    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#cartModal" id="cartButton">-->
+<!--        View Cart-->
+<!--    </button>-->
+    <form th:action="@{/basket}" method="get">
+        <input type="submit" value="Card"/>
+    </form>
+    <br>
+    <div sec:authorize="isAnonymous()">
+        <form th:action="@{/orders}" method="get">
+            <input type="submit" value="Orders"/>
+        </form>
+    </div>
+    <br>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/profile}" method="get">
+            <input type="submit" value="Profile"/>
+        </form>
+    </div>
+    <br>
 </div>
 </body>
 </html>

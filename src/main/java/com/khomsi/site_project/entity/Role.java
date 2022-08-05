@@ -1,7 +1,5 @@
 package com.khomsi.site_project.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 

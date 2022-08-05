@@ -13,7 +13,7 @@
     <br>
     <h3>Update User</h3>
     <hr/>
-    <form th:action="@{/admin/allUserDetails/{id}(id=${updateUserDetails.userDetailsId})}"
+    <form th:action="@{/admin/allUserDetails/{id}(id=${updateUserDetails.id})}"
           th:object="${updateUserDetails}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
@@ -33,17 +33,17 @@
                 </td>
                 <td>
                     <label>
+                        <input type="text" th:field="*{surname}">
+                    </label>
+                </td>
+                <td>
+                    <label>
                         <input type="text" th:field="*{phone}">
                     </label>
                 </td>
                 <td>
                     <label>
                         <input type="text" th:field="*{email}">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="text" th:field="*{city}">
                     </label>
                 </td>
             </tr>
@@ -56,7 +56,7 @@
     </form>
     <div>
         <form th:action="@{/admin/allUserDetails}" method="get">
-            <input type="submit" value="Return to userDetails page">
+            <input type="submit" value="Return to userInfo page">
         </form>
     </div>
     <br>
