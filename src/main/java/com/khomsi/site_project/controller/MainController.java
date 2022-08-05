@@ -35,7 +35,6 @@ public class MainController {
 
     @GetMapping("/login")
     public String login() {
-        //TODO тут исправить
 
         //   If user hasn't been login,give him access to go to url /login
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,27 +70,11 @@ public class MainController {
         return "redirect:/";
     }
 
-    //TODO реализовать проверку на логин
     @GetMapping("/showProduct/{id}")
     public String showProduct(@PathVariable int id, Model model, Principal principal) {
-//        try {
             Product showProduct = productService.getProduct(id);
             model.addAttribute("showProduct", showProduct);
             return "product-details";
-//        } catch (Exception e) {
-//            return "error/404";
-//        }
     }
-
-    //TODO тут исправить
-//    @GetMapping("/error403")
-//    public String error403() {
-//        return "/error/403";
-//    }
-//
-//    @GetMapping("/error404")
-//    public String error404() {
-//        return "/error/404";
-//    }
 
 }

@@ -74,7 +74,6 @@ public class MyAdminController {
     public String deleteProduct(@PathVariable int id) {
         try {
             productRep.deleteById(id);
-            //TODO подумать, как вывести такое на экран, если ошибка из триггера
         } catch (JpaSystemException exception) {
             System.err.println(exception.getCause().getCause().getMessage());
             return "redirect:/admin/allProducts";

@@ -37,12 +37,12 @@ public class ShoppingCartController {
     @GetMapping("/basket")
     public String showShoppingCard(Model model,
                                    Principal principal) {
-        //TODO тут исправить
+
         if (principal != null) {
             List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
 
             model.addAttribute("orderBaskets", orderBaskets);
-            //TODO проверить нужно ли это
+
             model.addAttribute("pageTitle", "Shopping Cart");
         } else return "/login";
         return "shopping-cart";
