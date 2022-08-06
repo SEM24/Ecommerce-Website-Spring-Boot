@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="blocks/main-tools :: head"></head>
+<body>
+<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<div th:replace="blocks/main-tools :: navbar"></div>
+<div class="container-fluid">
+    <div>
+        <h1>Category page</h1>
+    </div>
+    <div class="row">
+        <div class="col" th:each="cat : ${listCategories}">
+            <div><img th:src="'/category-images/'+${cat.imageURL}" width="80"/></div>
+            <div>
+                <a th:href="@{'/category/'+ ${cat.title}}">[[${cat.title}]]</a>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="~{blocks/main-tools :: footer}"></footer>
+</div>
+</body>
+</html>

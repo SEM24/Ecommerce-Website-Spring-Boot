@@ -1,6 +1,7 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
+import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -71,12 +73,12 @@ public class MyAdminController {
     }
 
     @PostMapping("/allProducts/{id}/delete")
-    public String deleteProduct(@PathVariable int id) {
+    public String deleteProduct(@PathVariable int id, Model model) {
+        //FIXME doen't show error on the page, but shows in console
         try {
             productRep.deleteById(id);
-            //TODO подумать, как вывести такое на экран, если ошибка из триггера
         } catch (JpaSystemException exception) {
-            System.err.println(exception.getCause().getCause().getMessage());
+            model.addAttribute("error", exception.getCause().getCause().getMessage());
             return "redirect:/admin/allProducts";
         }
         return "redirect:/admin/allProducts";
@@ -189,6 +191,8 @@ public class MyAdminController {
     public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
         Category newCategory = categoryRep.getReferenceById(id);
         newCategory.setTitle(category.getTitle());
+        newCategory.setImageURL(category.getImageURL());
+        newCategory.setEnabled(category.getEnabled());
         categoryRep.save(newCategory);
         return "redirect:/admin/allCategories";
     }

@@ -21,6 +21,12 @@ public class Category {
     @Column(name = "title", nullable = false, length = 155)
     private String title;
 
+    @Column(name = "image")
+    private String imageURL;
+
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled;
+
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
     @ToString.Exclude
     private List<Product> products;
