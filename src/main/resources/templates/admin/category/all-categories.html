@@ -24,6 +24,8 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Image</th>
+            <th>Availability</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -32,6 +34,12 @@
         <tr th:each="category : ${allCategories}">
             <td th:text="${category.id}"></td>
             <td th:text="${category.title}"></td>
+            <!--            FIXME change adding directory to image, doesn't work-->
+            <td>
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                           th:src="'/category-images/'+${category.imageURL}"></div>
+            </td>
+            <td th:text="${category.enabled}"></td>
             <td>
                 <form th:action="@{/admin/allCategories/{id}(id=${category.id})}" method="get">
                     <input type="submit" value=Update>

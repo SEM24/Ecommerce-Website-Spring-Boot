@@ -18,6 +18,8 @@
             <thead style="text-align: center">
             <tr>
                 <th>Title</th>
+                <th>Image</th>
+                <th>Availability</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -25,6 +27,16 @@
                 <td>
                     <label>
                         <input type="text" th:field="*{title}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{imageURL}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="number" th:field="*{enabled}">
                     </label>
                 </td>
             </tr>

@@ -1,8 +1,11 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
+import com.khomsi.site_project.exception.ProductNotFoundException;
+import com.khomsi.site_project.repository.CategoryRepository;
 import com.khomsi.site_project.repository.UserRepository;
 import com.khomsi.site_project.service.ProductService;
+import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -27,6 +30,12 @@ public class MainController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CategoryRepository categoryRep;
+
     @GetMapping("/")
     public String index() {
         return "index";
@@ -35,6 +44,7 @@ public class MainController {
 
     @GetMapping("/login")
     public String login() {
+        //TODO тут исправить
 
         //   If user hasn't been login,give him access to go to url /login
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -69,12 +79,42 @@ public class MainController {
         }
         return "redirect:/";
     }
-
-    @GetMapping("/showProduct/{id}")
+    @GetMapping("/product/{id}")
     public String showProduct(@PathVariable int id, Model model, Principal principal) {
-            Product showProduct = productService.getProduct(id);
-            model.addAttribute("showProduct", showProduct);
-            return "product-details";
+        Product showProduct = productService.getProduct(id);
+        model.addAttribute("showProduct", showProduct);
+        return "product-details";
     }
+    //TODO реализовать поиск по тайтлу(алиасу)
+//    @GetMapping("/product/{title}")
+//    public String showProduct(@PathVariable String title, Model model) {
+//        try {
+//            Product showProduct = productService.getProduct(title);
+//            model.addAttribute("showProduct", showProduct);
+//            return "product-details";
+//        } catch (ProductNotFoundException e) {
+//            return "/error/404";
+//        }
+//    }
+
+    @GetMapping("/basket")
+    public String showShoppingCard(Model model,
+                                   Principal principal) {
+        //TODO тут исправить
+        if (principal != null) {
+            List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
+
+            model.addAttribute("orderBaskets", orderBaskets);
+        } else return "/login";
+        return "shopping-cart";
+    }
+
+    @GetMapping("/category")
+    public String showCategories(Model model) {
+        List<Category> listEnabledCategories = categoryRep.findAllEnabled();
+        model.addAttribute("listCategories", listEnabledCategories);
+        return "category";
+    }
+
 
 }

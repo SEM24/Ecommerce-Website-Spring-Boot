@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <title>Shopping Cart</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<head th:replace="blocks/main-tools :: head"></head>
     <link rel="stylesheet" th:href="@{/css/shopping-cart.css}"/>
-</head>
 <body>
+<!--Scripts-->
+<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<script th:src="@{/js/shopping-cart.js}"></script>
+
+<!--NavBar-->
+<div th:replace="blocks/main-tools :: navbar"></div>
+
+<!--Modal-->
+<div th:replace="/blocks/modal-fragments :: showModal"></div>
+
+<!--Shopping cart-->
 <main class="page">
     <section class="shopping-cart dark">
         <div class="container">
@@ -98,15 +102,6 @@
         </div>
     </section>
 </main>
-<div th:replace="/blocks/modal-fragments :: showModal"></div>
+<footer th:insert="~{blocks/main-tools :: footer}"></footer>
 </body>
-
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script th:src="@{/js/shopping-cart.js}"></script>
-<script type="text/javascript">
-    contextPath = "[[@{/}]]"
-    var csrfHeaderName = "[[${_csrf.headerName}]]";
-    var csrfValue = "[[${_csrf.token}]]";
-</script>
 </html>

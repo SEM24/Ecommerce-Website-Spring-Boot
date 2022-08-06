@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="blocks/main-tools :: head"></head>
+<!--TODO не появляется иконка сайта -->
+<!--<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>-->
+
+<!--<link rel="stylesheet" th:href="@{/css/shopping-cart.css}"/>-->
+
 <body>
+<!--Scripts-->
+<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/added_to_cart.js}"></script>
+<script> var productId = "[[${showProduct.id}]]";</script>
+
+<!--NavBar-->
+<div th:replace="blocks/main-tools :: navbar"></div>
+
 <!-- Modal section-->
 <div th:replace="/blocks/modal-fragments :: showModal"></div>
+
 <!-- Product section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -38,15 +48,6 @@
     </div>
 
 </section>
+<footer th:insert="~{blocks/main-tools :: footer}"></footer>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script th:src="@{/js/quantity_control.js}"></script>
-<script th:src="@{/js/added_to_cart.js}"></script>
-<script type="text/javascript">
-    contextPath = "[[@{/}]]"
-    var csrfHeaderName = "[[${_csrf.headerName}]]";
-    var csrfValue = "[[${_csrf.token}]]";
-    var productId = "[[${showProduct.id}]]";
-</script>
 </html>

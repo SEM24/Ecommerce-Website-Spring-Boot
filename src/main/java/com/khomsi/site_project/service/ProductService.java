@@ -1,7 +1,10 @@
 package com.khomsi.site_project.service;
 
 import com.khomsi.site_project.entity.Product;
+import com.khomsi.site_project.entity.User;
+import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.repository.ProductRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +36,15 @@ public class ProductService implements IProductService {
         }
         return product;
     }
+    //TODO реализовать поиск по тайтлу(алиасу)
+//    @Override
+//    public Product getProduct(String title) throws ProductNotFoundException {
+//        Product product = productRepository.findByCategory(title);
+//        if (product == null) {
+//            throw new ProductNotFoundException("Couldn't find any product with title " + title);
+//        }
+//        return product;
+//    }
 
     @Override
     public void deleteProduct(int id) {
