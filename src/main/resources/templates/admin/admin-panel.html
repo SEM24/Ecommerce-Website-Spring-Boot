@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin page</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous"/>
-</head>
+<head th:replace="blocks/main-tools :: head"></head>
+
 <body>
 <div class="container">
     <br>
     <h3>Welcome admin!</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/allProducts}" method="get">
+        <form th:action="@{/admin/products}" method="get">
             <input type="submit" value="Products page"/>
         </form>
     </div>
@@ -38,7 +32,7 @@
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allCategories}" method="get">
+        <form th:action="@{/admin/categories}" method="get">
             <input type="submit" value="Category page"/>
         </form>
     </div>

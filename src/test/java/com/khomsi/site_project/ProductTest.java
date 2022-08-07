@@ -17,7 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Rollback(value = false)
+//@Rollback(value = false)
 public class ProductTest {
     @Autowired
     private ProductRepository productRepo;
@@ -32,6 +32,7 @@ public class ProductTest {
 
         Product product = new Product();
         product.setTitle("Samsung Galaxy S22 Ultra");
+        product.setAlias("samsung_galaxy_s22_ultra");
         product.setDescription("Full hd screen, 512 gb, green, red, blue colors");
         product.setPrice(36000);
         product.setImageURL("https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_91200147/fee_786_587_png");

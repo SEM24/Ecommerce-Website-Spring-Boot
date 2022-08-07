@@ -9,9 +9,11 @@ public interface IProductService {
     public List<Product> getAllProducts();
 
     public void saveProduct(Product product);
-    //TODO реализовать поиск по тайтлу(алиасу)
-    //    public Product getProduct(String title) throws ProductNotFoundException;
-    public Product getProduct(int id);
+//    //TODO реализовать поиск по тайтлу(алиасу)
+//    //    public Product getProduct(String title) throws ProductNotFoundException;
+//    public Product getProduct(int id);
+
+    Product getProduct(Integer id) throws ProductNotFoundException;
 
     public void deleteProduct(int id);
 }

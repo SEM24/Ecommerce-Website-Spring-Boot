@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>All category</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous"/>
-</head>
+<head th:replace="blocks/main-tools :: head"></head>
+
 <body>
 <div class="container">
     <br>
     <h3>Category List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addCategory}" method="get">
+        <form th:action="@{/admin/categories/add}" method="get">
             <input type="submit" value="Add Category">
         </form>
     </div>
@@ -24,8 +18,10 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Alias</th>
             <th>Image</th>
-            <th>Availability</th>
+            <th>Enabled</th>
+            <th>Parent category</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -34,19 +30,20 @@
         <tr th:each="category : ${allCategories}">
             <td th:text="${category.id}"></td>
             <td th:text="${category.title}"></td>
-            <!--            FIXME change adding directory to image, doesn't work-->
+            <td th:text="${category.alias}"></td>
             <td>
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
                                            th:src="'/category-images/'+${category.imageURL}"></div>
             </td>
             <td th:text="${category.enabled}"></td>
+            <td th:text="${category?.parent?.title}"></td>
             <td>
-                <form th:action="@{/admin/allCategories/{id}(id=${category.id})}" method="get">
+                <form th:action="@{/admin/categories/edit/{id}(id=${category.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allCategories/{id}/delete(id=${category.id})}" method="post">
+                <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>

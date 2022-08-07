@@ -2,7 +2,10 @@ package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.exception.CategoryNotFoundException;
+import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.repository.*;
+import com.khomsi.site_project.service.CategoryService;
+import com.khomsi.site_project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,20 +14,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class MyAdminController {
-    @Autowired
-    private ProductRepository productRep;
+//    @Autowired
+//    private ProductRepository productRep;
 
+    @Autowired
+    private ProductService productService;
     @Autowired
     private UserRepository userRep;
     @Autowired
     private UserInfoRepository userDetailsRep;
+
     @Autowired
-    private CategoryRepository categoryRep;
+    private CategoryService categoryService;
     @Autowired
     private VendorRepository vendorRep;
 
@@ -34,7 +41,6 @@ public class MyAdminController {
     @Autowired
     private OrderBasketRepository orderBasketRep;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -43,58 +49,58 @@ public class MyAdminController {
         return "admin/admin-panel";
     }
 
-    @GetMapping("/allProducts")
+    @GetMapping("/products")
     public String allProducts(Model model) {
-        List<Product> products = productRep.findAll();
+        List<Product> products = productService.getAllProducts();
         model.addAttribute("allProducts", products);
 
         return "admin/product/all-product";
     }
 
-    @GetMapping("/allProducts/{id}")
-    public String updateProduct(@PathVariable int id, Model model) {
-        Product product = productRep.getReferenceById(id);
-        model.addAttribute("updateProduct", product);
-        return "admin/product/update-product";
+    @GetMapping("/products/edit/{id}")
+    public String updateProduct(@PathVariable int id, Model model, RedirectAttributes attributes) {
+        try {
+            Product product = productService.getProduct(id);
+            List<Vendor> vendorList = vendorRep.findAll();
+            List<Category> categoryList = categoryService.listCategoriesUserInForm();
+            model.addAttribute("updateProduct", product);
+            model.addAttribute("vendorList", vendorList);
+            model.addAttribute("categoryList", categoryList);
+            return "admin/product/update-product";
+        } catch (ProductNotFoundException e) {
+            attributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/products";
+        }
     }
 
-    @PostMapping("/allProducts/{id}")
-    public String saveProduct(@PathVariable int id, @ModelAttribute Product product) {
-        Product newProduct = productRep.getReferenceById(id);
-
-        newProduct.setTitle(product.getTitle());
-        newProduct.setDescription(product.getDescription());
-        newProduct.setPrice(product.getPrice());
-        newProduct.setVendor(product.getVendor());
-        newProduct.setCategory(product.getCategory());
-        newProduct.setImageURL(product.getImageURL());
-        productRep.save(newProduct);
-        return "redirect:/admin/allProducts";
+    @PostMapping("/products/save")
+    public String saveProduct(Product product, RedirectAttributes attributes) {
+        productService.saveProduct(product);
+        return "redirect:/admin/products";
     }
 
     @PostMapping("/allProducts/{id}/delete")
     public String deleteProduct(@PathVariable int id, Model model) {
         //FIXME doen't show error on the page, but shows in console
         try {
-            productRep.deleteById(id);
+            productService.deleteProduct(id);
         } catch (JpaSystemException exception) {
             model.addAttribute("error", exception.getCause().getCause().getMessage());
-            return "redirect:/admin/allProducts";
+            return "redirect:/admin/products";
         }
-        return "redirect:/admin/allProducts";
+        return "redirect:/admin/products";
     }
 
-    @GetMapping("/addProduct")
+    @GetMapping("/products/add")
     public String addProduct(Model model) {
-        Product product = new Product();
-        model.addAttribute("addProduct", product);
-        return "admin/product/add-product";
-    }
 
-    @PostMapping("/addProduct")
-    public String createProduct(Product product) {
-        productRep.save(product);
-        return "redirect:/admin/allProducts";
+        List<Vendor> vendorList = vendorRep.findAll();
+        List<Category> categoryList = categoryService.listCategoriesUserInForm();
+        model.addAttribute("addProduct", new Product());
+        model.addAttribute("vendorList", vendorList);
+        model.addAttribute("categoryList", categoryList);
+
+        return "admin/product/add-product";
     }
 
     @GetMapping("/allUsers")
@@ -172,50 +178,49 @@ public class MyAdminController {
         return "redirect:/admin/allUserDetails";
     }
 
-    @GetMapping("/allCategories")
+    @GetMapping("/categories")
     public String allCategories(Model model) {
-        List<Category> categories = categoryRep.findAll();
+        List<Category> categories = categoryService.listAll();
         model.addAttribute("allCategories", categories);
 
         return "admin/category/all-categories";
     }
 
-    @GetMapping("/allCategories/{id}")
-    public String updateCategory(@PathVariable int id, Model model) {
-        Category category = categoryRep.getReferenceById(id);
-        model.addAttribute("updateCategory", category);
-        return "admin/category/update-category";
+    @GetMapping("/categories/edit/{id}")
+    public String updateCategory(@PathVariable int id, Model model, RedirectAttributes attributes) {
+        try {
+            Category category = categoryService.getCategory(id);
+            List<Category> categoryList = categoryService.listCategoriesUserInForm();
+            model.addAttribute("updateCategory", category);
+            model.addAttribute("categoryList", categoryList);
+            return "admin/category/update-category";
+        } catch (CategoryNotFoundException e) {
+            attributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/categories";
+        }
     }
 
-    @PostMapping("/allCategories/{id}")
-    public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
-        Category newCategory = categoryRep.getReferenceById(id);
-        newCategory.setTitle(category.getTitle());
-        newCategory.setImageURL(category.getImageURL());
-        newCategory.setEnabled(category.getEnabled());
-        categoryRep.save(newCategory);
-        return "redirect:/admin/allCategories";
+    @PostMapping("/categories/save")
+    public String saveCategory(@ModelAttribute Category category, RedirectAttributes attributes) {
+        categoryService.saveCategory(category);
+        attributes.addFlashAttribute("message", "The category has been saved successfully");
+        return "redirect:/admin/categories";
     }
 
-    @PostMapping("/allCategories/{id}/delete")
+    @PostMapping("/categories/{id}/delete")
     public String deleteCategory(@PathVariable int id) {
-        categoryRep.deleteById(id);
-        return "redirect:/admin/allCategories";
+        categoryService.deleteCategory(id);
+        return "redirect:/admin/categories";
     }
 
-    @GetMapping("/addCategory")
+    @GetMapping("/categories/add")
     public String addCategory(Model model) {
-        Category category = new Category();
-        model.addAttribute("addCategory", category);
+        List<Category> categoryList = categoryService.listCategoriesUserInForm();
+        model.addAttribute("addCategory", new Category());
+        model.addAttribute("categoryList", categoryList);
+
         return "admin/category/add-category";
     }
-
-    @PostMapping("/addCategory")
-    public String createCategory(Category category) {
-        categoryRep.save(category);
-        return "redirect:/admin/allCategories";
-    }
-
 
     @GetMapping("/allVendors")
     public String allVendors(Model model) {
