@@ -3,7 +3,9 @@ package com.khomsi.site_project.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class Category {
     @Column(name = "title", nullable = false, length = 155)
     private String title;
 
-    @Column(name = "alias", nullable = false, length = 255)
+    @Column(name = "alias")
     private String alias;
 
     @Column(name = "image")
@@ -29,6 +31,14 @@ public class Category {
 
     @Column(name = "enabled", nullable = false)
     private Boolean enabled;
+
+    //parent_id refers to category id or null if it's top-level category
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent")
+    private Set<Category> children = new HashSet<>();
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
     @ToString.Exclude
