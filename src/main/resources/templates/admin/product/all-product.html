@@ -30,6 +30,7 @@
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Alias</th>
             <th>Description</th>
             <th>Price</th>
             <th>Image URL</th>
@@ -43,6 +44,7 @@
         <tr th:each="product : ${allProducts}">
             <td th:text="${product.id}"></td>
             <td th:text="${product.title}"></td>
+            <td th:text="${product.alias}"></td>
             <td th:text="${product.description}"></td>
             <td th:text="${product.price}"></td>
             <td><img class="img-fluid mx-auto d-block image" width="100" height="100"

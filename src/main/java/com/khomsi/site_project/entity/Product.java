@@ -25,6 +25,9 @@ public class Product {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "alias")
+    private String alias;
+
     @Column(name = "description")
     private String description;
 

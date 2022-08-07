@@ -21,6 +21,9 @@ public class Category {
     @Column(name = "title", nullable = false, length = 155)
     private String title;
 
+    @Column(name = "alias", nullable = false, length = 255)
+    private String alias;
+
     @Column(name = "image")
     private String imageURL;
 

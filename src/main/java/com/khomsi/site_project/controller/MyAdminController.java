@@ -1,7 +1,6 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
-import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -9,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -63,6 +61,7 @@ public class MyAdminController {
         Product newProduct = productRep.getReferenceById(id);
 
         newProduct.setTitle(product.getTitle());
+        newProduct.setAlias(product.getAlias());
         newProduct.setDescription(product.getDescription());
         newProduct.setPrice(product.getPrice());
         newProduct.setVendor(product.getVendor());
@@ -191,6 +190,7 @@ public class MyAdminController {
     public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
         Category newCategory = categoryRep.getReferenceById(id);
         newCategory.setTitle(category.getTitle());
+        newCategory.setAlias(category.getAlias());
         newCategory.setImageURL(category.getImageURL());
         newCategory.setEnabled(category.getEnabled());
         categoryRep.save(newCategory);
