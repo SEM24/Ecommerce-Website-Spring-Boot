@@ -1,7 +1,9 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
+import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.repository.*;
+import com.khomsi.site_project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,8 +23,12 @@ public class MyAdminController {
     private UserRepository userRep;
     @Autowired
     private UserInfoRepository userDetailsRep;
+
+//    @Autowired
+//    private CategoryRepository categoryRep;
+
     @Autowired
-    private CategoryRepository categoryRep;
+    private CategoryService categoryService;
     @Autowired
     private VendorRepository vendorRep;
 
@@ -173,46 +179,51 @@ public class MyAdminController {
 
     @GetMapping("/allCategories")
     public String allCategories(Model model) {
-        List<Category> categories = categoryRep.findAll();
+        List<Category> categories = categoryService.listAll();
         model.addAttribute("allCategories", categories);
 
         return "admin/category/all-categories";
     }
 
-    @GetMapping("/allCategories/{id}")
-    public String updateCategory(@PathVariable int id, Model model) {
-        Category category = categoryRep.getReferenceById(id);
-        model.addAttribute("updateCategory", category);
-        return "admin/category/update-category";
-    }
-
-    @PostMapping("/allCategories/{id}")
-    public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
-        Category newCategory = categoryRep.getReferenceById(id);
-        newCategory.setTitle(category.getTitle());
-        newCategory.setAlias(category.getAlias());
-        newCategory.setImageURL(category.getImageURL());
-        newCategory.setEnabled(category.getEnabled());
-        categoryRep.save(newCategory);
-        return "redirect:/admin/allCategories";
-    }
+//    @GetMapping("/allCategories/{id}")
+//    public String updateCategory(@PathVariable int id, Model model) {
+//        Category category = categoryRep.getReferenceById(id);
+//        List<Category> categoryList = categoryRep.findAll();
+//        model.addAttribute("updateCategory", category);
+//        model.addAttribute("categoryList", categoryList);
+//        return "admin/category/update-category";
+//    }
+//
+//    @PostMapping("/allCategories/{id}")
+//    public String saveCategory(@PathVariable int id, @ModelAttribute Category category) {
+//        Category newCategory = categoryService.getReferenceById(id);
+//        newCategory.setTitle(category.getTitle());
+//        newCategory.setAlias(category.getAlias());
+//        newCategory.setImageURL(category.getImageURL());
+//        newCategory.setEnabled(category.getEnabled());
+//        newCategory.setParent(category.getParent());
+//        categoryService.saveCategory(newCategory);
+//        return "redirect:/admin/allCategories";
+//    }
 
     @PostMapping("/allCategories/{id}/delete")
     public String deleteCategory(@PathVariable int id) {
-        categoryRep.deleteById(id);
+        categoryService.deleteCategory(id);
         return "redirect:/admin/allCategories";
     }
 
     @GetMapping("/addCategory")
     public String addCategory(Model model) {
-        Category category = new Category();
-        model.addAttribute("addCategory", category);
+        List<Category> categoryList = categoryService.listCategoriesUserInForm();
+        model.addAttribute("addCategory", new Category());
+        model.addAttribute("categoryList", categoryList);
+
         return "admin/category/add-category";
     }
 
     @PostMapping("/addCategory")
     public String createCategory(Category category) {
-        categoryRep.save(category);
+        categoryService.saveCategory(category);
         return "redirect:/admin/allCategories";
     }
 

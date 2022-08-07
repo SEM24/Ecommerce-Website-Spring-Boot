@@ -27,6 +27,7 @@
             <th>Alias</th>
             <th>Image</th>
             <th>Availability</th>
+            <th>Parent category</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -42,6 +43,7 @@
                                            th:src="'/category-images/'+${category.imageURL}"></div>
             </td>
             <td th:text="${category.enabled}"></td>
+            <td th:text="${category?.parent?.title}"></td>
             <td>
                 <form th:action="@{/admin/allCategories/{id}(id=${category.id})}" method="get">
                     <input type="submit" value=Update>

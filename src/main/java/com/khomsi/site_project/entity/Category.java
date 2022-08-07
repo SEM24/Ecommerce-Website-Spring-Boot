@@ -38,6 +38,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
+    @ToString.Exclude
     private Set<Category> children = new HashSet<>();
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
