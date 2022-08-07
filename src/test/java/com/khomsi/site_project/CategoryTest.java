@@ -27,7 +27,7 @@ public class CategoryTest {
         Category parent = categoryRep.getReferenceById(1);
         testCategory.setTitle("Sensor phones");
         testCategory.setAlias("sensor_phones");
-        testCategory.setImageURL("https://assets.mmsrg.com/isr/166325/c1/-/ASSET_MMS_91200147/fee_786_587_png");
+        testCategory.setImageURL("text.png");
         testCategory.setEnabled(true);
         testCategory.setParent(parent);
 

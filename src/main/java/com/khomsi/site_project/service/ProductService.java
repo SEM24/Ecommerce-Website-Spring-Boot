@@ -1,15 +1,13 @@
 package com.khomsi.site_project.service;
 
 import com.khomsi.site_project.entity.Product;
-import com.khomsi.site_project.entity.User;
 import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.repository.ProductRepository;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService implements IProductService {
@@ -28,13 +26,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product getProduct(int id) {
-        Product product = null;
-        Optional<Product> optional = productRepository.findById(id);
-        if (optional.isPresent()) {
-            product = optional.get();
+    public Product getProduct(Integer id) throws ProductNotFoundException {
+        try {
+            return productRepository.getReferenceById(id);
+        } catch (NoSuchElementException e) {
+            throw new ProductNotFoundException("Couldn't find any product with id " + id);
         }
-        return product;
     }
     //TODO реализовать поиск по тайтлу(алиасу)
 //    @Override

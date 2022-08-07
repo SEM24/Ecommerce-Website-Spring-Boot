@@ -13,14 +13,15 @@
     <br>
     <h3>Add Category</h3>
     <hr/>
-    <form th:action="@{/admin/addCategory}" th:object="${addCategory}" method="post">
+    <form th:action="@{/admin/categories/save}" th:object="${addCategory}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
                 <th>Title</th>
                 <th>Alias</th>
                 <th>Image</th>
-                <th>Availability</th>
+                <th>Enabled</th>
+                <th>Parent category</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -42,8 +43,16 @@
                 </td>
                 <td>
                     <label>
-                        <input type="number" th:field="*{enabled}">
+                        <input type="checkbox" th:field="*{enabled}">
                     </label>
+                </td>
+                <td>
+                    <select th:field="*{parent}">
+                        <option value="0">[No Parent]</option>
+                        <th:block th:each="cat : ${categoryList}">
+                            <option th:value="${cat.id}">[[${cat.title}]]</option>
+                        </th:block>
+                    </select>
                 </td>
             </tr>
             </tbody>
@@ -54,7 +63,7 @@
         <br>
     </form>
     <div>
-        <form th:action="@{/admin/allCategories}" method="get">
+        <form th:action="@{/admin/categories}" method="get">
             <input type="submit" value="Return to category page">
         </form>
     </div>

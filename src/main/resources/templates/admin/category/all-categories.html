@@ -14,7 +14,7 @@
     <h3>Category List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addCategory}" method="get">
+        <form th:action="@{/admin/categories/add}" method="get">
             <input type="submit" value="Add Category">
         </form>
     </div>
@@ -26,7 +26,7 @@
             <th>Title</th>
             <th>Alias</th>
             <th>Image</th>
-            <th>Availability</th>
+            <th>Enabled</th>
             <th>Parent category</th>
             <th>Update</th>
             <th>Delete</th>
@@ -37,7 +37,6 @@
             <td th:text="${category.id}"></td>
             <td th:text="${category.title}"></td>
             <td th:text="${category.alias}"></td>
-            <!--            FIXME change adding directory to image, doesn't work-->
             <td>
                 <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
                                            th:src="'/category-images/'+${category.imageURL}"></div>
@@ -45,12 +44,12 @@
             <td th:text="${category.enabled}"></td>
             <td th:text="${category?.parent?.title}"></td>
             <td>
-                <form th:action="@{/admin/allCategories/{id}(id=${category.id})}" method="get">
+                <form th:action="@{/admin/categories/edit/{id}(id=${category.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allCategories/{id}/delete(id=${category.id})}" method="post">
+                <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>

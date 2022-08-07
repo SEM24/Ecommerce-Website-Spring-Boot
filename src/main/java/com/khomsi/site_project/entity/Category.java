@@ -1,13 +1,16 @@
 package com.khomsi.site_project.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -45,4 +48,31 @@ public class Category {
     @ToString.Exclude
     private List<Product> products;
 
+//    public Category(String title) {
+//        this.title = title;
+//    }
+    //FIXME проверить все конструкторы
+    public Category(String title) {
+        this.title = title;
+        this.alias = title;
+        this.imageURL = "default.png";
+    }
+
+    public Category(String title, Category parent) {
+        this(title);
+        this.parent = parent;
+    }
+
+    public Category(Integer id) {
+        this.id = id;
+    }
+
+    public Category(Integer id, String title, String alias, String imageURL, Boolean enabled, Category parent) {
+        this.id = id;
+        this.title = title;
+        this.alias = alias;
+        this.imageURL = imageURL;
+        this.enabled = enabled;
+        this.parent = parent;
+    }
 }

@@ -14,12 +14,12 @@
     <h3>Products List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addProduct}" method="get">
+        <form th:action="@{/admin/products/add}" method="get">
             <input type="submit" value="Add Product">
         </form>
     </div>
     <br><br>
-<!--    FIXME doesn't show error-->
+    <!--    FIXME doesn't show error-->
     <div th:if="${error}" class="alert alert-danger" role="alert">
         <div>
             <span th:text="${error}" class="error"></span>
@@ -34,8 +34,8 @@
             <th>Description</th>
             <th>Price</th>
             <th>Image URL</th>
-            <th>Vendor id</th>
-            <th>Category id</th>
+            <th>Vendor</th>
+            <th>Category</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -48,16 +48,16 @@
             <td th:text="${product.description}"></td>
             <td th:text="${product.price}"></td>
             <td><img class="img-fluid mx-auto d-block image" width="100" height="100"
-                     th:src="${product.imageURL}"/></td>
-            <td th:text="${product?.vendor?.id}"></td>
-            <td th:text="${product?.category?.id}"></td>
+                     th:src="'/product-images/'+${product.imageURL}"/></td>
+            <td th:text="${product?.vendor?.title}"></td>
+            <td th:text="${product?.category?.title}"></td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}(id=${product.id})}" method="get">
+                <form th:action="@{/admin/products/edit/{id}(id=${product.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allProducts/{id}/delete(id=${product.id})}" method="post">
+                <form th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>

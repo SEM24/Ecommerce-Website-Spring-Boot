@@ -13,7 +13,7 @@
     <br>
     <h3>Add Product</h3>
     <hr/>
-    <form th:action="@{/admin/addProduct}" th:object="${addProduct}" method="post">
+    <form th:action="@{/admin/products/save}" th:object="${addProduct}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
@@ -22,8 +22,8 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Image URL</th>
-                <th>Vendor id</th>
-                <th>Category id</th>
+                <th>Vendor</th>
+                <th>Category</th>
             </tr>
             </thead>
             <tbody style="text-align: center">
@@ -50,18 +50,22 @@
                 </td>
                 <td>
                     <label>
-                        <input type="url" th:field="*{imageURL}">
+                        <input type="text" th:field="*{imageURL}">
                     </label>
                 </td>
                 <td>
-                    <label>
-                        <input type="number" th:field="*{vendor.id}">
-                    </label>
+                    <select th:field="*{vendor}">
+                        <th:block th:each="vendor : ${vendorList}">
+                            <option th:value="${vendor.id}">[[${vendor.title}]]</option>
+                        </th:block>
+                    </select>
                 </td>
                 <td>
-                    <label>
-                        <input type="number" th:field="*{category.id}">
-                    </label>
+                    <select th:field="*{category}">
+                        <th:block th:each="category : ${categoryList}">
+                            <option th:value="${category.id}">[[${category.title}]]</option>
+                        </th:block>
+                    </select>
                 </td>
             </tr>
             </tbody>
@@ -72,7 +76,7 @@
         <br>
     </form>
     <div>
-        <form th:action="@{/admin/allProducts}" method="get">
+        <form th:action="@{/admin/products}" method="get">
             <input type="submit" value="Return to product page">
         </form>
     </div>

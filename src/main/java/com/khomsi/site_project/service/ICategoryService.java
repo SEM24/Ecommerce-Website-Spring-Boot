@@ -9,5 +9,10 @@ public interface ICategoryService {
     public List<Category> listAll();
 
     public List<Category> listCategoriesUserInForm();
-//    public Category getCategory(String title) throws CategoryNotFoundException;
+    public Category saveCategory(Category category);
+//    public void listChildren(List<Category> categoriesUserInForm, Category parent, int subLevel);
+
+    public void deleteCategory(int id);
+
+    public Category getCategory(Integer id) throws CategoryNotFoundException;
 }

@@ -79,23 +79,19 @@ public class MainController {
         }
         return "redirect:/";
     }
+
     @GetMapping("/product/{id}")
-    public String showProduct(@PathVariable int id, Model model, Principal principal) {
-        Product showProduct = productService.getProduct(id);
-        model.addAttribute("showProduct", showProduct);
-        return "product-details";
+    public String showProduct(@PathVariable int id, Model model) {
+        try {
+            Product showProduct = productService.getProduct(id);
+            model.addAttribute("showProduct", showProduct);
+            return "product-details";
+        } catch (ProductNotFoundException e) {
+            return "/error/404";
+//            throw new ProductNotFoundException("Couldn't find any product with id " + id);
+        }
+
     }
-    //TODO реализовать поиск по тайтлу(алиасу)
-//    @GetMapping("/product/{title}")
-//    public String showProduct(@PathVariable String title, Model model) {
-//        try {
-//            Product showProduct = productService.getProduct(title);
-//            model.addAttribute("showProduct", showProduct);
-//            return "product-details";
-//        } catch (ProductNotFoundException e) {
-//            return "/error/404";
-//        }
-//    }
 
     @GetMapping("/basket")
     public String showShoppingCard(Model model,
@@ -115,6 +111,4 @@ public class MainController {
         model.addAttribute("listCategories", listEnabledCategories);
         return "category";
     }
-
-
 }
