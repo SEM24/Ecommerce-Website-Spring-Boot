@@ -8,7 +8,7 @@
     <h3>Vendor List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addVendor}" method="get">
+        <form th:action="@{/admin/vendors/add}" method="get">
             <input type="submit" value="Add Vendor">
         </form>
     </div>
@@ -27,12 +27,12 @@
             <td th:text="${vendor.id}"></td>
             <td th:text="${vendor.title}"></td>
             <td>
-                <form th:action="@{/admin/allVendors/{id}(id=${vendor.id})}" method="get">
+                <form th:action="@{/admin/vendors/edit/{id}(id=${vendor.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allVendors/{id}/delete(id=${vendor.id})}" method="post">
+                <form th:action="@{/admin/vendors/{id}/delete(id=${vendor.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>

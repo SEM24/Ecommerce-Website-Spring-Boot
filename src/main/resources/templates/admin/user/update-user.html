@@ -7,7 +7,7 @@
     <br>
     <h3>Update User</h3>
     <hr/>
-    <form th:action="@{/admin/allUsers/{id}(id=${updateUser.id})}" th:object="${updateUser}" method="post">
+    <form th:action="@{/admin/users/save(id=${updateUser.id})}" th:object="${updateUser}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
@@ -43,7 +43,7 @@
         <br>
     </form>
     <div>
-        <form th:action="@{/admin/allUsers}" method="get">
+        <form th:action="@{/admin/users}" method="get">
             <input type="submit" value="Return to user page">
         </form>
     </div>

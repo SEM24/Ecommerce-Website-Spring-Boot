@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -103,7 +102,7 @@ public class MyAdminController {
         return "admin/product/add-product";
     }
 
-    @GetMapping("/allUsers")
+    @GetMapping("/users")
     public String allUsers(Model model) {
         List<User> users = userRep.findAll();
         model.addAttribute("allUsers", users);
@@ -111,48 +110,43 @@ public class MyAdminController {
         return "admin/user/all-users";
     }
 
-    @GetMapping("/allUsers/{id}")
+    @GetMapping("/users/edit/{id}")
     public String updateUser(@PathVariable int id, Model model) {
         User user = userRep.getReferenceById(id);
         model.addAttribute("updateUser", user);
         return "admin/user/update-user";
     }
 
-    @PostMapping("/allUsers/{id}")
-    public String saveUser(@PathVariable int id, @ModelAttribute User user) {
-        User newUser = userRep.getReferenceById(id);
-        newUser.setLogin(passwordEncoder.encode(user.getPassword()));
-        newUser.setPassword(user.getPassword());
-        newUser.setRole(user.getRole());
-        userRep.save(newUser);
-        return "redirect:/admin/allUsers";
+    @PostMapping("/users/save")
+    public String saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRep.save(user);
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/allUsers/{id}/delete")
     public String deleteUser(@PathVariable int id) {
         userRep.deleteById(id);
-        return "redirect:/admin/allUsers";
+        return "redirect:/admin/users";
     }
 
-    @GetMapping("/addUser")
+    @GetMapping("/users/add")
     public String addUser(Model userModel, Model userDetailsModel) {
-        User user = new User();
-        UserInfo userInfo = new UserInfo();
-        userModel.addAttribute("addUser", user);
-        userDetailsModel.addAttribute("addUserDetails", userInfo);
+        userModel.addAttribute("addUser", new User());
+        userDetailsModel.addAttribute("addUserDetails", new UserInfo());
         return "admin/user/add-user";
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/users/add")
     public String createUser(UserInfo userInfo, User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRep.save(user);
         userInfo.setUser(user);
         userDetailsRep.save(userInfo);
-        return "redirect:/admin/allUsers";
+        return "redirect:/admin/users";
     }
 
-    @GetMapping("/allUserDetails")
+    @GetMapping("/user_details")
     public String allUserDetails(Model model) {
         List<UserInfo> userDetails = userDetailsRep.findAll();
         model.addAttribute("allUserDetails", userDetails);
@@ -160,22 +154,17 @@ public class MyAdminController {
         return "admin/userDetails/all-userDetails";
     }
 
-    @GetMapping("/allUserDetails/{id}")
+    @GetMapping("/user_details/edit/{id}")
     public String updateUserDetails(@PathVariable int id, Model model) {
         UserInfo userInfo = userDetailsRep.getReferenceById(id);
         model.addAttribute("updateUserDetails", userInfo);
         return "admin/userDetails/update-userDetails";
     }
 
-    @PostMapping("/allUserDetails/{id}")
-    public String saveUserDetails(@PathVariable int id, @ModelAttribute UserInfo userInfo) {
-        UserInfo newUserInfo = userDetailsRep.getReferenceById(id);
-        newUserInfo.setName(userInfo.getName());
-        newUserInfo.setSurname(userInfo.getSurname());
-        newUserInfo.setPhone(userInfo.getPhone());
-        newUserInfo.setEmail(userInfo.getEmail());
-        userDetailsRep.save(newUserInfo);
-        return "redirect:/admin/allUserDetails";
+    @PostMapping("/user_details/save")
+    public String saveUserDetails(UserInfo userInfo) {
+        userDetailsRep.save(userInfo);
+        return "redirect:/admin/user_details";
     }
 
     @GetMapping("/categories")
@@ -222,7 +211,7 @@ public class MyAdminController {
         return "admin/category/add-category";
     }
 
-    @GetMapping("/allVendors")
+    @GetMapping("/vendors")
     public String allVendors(Model model) {
         List<Vendor> vendors = vendorRep.findAll();
         model.addAttribute("allVendors", vendors);
@@ -230,41 +219,33 @@ public class MyAdminController {
         return "admin/vendor/all-vendors";
     }
 
-    @GetMapping("/allVendors/{id}")
+    @GetMapping("/vendors/edit/{id}")
     public String updateVendor(@PathVariable int id, Model model) {
         Vendor vendor = vendorRep.getReferenceById(id);
         model.addAttribute("updateVendor", vendor);
         return "admin/vendor/update-vendor";
     }
 
-    @PostMapping("/allVendors/{id}")
-    public String saveVendor(@PathVariable int id, @ModelAttribute Vendor vendor) {
-        Vendor newVendor = vendorRep.getReferenceById(id);
-        newVendor.setTitle(vendor.getTitle());
-        vendorRep.save(newVendor);
-        return "redirect:/admin/allVendors";
-    }
-
-    @PostMapping("/allVendors/{id}/delete")
+    @PostMapping("/vendors/{id}/delete")
     public String deleteVendor(@PathVariable int id) {
         vendorRep.deleteById(id);
-        return "redirect:/admin/allVendors";
+        return "redirect:/admin/vendors";
     }
 
-    @GetMapping("/addVendor")
+    @GetMapping("/vendors/add")
     public String addVendor(Model model) {
         Vendor vendor = new Vendor();
         model.addAttribute("addVendor", vendor);
         return "admin/vendor/add-vendor";
     }
 
-    @PostMapping("/addVendor")
+    @PostMapping("/vendors/save")
     public String createVendor(Vendor vendor) {
         vendorRep.save(vendor);
-        return "redirect:/admin/allVendors";
+        return "redirect:/admin/vendors";
     }
 
-    @GetMapping("/allOrders")
+    @GetMapping("/orders")
     public String allOrders(Model model) {
         List<Order> orders = ordersRep.findAll();
         model.addAttribute("allOrders", orders);
@@ -272,33 +253,26 @@ public class MyAdminController {
         return "admin/orders/all-orders";
     }
 
-    @GetMapping("/allOrders/{id}")
+    @GetMapping("/orders/edit/{id}")
     public String updateOrder(@PathVariable int id, Model model) {
         Order order = ordersRep.getReferenceById(id);
         model.addAttribute("updateOrder", order);
         return "admin/orders/update-order";
     }
 
-    @PostMapping("/allOrders/{id}")
-    public String saveOrder(@PathVariable int id, @ModelAttribute Order orders) {
-        Order newOrders = ordersRep.getReferenceById(id);
-        newOrders.setOrderStatus(orders.getOrderStatus());
-        newOrders.setOrderBasket(orders.getOrderBasket());
-        newOrders.setShippingType(orders.getShippingType());
-        newOrders.setCity(orders.getCity());
-        newOrders.setAddress(orders.getAddress());
-        newOrders.setTotalPrice(orders.getTotalPrice());
-        ordersRep.save(newOrders);
-        return "redirect:/admin/allOrders";
+    @PostMapping("/orders/save")
+    public String saveOrder(Order orders) {
+        ordersRep.save(orders);
+        return "redirect:/admin/orders";
     }
 
-    @PostMapping("/allOrders/{id}/delete")
+    @PostMapping("/orders/{id}/delete")
     public String deleteOrder(@PathVariable int id) {
         ordersRep.deleteById(id);
-        return "redirect:/admin/allOrders";
+        return "redirect:/admin/orders";
     }
 
-    @GetMapping("/allOrderBaskets")
+    @GetMapping("/order_baskets")
     public String allOrderBasket(Model model) {
         List<OrderBasket> orderBaskets = orderBasketRep.findAll();
         model.addAttribute("allOrderBaskets", orderBaskets);

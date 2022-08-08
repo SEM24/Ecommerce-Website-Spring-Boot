@@ -8,7 +8,7 @@
     <h3>User List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addUser}" method="get">
+        <form th:action="@{/admin/users/add}" method="get">
             <input type="submit" value="Add User">
         </form>
     </div>
@@ -31,12 +31,12 @@
             <td th:text="${user.password}"></td>
             <td th:text="${user.role}"></td>
             <td>
-                <form th:action="@{/admin/allUsers/{id}(id=${user.id})}" method="get">
+                <form th:action="@{/admin/users/edit/{id}(id=${user.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allUsers/{id}/delete(id=${user.id})}" method="post">
+                <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>
