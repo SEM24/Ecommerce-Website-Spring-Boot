@@ -14,7 +14,7 @@
         <div class="col" th:each="cat : ${listCategories}">
             <div><img th:src="'/category-images/'+${cat.imageURL}" width="80"/></div>
             <div>
-                <a th:href="@{'/category/'+ ${cat.title}}">[[${cat.title}]]</a>
+                <a th:href="@{'/category/'+ ${cat.alias}}">[[${cat.title}]]</a>
             </div>
         </div>
     </div>

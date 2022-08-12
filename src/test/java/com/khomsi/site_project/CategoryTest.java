@@ -61,12 +61,5 @@ public class CategoryTest {
         }
     }
 
-    @Test
-    void testListEnabledCategories() {
-        List<Category> categories = categoryRep.findAllEnabled();
 
-        categories.forEach(category -> {
-            System.out.println(category.getTitle() + " (" + category.getEnabled() + ")");
-        });
-    }
 }

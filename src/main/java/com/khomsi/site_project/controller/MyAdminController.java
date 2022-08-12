@@ -61,7 +61,7 @@ public class MyAdminController {
         try {
             Product product = productService.getProduct(id);
             List<Vendor> vendorList = vendorRep.findAll();
-            List<Category> categoryList = categoryService.listCategoriesUserInForm();
+            List<Category> categoryList = categoryService.listAll();
             model.addAttribute("updateProduct", product);
             model.addAttribute("vendorList", vendorList);
             model.addAttribute("categoryList", categoryList);
@@ -78,14 +78,17 @@ public class MyAdminController {
         return "redirect:/admin/products";
     }
 
-    @PostMapping("/allProducts/{id}/delete")
+    @PostMapping("/products/{id}/delete")
     public String deleteProduct(@PathVariable int id, Model model) {
         //FIXME doen't show error on the page, but shows in console
         try {
             productService.deleteProduct(id);
-        } catch (JpaSystemException exception) {
-            model.addAttribute("error", exception.getCause().getCause().getMessage());
-            return "redirect:/admin/products";
+//        } catch (JpaSystemException exception) {
+//            model.addAttribute("error", exception.getCause().getCause().getMessage());
+//            return "redirect:/admin/products";
+        } catch (ProductNotFoundException e) {
+            model.addAttribute("error", e.getCause().getCause().getMessage());
+            return "/error/404";
         }
         return "redirect:/admin/products";
     }
@@ -124,7 +127,7 @@ public class MyAdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/allUsers/{id}/delete")
+    @PostMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable int id) {
         userRep.deleteById(id);
         return "redirect:/admin/users";
@@ -179,6 +182,7 @@ public class MyAdminController {
     public String updateCategory(@PathVariable int id, Model model, RedirectAttributes attributes) {
         try {
             Category category = categoryService.getCategory(id);
+            //FIXME не работает listCategoriesInForm почти нигде
             List<Category> categoryList = categoryService.listCategoriesUserInForm();
             model.addAttribute("updateCategory", category);
             model.addAttribute("categoryList", categoryList);
@@ -187,6 +191,16 @@ public class MyAdminController {
             attributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/categories";
         }
+    }
+
+    @GetMapping("/categories/add")
+    public String addCategory(Model model) {
+        //FIXME не работает listCategoriesInForm почти нигде
+        List<Category> categoryList = categoryService.listCategoriesUserInForm();
+        model.addAttribute("addCategory", new Category());
+        model.addAttribute("categoryList", categoryList);
+
+        return "admin/category/add-category";
     }
 
     @PostMapping("/categories/save")
@@ -202,14 +216,6 @@ public class MyAdminController {
         return "redirect:/admin/categories";
     }
 
-    @GetMapping("/categories/add")
-    public String addCategory(Model model) {
-        List<Category> categoryList = categoryService.listCategoriesUserInForm();
-        model.addAttribute("addCategory", new Category());
-        model.addAttribute("categoryList", categoryList);
-
-        return "admin/category/add-category";
-    }
 
     @GetMapping("/vendors")
     public String allVendors(Model model) {

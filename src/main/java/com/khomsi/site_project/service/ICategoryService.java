@@ -15,4 +15,8 @@ public interface ICategoryService {
     public void deleteCategory(int id);
 
     public Category getCategory(Integer id) throws CategoryNotFoundException;
+    public Category getCategoryByAlias(String alias) throws CategoryNotFoundException;
+
+    //list up parent of categories
+    List<Category> getCategoryParents(Category child);
 }

@@ -18,9 +18,10 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public List<Category> listAll() {
-        return (List<Category>) categoryRep.findAll();
+        return categoryRep.findAll();
     }
 
+    //FIXME re-write this method to new one
     @Override
     public List<Category> listCategoriesUserInForm() {
         List<Category> categoriesUserInForm = new ArrayList<>();
@@ -29,13 +30,13 @@ public class CategoryService implements ICategoryService {
 
         for (Category category : categoriesInDB) {
             if (category.getParent() == null) {
-                categoriesUserInForm.add(new Category(category.getTitle()));
+                categoriesUserInForm.add(Category.copyIdAndTitle(category));
 
                 Set<Category> children = category.getChildren();
 
                 for (Category subCat : children) {
                     String name = "--" + subCat.getTitle();
-                    categoriesUserInForm.add(new Category(name));
+                    categoriesUserInForm.add(Category.copyIdAndTitle(subCat.getId(), name));
 
                     listChildren(categoriesUserInForm, subCat, 1);
                 }
@@ -55,13 +56,20 @@ public class CategoryService implements ICategoryService {
                 name += "--";
             }
             name += subCategory.getTitle();
-            categoriesUserInForm.add(new Category(name));
+            categoriesUserInForm.add(Category.copyIdAndTitle(subCategory.getId(), name));
             listChildren(categoriesUserInForm, subCategory, newSubLevel);
         }
     }
 
+    //TODO test this method
     @Override
     public Category saveCategory(Category category) {
+        Category parent = category.getParent();
+        if (parent != null) {
+            String allParentIds = parent.getAllParentsIDs() == null ? "-" : parent.getAllParentsIDs();
+            allParentIds += String.valueOf(parent.getId()) + "-";
+            category.setAllParentsIDs(allParentIds);
+        }
         return categoryRep.save(category);
     }
 
@@ -77,5 +85,30 @@ public class CategoryService implements ICategoryService {
         } catch (NoSuchElementException e) {
             throw new CategoryNotFoundException("Couldn't find any category with id " + id);
         }
+    }
+
+    @Override
+    public Category getCategoryByAlias(String alias) throws CategoryNotFoundException {
+        Category category = categoryRep.findByAliasEnabled(alias);
+        if (category == null) {
+            throw new CategoryNotFoundException("Couldn't find any category with alias " + alias);
+        }
+        return category;
+    }
+
+    //list up parent of categories
+    @Override
+    public List<Category> getCategoryParents(Category child) {
+        List<Category> listParents = new ArrayList<>();
+        Category parent = child.getParent();
+
+        //look up to parent by loop
+        while (parent != null) {
+            listParents.add(0, parent);
+            parent = parent.getParent();
+        }
+        listParents.add(child);
+
+        return listParents;
     }
 }

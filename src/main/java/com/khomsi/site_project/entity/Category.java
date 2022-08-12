@@ -41,6 +41,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
+    @OrderBy("title asc")
     @ToString.Exclude
     private Set<Category> children = new HashSet<>();
 
@@ -48,14 +49,28 @@ public class Category {
     @ToString.Exclude
     private List<Product> products;
 
-//    public Category(String title) {
-//        this.title = title;
-//    }
-    //FIXME проверить все конструкторы
-    public Category(String title) {
-        this.title = title;
-        this.alias = title;
-        this.imageURL = "default.png";
+    @Column(name = "all_parent_ids", length = 255, nullable = true)
+    @ToString.Exclude
+    private String allParentsIDs;
+
+    public static Category copyIdAndTitle(Category category) {
+        Category copyCategory = new Category();
+        copyCategory.setId(category.getId());
+        copyCategory.setTitle(category.getTitle());
+
+        return copyCategory;
+    }
+
+    public static Category copyIdAndTitle(Integer id, String title) {
+        Category copyCategory = new Category();
+        copyCategory.setId(id);
+        copyCategory.setTitle(title);
+
+        return copyCategory;
+    }
+
+    public Category(Integer id) {
+        this.id = id;
     }
 
     public Category(String title, Category parent) {
@@ -63,8 +78,12 @@ public class Category {
         this.parent = parent;
     }
 
-    public Category(Integer id) {
-        this.id = id;
+
+    //FIXME проверить все конструкторы
+    public Category(String title) {
+        this.title = title;
+        this.alias = title;
+        this.imageURL = "default.png";
     }
 
     public Category(Integer id, String title, String alias, String imageURL, Boolean enabled, Category parent) {

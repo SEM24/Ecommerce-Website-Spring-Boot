@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--Header-->
 <head th:fragment="head" xmlns:th="http://www.thymeleaf.org">
     <title>Store</title>
@@ -24,58 +27,91 @@
     </script>
 </div>
 
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+    <a class="navbar-brand" th:href="@{/}">
+        <img th:src="@{/img/test_logo.png}" width="130" height="30"/>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="/category">Categories</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="/profile" sec:authorize="isAuthenticated()">Profile</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login" sec:authorize="isAnonymous()">Login</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+            </li>
+        </ul>
+        <form class="ml-auto" th:action="@{/basket}" method="get">
+            <button class="btn btn-outline-dark" type="submit">
+                <i class='bi-cart-fill me-1' style='color: black'></i>
+                <span style="color: black">Cart</span>
+            </button>
+        </form>
+    </div>
+</nav>
 <!--Navbar-->
 <!--TODO change navbar, used for tests-->
-<div th:fragment="navbar" xmlns:th="http://www.thymeleaf.org"
-     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="/">SENKO LOGO</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="/category">Categories</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile" sec:authorize="isAuthenticated()">Profile</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
-                            <li>
-                                <hr class="dropdown-divider"/>
-                            </li>
-                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                        </ul>
-                    </li>
-                    <form action="/login" method="get" sec:authorize="isAnonymous()">
-                        <li class="nav-item">
-                            <button class="btn btn-outline-dark" type="submit">Login</button></li>
-                    </form>
-                    <form action="/logout" method="get" sec:authorize="isAuthenticated()">
-                        <li class="nav-item">
-                            <button class="btn btn-outline-dark" type="submit">Logout</button></li>
-                    </form>
-                </ul>
-            </div>
-                <form class="d-flex" th:action="@{/basket}" method="get">
-                    <button class="btn btn-outline-dark " type="submit">
-                        <i class="bi-cart-fill me-1"></i>
-                        Cart
-                    </button>
-                </form>
+<!--<div th:fragment="navbar" xmlns:th="http://www.thymeleaf.org"-->
+<!--     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
+<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--        <div class="container px-4 px-lg-5">-->
+<!--            <a class="navbar-brand" href="/">SENKO LOGO</a>-->
+<!--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+<!--                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"-->
+<!--                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">-->
+<!--                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item"><a class="nav-link" href="/category">Categories</a></li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/profile" sec:authorize="isAuthenticated()">Profile</a></li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/admin" sec:authorize="hasAuthority('ADMIN')">Admin</a></li>-->
+<!--                    <li class="nav-item dropdown">-->
+<!--                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"-->
+<!--                           data-bs-toggle="dropdown" aria-expanded="false">Shop</a>-->
+<!--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                            <li><a class="dropdown-item" href="#!">All Products</a></li>-->
+<!--                            <li>-->
+<!--                                <hr class="dropdown-divider"/>-->
+<!--                            </li>-->
+<!--                            <li><a class="dropdown-item" href="#!">Popular Items</a></li>-->
+<!--                            <li><a class="dropdown-item" href="#!">New Arrivals</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <form action="/login" method="get" sec:authorize="isAnonymous()">-->
+<!--                        <li class="nav-item">-->
+<!--                            <button class="btn btn-outline-dark" type="submit">Login</button>-->
+<!--                        </li>-->
+<!--                    </form>-->
+<!--                    <form action="/logout" method="get" sec:authorize="isAuthenticated()">-->
+<!--                        <li class="nav-item">-->
+<!--                            <button class="btn btn-outline-dark" type="submit">Logout</button>-->
+<!--                        </li>-->
+<!--                    </form>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <form class="d-flex" th:action="@{/basket}" method="get">-->
+<!--                <button class="btn btn-outline-dark " type="submit">-->
+<!--                    <i class="bi-cart-fill me-1"></i>-->
+<!--                    Cart-->
+<!--                </button>-->
+<!--            </form>-->
 
-        </div>
-    </nav>
-</div>
+<!--        </div>-->
+<!--    </nav>-->
+<!--</div>-->
 
 <!--Footer-->
 <!--TODO change footer-->
@@ -170,3 +206,42 @@
     <!-- Copyright -->
 </footer>
 <!-- Footer -->
+
+<!--Pagination-->
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
+    [[${label}]]
+</a>
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span>No [[${entityName}]] found</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, 1, 'First')"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</html>

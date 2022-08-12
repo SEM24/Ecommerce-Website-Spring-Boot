@@ -52,7 +52,7 @@
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
                                                         <a th:text="${product.title}"
-                                                           th:href="@{'/product/' + ${product.id}}"></a>
+                                                           th:href="@{'/product/' + ${product.alias}}"></a>
                                                         <div class="product-info">
                                                             <div>Vendor: <span
                                                                     class="value">[[${product.vendor.title}]]</span>
@@ -87,7 +87,9 @@
                             <div class="summary-item"><span class="text">Total</span>
                                 <span class="price" id="totalAmount"></span>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+<!--                            <form th:action="@{/savePreOrder}" th:object="${order}" method="post">-->
+<!--                            <button type="submit" value="Checkout" class="order-button btn-primary btn-lg btn-block">Checkout</button>-->
+<!--                            </form>-->
                             <div class="d-flex justify-content-center">
                                 <a th:href="@{'/'}">
                                     <button type="button" class="btn btn-primary">Go back to main page

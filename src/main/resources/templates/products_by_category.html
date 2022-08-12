@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="blocks/main-tools :: head"></head>
+<body>
+<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<div th:replace="blocks/main-tools :: navbar"></div>
+
+<div class="container-fluid">
+    <div th:replace="blocks/breadcrumb :: content"></div>
+
+    <div class="row text-center">
+        <th:block th:each="cat : ${category.children}">
+            <div class="col" th:if="${cat.enabled == true}">
+                <a th:href="@{'/category/'+${cat.alias}}">
+                    <img th:src="'/category-images/'+${category.imageURL}" height="100"/>
+                    <br/>
+                    <b>[[${cat.title}]]</b>
+                </a>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="row">&nbsp;</div>
+
+    <div class="row text-center">
+        <th:block th:each="product : ${listProducts}">
+            <div class="col">
+                <div>
+                    <a th:href="@{'/product/'+${product.alias}}">
+                        <img th:src="'/product-images/'+${product.imageURL}" width="150"/>
+                        <br/>
+                        <b>[[${product.shortTitle}]]</b>
+                    </a>
+                </div>
+                <div>
+                    <span>[[${product.price}]] &#8372;</span>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+    <!--Pagination-->
+    <div th:replace="blocks/main-tools :: pagination('/category/'+ ${category.alias}, 'product')"></div>
+
+</div>
+<footer th:insert="~{blocks/main-tools :: footer}"></footer>
+</body>
+</html>
