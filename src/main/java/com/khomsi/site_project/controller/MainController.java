@@ -1,12 +1,9 @@
 package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
-import com.khomsi.site_project.exception.OrderNotFoundException;
 import com.khomsi.site_project.repository.CategoryRepository;
-import com.khomsi.site_project.repository.OrderStatusRepository;
 import com.khomsi.site_project.repository.UserRepository;
 import com.khomsi.site_project.service.OrdersService;
-import com.khomsi.site_project.service.ProductService;
 import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -24,12 +21,11 @@ import java.util.List;
 
 @Controller
 public class MainController {
+    //TODO удалить ненужные репо/сервисы и разделить на контроллеры
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private UserService userService;
@@ -39,13 +35,22 @@ public class MainController {
 
     @Autowired
     private OrdersService ordersService;
-    @Autowired
-    private OrderStatusRepository orderStatusRep;
 
     @GetMapping("/")
     public String index() {
         return "index";
     }
+
+//    @GetMapping("/header")
+//    public String test() {
+//        return "/blocks/header";
+//    }
+//
+//    @GetMapping("/footer")
+//    public String test2() {
+//        return "/blocks/footer";
+//    }
+//
 
 
     @GetMapping("/login")
@@ -106,7 +111,8 @@ public class MainController {
         return "category";
     }
 
-    //TODO make test for methods under and html pages
+    //TODO мне нижние методы не нравятся, они хардкодом сделаны, лучше переписать
+
     @GetMapping("/orders")
     public String showOrders(Model model) {
         List<Order> orders = ordersService.getAllOrders();
@@ -114,34 +120,42 @@ public class MainController {
         return "orders";
     }
 
-//    @GetMapping("/payment")
-//    public String makeOrder(Model model, Principal principal) {
-//        User user = userRepository.findByLogin(principal.getName());
-//
-//        try {
-//            Order order = ordersService.getOrderByUserId(user.getId());
-//            model.addAttribute("order", order);
-//        } catch (OrderNotFoundException e) {
-//            model.addAttribute("error", e.getMessage());
-//            return "/error/404";
-//        }
-//        return "payment";
-//    }
+    @GetMapping("/payment")
+    public String makeOrder(Model model, Principal principal) {
+        User user = userRepository.findByLogin(principal.getName());
+        List<OrderBasket> orderBaskets = user.getOrderBaskets();
 
-    @PostMapping("/savePreOrder")
-    public String savePreOrder(Order order, OrderBasket orderBasket, Model model) {
-        order.setOrderStatus(orderStatusRep.getReferenceById(4));
-        order.setOrderBasket(orderBasket);
-        order.setShippingType(0);
-        order.setTotalPrice(orderBasket.getSubtotal());
         try {
-            ordersService.saveOrder(order);
-        } catch (JpaSystemException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
-            model.addAttribute("orderBasket", orderBasket);
-            return "error/404";
+            model.addAttribute("order", new Order());
+            model.addAttribute("user", user);
+            model.addAttribute("orderBaskets", orderBaskets);
+            model.addAttribute("waiting", OrderType.Ожидание);
+            model.addAttribute("payed", OrderType.Оплачено);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "/error/404";
         }
-        return "redirect:/payment";
+        return "checkout";
     }
 
+    @PostMapping("/payment")
+    public String saveOrder(Order newOrder, Principal principal) {
+        User user = userRepository.findByLogin(principal.getName());
+        List<OrderBasket> orderBaskets = user.getOrderBaskets();
+
+        float sum = 0;
+        for (OrderBasket orderBasket : orderBaskets) {
+            sum += orderBasket.getSubtotal();
+        }
+        newOrder.setUser(user);
+        newOrder.setTotalPrice(sum);
+
+        try {
+            ordersService.saveOrder(newOrder);
+        } catch (JpaSystemException ex) {
+//            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            return "error/404";
+        }
+        return "redirect:/";
+    }
 }

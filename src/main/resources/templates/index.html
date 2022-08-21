@@ -2,16 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
 <body>
-<div th:insert="~{blocks/main-tools :: scripts}"></div>
-<div th:replace="blocks/main-tools :: navbar"></div>
-
+<div th:insert="~{blocks/fragments:: scripts}"></div>
+<div th:replace="blocks/fragments:: navbar"></div>
 <div class="container">
     <br>
-    <h3>Welcome to the store!</h3>
+    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget feugiat sem. Suspendisse potenti. Mauris
+        pulvinar facilisis lectus, in feugiat nulla feugiat quis. Vestibulum posuere mollis turpis at elementum. Donec
+        est nibh, dictum nec aliquam luctus, mollis at ex. In semper sem a urna lacinia blandit. Nullam consectetur
+        efficitur felis in lobortis. Nulla sed viverra est, non rhoncus purus. Nunc vehicula, ipsum vitae egestas
+        cursus, nisl lectus vulputate purus, eu feugiat magna est quis purus. Aenean convallis semper volutpat. Nam
+        scelerisque augue id ipsum lacinia, id dignissim ligula consequat.
+
+        Quisque id luctus mauris, in malesuada quam. Pellentesque blandit libero luctus purus semper, ac imperdiet eros
+        sagittis. Suspendisse sit amet augue feugiat, consequat tellus at, placerat magna. Sed ligula dui, aliquam non
+        dui id, sagittis aliquam ex. Duis ut massa nisi. Maecenas egestas massa euismod neque consectetur accumsan.
+        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris interdum enim
+        nec tristique finibus. Nam at lectus semper, imperdiet ipsum eget, imperdiet dui. Orci varius natoque penatibus
+        et magnis dis parturient montes, nascetur ridiculus mus. Aliquam tristique risus ut diam congue, sed gravida
+        metus condimentum.
+
+        Donec at ante eget purus posuere sollicitudin. Aenean ac tempus est, non suscipit lorem. Nulla eget mattis urna.
+        Aenean eros lacus, interdum a tristique quis, accumsan vitae augue. Donec volutpat ligula quis quam mattis
+        posuere. Vivamus tristique vel nisl vel mollis. Vestibulum malesuada est quis dui elementum, nec euismod lectus
+        ultricies. Proin et mollis elit. Quisque gravida ligula risus, et pellentesque est laoreet eget. Duis maximus
+        risus pulvinar volutpat posuere. Proin felis eros, consequat et iaculis in, scelerisque a lacus. Integer
+        elementum massa at purus consectetur, sit amet tristique libero tempor. Ut porta bibendum aliquet. Aenean vel
+        varius massa.
+
+        Proin laoreet lacinia tellus ut pretium. Cras dictum id urna a pellentesque. Duis eu imperdiet diam, ut
+        tristique purus. Nulla elementum iaculis ultrices. Praesent at erat in sapien commodo aliquet nec non augue.
+        Fusce ultrices, tellus eget rutrum gravida, diam urna consectetur est, vel cursus tellus dui quis ante. Mauris
+        id sagittis lectus. Fusce tempus pretium magna, a mollis nulla vestibulum a. Ut elementum arcu eget ex placerat
+        congue. Pellentesque vestibulum sapien eros, nec mollis neque malesuada sit amet. Donec ligula ex, ultrices eget
+        lobortis luctus, dapibus eget odio. Nullam viverra vitae turpis vel semper. Proin sagittis lorem non urna
+        viverra sollicitudin. Integer ut ultricies dolor.</h3>
     <hr/>
 </div>
-<footer th:insert="~{blocks/main-tools :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

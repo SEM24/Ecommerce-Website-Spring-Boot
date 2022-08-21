@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--Header-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
+    <link rel="stylesheet" th:href="@{css/styles.css}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+
+    <!--Script for icons from online lib-->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<!--Main scripts-->
+<div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]"
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+    </script>
+</div>
+
+
+<div th:replace="/blocks/modal-login :: login"></div>
+
+<div class="wrapper" th:fragment="navbar">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content1">
+            <div class="logo"><a href="/">SENKO</a></div>
+            <ul class="links">
+                <li><a th:href="@{/}">Home</a>
+                    <!--                    <a th:href="@{/}"><img th:src="@{/img/test_logo.png}" width="130" height="30"/></a>-->
+                </li>
+                <li>
+                    <a href="/category" class="desktop-link">Categories</a>
+                    <input type="checkbox" id="show-categories">
+                    <label for="show-categories">Categories</label>
+                    <ul>
+                        <li><a href="#">Test drop menu 2 </a></li>
+                        <li><a href="#">Test drop menu 3 </a></li>
+                        <li><a href="#">Test drop menu 4 </a></li>
+                        <li>
+                            <a href="#" class="desktop-link">More products</a>
+                            <input type="checkbox" id="show-products">
+                            <label for="show-products">More products</label>
+                            <ul>
+                                <li><a href="#">Test sub menu 1 </a></li>
+                                <li><a href="#">Test sub menu 2 </a></li>
+                                <li><a href="#">Test sub menu 3 </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/admin">Admin</a></li>
+            </ul>
+        </div>
+        <form th:action="@{/basket}" method="get" class="show-cart">
+            <button type="submit" class="shopping-cart-button" data-toggle="shopping-cart-dropdown">
+                <i class="fa fa-shopping-cart"></i>
+                <span class="text">Cart</span>
+            </button>
+        </form>
+        <label for="show-search" class="search-icon"><i class="fas fa-search"></i></label>
+        <form action="#" class="search-box">
+            <input type="text" placeholder="Search product..." required>
+            <button type="submit" class="go-icon"><i class="fas fa-long-arrow-alt-right"></i></button>
+        </form>
+    </nav>
+</div>
+
+<!--Footer-->
+<footer th:fragment="footer">
+    <div class="main-content">
+        <div class="left box">
+            <h2>About us</h2>
+            <div class="content2">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non leo aliquam, interdum felis vel,
+                    accumsan mauris. Curabitur blandit, orci ut tincidunt blandit, metus ex posuere ex, in faucibus odio
+                    eros sit amet lorem. Quisque ligula nulla, placerat vitae venenatis eu, porta non odio. Donec
+                    sagittis neque diam, non tempor purus pulvinar sed. Cras eget feugiat justo. Sed sed nulla urna.
+                    Aliquam eu pulvinar massa. Pellentesque efficitur augue id lectus dapibus tristique. Integer viverra
+                    tincidunt tortor, sit amet porttitor lorem tempor sollicitudin. Mauris condimentum luctus lobortis.
+                    In lacinia ultrices risus ut suscipit. </p>
+                <div class="social">
+                    <a href="#"><span class="fab fa-facebook-f"></span></a>
+                    <a href="#"><span class="fab fa-twitter"></span></a>
+                    <a href="#"><span class="fab fa-instagram"></span></a>
+                    <a href="https://github.com/SEM24"><span class="fab fa-github"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="center box">
+            <h2>Address</h2>
+            <div class="content2">
+                <div class="place">
+                    <span class="fas fa-map-marker-alt"></span>
+                    <span class="text">Kharkiv, Ukraine</span>
+                </div>
+                <div class="phone">
+                    <span class="fas fa-phone-alt"></span>
+                    <span class="text">+380(93)87-35-222</span>
+                </div>
+                <div class="email">
+                    <span class="fas fa-envelope"></span>
+                    <span class="text">shopme@gmail.com</span>
+                </div>
+            </div>
+        </div>
+        <div class="right box">
+            <h2>Find us</h2>
+            <div class="content2">
+                <div class="location">
+                    <iframe class="google_map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
+                            allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <center>
+            <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
+            <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
+        </center>
+    </div>
+</footer>
+
+
+<!--Pagination-->
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
+    [[${label}]]
+</a>
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span>No [[${entityName}]] found</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, 1, 'First')"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</html>

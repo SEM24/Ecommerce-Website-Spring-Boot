@@ -78,8 +78,6 @@ public class Category {
         this.parent = parent;
     }
 
-
-    //FIXME проверить все конструкторы
     public Category(String title) {
         this.title = title;
         this.alias = title;

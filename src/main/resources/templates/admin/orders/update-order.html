@@ -11,7 +11,6 @@
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
-                <th>Order ID</th>
                 <th>Order status</th>
                 <th>Shipping type</th>
                 <th>City</th>
@@ -22,21 +21,17 @@
             <tbody style="text-align: center">
             <tr>
                 <td>
-                    <label>
-                        <input type="number" th:field="*{id}">
-                    </label>
+                    <select name="orderStatus">
+                        <option th:each="orderStatus : ${T(com.khomsi.site_project.entity.OrderType).values()}"
+                                th:value="${orderStatus}" th:text="${orderStatus}"></option>
+                    </select>
                 </td>
 
                 <td>
-                    <label>
-                        <input type="number" th:field="*{orderStatus.id}">
-                    </label>
-                </td>
-
-                <td>
-                    <label>
-                        <input type="number" th:field="*{shippingType}">
-                    </label>
+                    <select th:field="*{shippingType}">
+                            <option th:value="0">Укр почта</option>
+                            <option th:value="1">Новая почта</option>
+                    </select>
                 </td>
                 <td>
                     <label>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--Header-->
+<head th:replace="blocks/fragments:: head('Products - SENKO')"></head>
 
-<head th:replace="blocks/main-tools :: head"></head>
 <body>
-<div th:insert="~{blocks/main-tools :: scripts}"></div>
-<div th:replace="blocks/main-tools :: navbar"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments:: navbar"></div>
 
 <div class="container-fluid">
     <div th:replace="blocks/breadcrumb :: content"></div>
@@ -42,9 +43,9 @@
     </div>
 
     <!--Pagination-->
-    <div th:replace="blocks/main-tools :: pagination('/category/'+ ${category.alias}, 'product')"></div>
+    <div th:replace="blocks/fragments :: pagination('/category/'+ ${category.alias}, 'product')"></div>
 
 </div>
-<footer th:insert="~{blocks/main-tools :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

@@ -69,7 +69,7 @@ public class ProductController {
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("product", product);
-            return "product-details2";
+            return "product-details";
         } catch (ProductNotFoundException e) {
             return "error/404";
         }

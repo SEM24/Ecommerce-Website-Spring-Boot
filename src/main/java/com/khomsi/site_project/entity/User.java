@@ -38,4 +38,9 @@ public class User {
     @ToString.Exclude
     private List<OrderBasket> orderBaskets;
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    private List<Order> orders;
+
+
 }

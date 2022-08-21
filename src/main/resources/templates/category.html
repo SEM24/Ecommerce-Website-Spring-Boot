@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Category - SENKO')"></head>
 <body>
-<div th:insert="~{blocks/main-tools :: scripts}"></div>
-<div th:replace="blocks/main-tools :: navbar"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
+
 <div class="container-fluid">
     <div>
         <h1>Category page</h1>
@@ -18,7 +19,8 @@
             </div>
         </div>
     </div>
-    <footer th:insert="~{blocks/main-tools :: footer}"></footer>
 </div>
+
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

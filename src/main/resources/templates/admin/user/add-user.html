@@ -30,6 +30,7 @@
                     </label>
                 </td>
                 <td>
+<!--                    FIXME в модель для get засунь role.values() и тут вызвать-->
                     <select name="role">
                         <option th:each="roleList : ${T(com.khomsi.site_project.entity.Role).values()}"
                                 th:value="${roleList}" th:text="${roleList}"></option>

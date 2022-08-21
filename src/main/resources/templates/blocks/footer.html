@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
+<body>
+<footer th:fragment="footer" >
+    <div class="main-content">
+        <div class="left box">
+            <h2>About us</h2>
+            <div class="content2">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non leo aliquam, interdum felis vel,
+                    accumsan mauris. Curabitur blandit, orci ut tincidunt blandit, metus ex posuere ex, in faucibus odio
+                    eros sit amet lorem. Quisque ligula nulla, placerat vitae venenatis eu, porta non odio. Donec
+                    sagittis neque diam, non tempor purus pulvinar sed. Cras eget feugiat justo. Sed sed nulla urna.
+                    Aliquam eu pulvinar massa. Pellentesque efficitur augue id lectus dapibus tristique. Integer viverra
+                    tincidunt tortor, sit amet porttitor lorem tempor sollicitudin. Mauris condimentum luctus lobortis.
+                    In lacinia ultrices risus ut suscipit. </p>
+                <div class="social">
+                    <a href="#"><span class="fab fa-facebook-f"></span></a>
+                    <a href="#"><span class="fab fa-twitter"></span></a>
+                    <a href="#"><span class="fab fa-instagram"></span></a>
+                    <a href="https://github.com/SEM24"><span class="fab fa-github"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="center box">
+            <h2>Address</h2>
+            <div class="content2">
+                <div class="place">
+                    <span class="fas fa-map-marker-alt"></span>
+                    <span class="text">Kharkiv, Ukraine</span>
+                </div>
+                <div class="phone">
+                    <span class="fas fa-phone-alt"></span>
+                    <span class="text">+380(93)87-35-222</span>
+                </div>
+                <div class="email">
+                    <span class="fas fa-envelope"></span>
+                    <span class="text">shopme@gmail.com</span>
+                </div>
+            </div>
+        </div>
+        <div class="right box">
+            <h2>Find us</h2>
+            <div class="content2">
+                <div class="location">
+                    <!--                    <div class="text">Location:</div>-->
+                    <iframe class="google_map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
+                            allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <center>
+            <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
+            <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
+        </center>
+    </div>
+</footer>
+</body>
+</html>

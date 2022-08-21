@@ -21,7 +21,6 @@ public class CategoryService implements ICategoryService {
         return categoryRep.findAll();
     }
 
-    //FIXME re-write this method to new one
     @Override
     public List<Category> listCategoriesUserInForm() {
         List<Category> categoriesUserInForm = new ArrayList<>();
@@ -61,7 +60,6 @@ public class CategoryService implements ICategoryService {
         }
     }
 
-    //TODO test this method
     @Override
     public Category saveCategory(Category category) {
         Category parent = category.getParent();

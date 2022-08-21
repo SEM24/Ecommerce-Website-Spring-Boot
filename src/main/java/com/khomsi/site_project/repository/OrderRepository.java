@@ -6,6 +6,6 @@ import com.khomsi.site_project.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-//    Order findByUserId(Integer userId);
+    Order findByUser(User user);
 
 }

@@ -182,7 +182,6 @@ public class MyAdminController {
     public String updateCategory(@PathVariable int id, Model model, RedirectAttributes attributes) {
         try {
             Category category = categoryService.getCategory(id);
-            //FIXME не работает listCategoriesInForm почти нигде
             List<Category> categoryList = categoryService.listCategoriesUserInForm();
             model.addAttribute("updateCategory", category);
             model.addAttribute("categoryList", categoryList);
@@ -195,7 +194,6 @@ public class MyAdminController {
 
     @GetMapping("/categories/add")
     public String addCategory(Model model) {
-        //FIXME не работает listCategoriesInForm почти нигде
         List<Category> categoryList = categoryService.listCategoriesUserInForm();
         model.addAttribute("addCategory", new Category());
         model.addAttribute("categoryList", categoryList);

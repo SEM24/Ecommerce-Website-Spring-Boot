@@ -34,14 +34,14 @@ public class OrdersService implements IOrdersService {
         return orders;
     }
 
-//    @Override
-//    public Order getOrderByUserId(Integer userId) throws OrderNotFoundException {
-//        Order order = orderRepository.findByUserId(userId);
-//        if (order == null) {
-//            throw new OrderNotFoundException("Couldn't find any order with ID " + order.getId());
-//        }
-//        return order;
-//    }
+    @Override
+    public Order getOrderByUser(User user) throws OrderNotFoundException {
+        Order order = orderRepository.findByUser(user);
+        if (order == null) {
+            throw new OrderNotFoundException("Couldn't find any order with ID " + order.getId());
+        }
+        return order;
+    }
 
     @Override
     public void deleteOrder(int id) {

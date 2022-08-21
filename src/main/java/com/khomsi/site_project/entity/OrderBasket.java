@@ -33,13 +33,18 @@ public class OrderBasket {
     @Column(name = "quantity")
     private int quantity;
 
-    @OneToMany(mappedBy = "orderBasket")
-    @ToString.Exclude
-    private List<Order> orders;
-
     //We use temporary field that is not in db for business logic(we don't need to save it in db)
     @Transient
     public float getSubtotal() {
         return this.product.getPrice() * quantity;
     }
+
+//    @Transient
+//    public float getTotal() {
+//        float sum = 0;
+//        for (OrderBasket orderBasket : this.product.getOrderBaskets()) {
+//            sum += orderBasket.getSubtotal();
+//        }
+//        return sum;
+//    }
 }

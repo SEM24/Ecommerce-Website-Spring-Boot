@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--Header-->
-<head th:fragment="head" xmlns:th="http://www.thymeleaf.org">
-    <title>Store</title>
+<head th:fragment="head(title)" xmlns:th="http://www.thymeleaf.org">
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <title>[[${title}]]</title>
+    <!--    TODO убрать стили ненеужные-->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">-->
+    <!--    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">-->
 </head>
 
 <!--Main scripts-->
 <div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script type="text/javascript">
         contextPath = "[[@{/}]]"
         var csrfHeaderName = "[[${_csrf.headerName}]]";
@@ -27,6 +27,8 @@
     </script>
 </div>
 
+
+<div th:replace="/blocks/modal-login :: login"></div>
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <a class="navbar-brand" th:href="@{/}">
@@ -50,6 +52,11 @@
                 <a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
             </li>
         </ul>
+        <form class="ml-auto">
+            <button onclick="document.getElementById('login').style.display='block'" style="width:auto;" href="/login">
+                <span style="color: black">Login</span>
+            </button>
+        </form>
         <form class="ml-auto" th:action="@{/basket}" method="get">
             <button class="btn btn-outline-dark" type="submit">
                 <i class='bi-cart-fill me-1' style='color: black'></i>
@@ -205,7 +212,7 @@
     </div>
     <!-- Copyright -->
 </footer>
-<!-- Footer -->
+
 
 <!--Pagination-->
 <a th:fragment="page_link(moduleURL, pageNum, label)"

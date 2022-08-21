@@ -14,7 +14,7 @@ public interface IOrdersService {
 
     public Order getOrder(int id);
 
-//    Order getOrderByUserId(Integer user) throws OrderNotFoundException;
+    public Order getOrderByUser(User user) throws OrderNotFoundException;
 
     public void deleteOrder(int id);
 
