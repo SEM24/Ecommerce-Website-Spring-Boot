@@ -9,8 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 @Service
 public class ProductService implements IProductService {
@@ -32,6 +34,17 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public List<Product> getRandomAmountOfProducts() {
+        List<Product> productList = productRepository.findAll();
+
+        Collections.shuffle(productList);
+
+        int randomSeriesLength = 8;
+
+        return productList.subList(0, randomSeriesLength);
+    }
+
+    @Override
     public void saveProduct(Product product) {
 
         productRepository.save(product);
@@ -45,6 +58,7 @@ public class ProductService implements IProductService {
             throw new ProductNotFoundException("Couldn't find any product with id " + id);
         }
     }
+
     @Override
     public Product getProduct(String alias) throws ProductNotFoundException {
         Product product = productRepository.findByAlias(alias);
@@ -57,7 +71,7 @@ public class ProductService implements IProductService {
     @Override
     public void deleteProduct(Integer id) throws ProductNotFoundException {
         Long countById = productRepository.countById(id);
-        if (countById == null || countById == 0){
+        if (countById == null || countById == 0) {
             throw new ProductNotFoundException("Couldn't find any product with ID " + id);
         }
         productRepository.deleteById(id);

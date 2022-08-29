@@ -1,45 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-
 <head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
 <body>
-<div th:insert="~{blocks/fragments:: scripts}"></div>
-<div th:replace="blocks/fragments:: navbar"></div>
-<div class="container">
-    <br>
-    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget feugiat sem. Suspendisse potenti. Mauris
-        pulvinar facilisis lectus, in feugiat nulla feugiat quis. Vestibulum posuere mollis turpis at elementum. Donec
-        est nibh, dictum nec aliquam luctus, mollis at ex. In semper sem a urna lacinia blandit. Nullam consectetur
-        efficitur felis in lobortis. Nulla sed viverra est, non rhoncus purus. Nunc vehicula, ipsum vitae egestas
-        cursus, nisl lectus vulputate purus, eu feugiat magna est quis purus. Aenean convallis semper volutpat. Nam
-        scelerisque augue id ipsum lacinia, id dignissim ligula consequat.
+<div th:replace="blocks/fragments :: navbar"></div>
 
-        Quisque id luctus mauris, in malesuada quam. Pellentesque blandit libero luctus purus semper, ac imperdiet eros
-        sagittis. Suspendisse sit amet augue feugiat, consequat tellus at, placerat magna. Sed ligula dui, aliquam non
-        dui id, sagittis aliquam ex. Duis ut massa nisi. Maecenas egestas massa euismod neque consectetur accumsan.
-        Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris interdum enim
-        nec tristique finibus. Nam at lectus semper, imperdiet ipsum eget, imperdiet dui. Orci varius natoque penatibus
-        et magnis dis parturient montes, nascetur ridiculus mus. Aliquam tristique risus ut diam congue, sed gravida
-        metus condimentum.
+<!--Slider starts-->
+<!--Carousel Wrapper-->
+<div id="carousel-1z" class="carousel slide carousel-fade" data-ride="carousel">
 
-        Donec at ante eget purus posuere sollicitudin. Aenean ac tempus est, non suscipit lorem. Nulla eget mattis urna.
-        Aenean eros lacus, interdum a tristique quis, accumsan vitae augue. Donec volutpat ligula quis quam mattis
-        posuere. Vivamus tristique vel nisl vel mollis. Vestibulum malesuada est quis dui elementum, nec euismod lectus
-        ultricies. Proin et mollis elit. Quisque gravida ligula risus, et pellentesque est laoreet eget. Duis maximus
-        risus pulvinar volutpat posuere. Proin felis eros, consequat et iaculis in, scelerisque a lacus. Integer
-        elementum massa at purus consectetur, sit amet tristique libero tempor. Ut porta bibendum aliquet. Aenean vel
-        varius massa.
+    <!--Indicators-->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-1z" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-1z" data-slide-to="1"></li>
+        <li data-target="#carousel-1z" data-slide-to="2"></li>
+    </ol>
 
-        Proin laoreet lacinia tellus ut pretium. Cras dictum id urna a pellentesque. Duis eu imperdiet diam, ut
-        tristique purus. Nulla elementum iaculis ultrices. Praesent at erat in sapien commodo aliquet nec non augue.
-        Fusce ultrices, tellus eget rutrum gravida, diam urna consectetur est, vel cursus tellus dui quis ante. Mauris
-        id sagittis lectus. Fusce tempus pretium magna, a mollis nulla vestibulum a. Ut elementum arcu eget ex placerat
-        congue. Pellentesque vestibulum sapien eros, nec mollis neque malesuada sit amet. Donec ligula ex, ultrices eget
-        lobortis luctus, dapibus eget odio. Nullam viverra vitae turpis vel semper. Proin sagittis lorem non urna
-        viverra sollicitudin. Integer ut ultricies dolor.</h3>
-    <hr/>
+    <!--Slides-->
+    <div class="carousel-inner" role="listbox">
+        <!--First slide-->
+        <div class="carousel-item active">
+            <div class="view"
+                 style="background-image: url('https://content1.rozetka.com.ua/banner_category/image/original/282506790.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+                <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+                </div>
+            </div>
+        </div>
+        <!--/First slide-->
+        <!--Second slide-->
+        <div class="carousel-item">
+            <div class="view"
+                 style="background-image: url('https://images.pexels.com/photos/3184452/pexels-photo-3184452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); background-repeat: no-repeat; background-size: cover;">
+
+                <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
+
+                </div>
+            </div>
+        </div>
+        <!--Third slide-->
+        <div class="carousel-item">
+            <div class="view"
+                 style="background-image: url('https://content2.rozetka.com.ua/banner_category/image/original/281886853.jpg'); background-repeat: no-repeat; background-size: cover;">
+
+                <div class="mask rgba-black-slight d-flex justify-content-center align-items-center">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Controls-->
+    <a class="carousel-control-prev" href="#carousel-1z" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-1z" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <!--/.Controls-->
 </div>
+
+<!--TODO make it ada-->
+<!--Categories with products starts-->
+<main>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg mt-3 mb-4 rounded">
+            <span class="navbar-brand">Categories:</span>
+
+            <!--For smartphones menu-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#nextNav" aria-controls="nextNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+                <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+
+            </button>
+            <!-- FIXME idk how to make titles on full width on the cat bar-->
+            <div class="collapse navbar-collapse" id="nextNav">
+                <ul class="navbar-nav mr-auto mx-auto justify-content-center">
+                    <div th:each="categories : ${listCategories}">
+                        <li class="nav-item">
+                            <a class="nav-link rounded"
+                               th:href="@{'/category/'+ ${categories.alias}}">[[${categories.title}]]</a>
+
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </nav>
+        <section class="text-center mb-4">
+            <div class="row wow faceIn">
+                <th:block th:each="product : ${listProducts}">
+                    <div class="col-lg-3 col-mg-6 mb-4">
+                        <div class="card">
+                            <a th:href="@{'/product/'+${product.alias}}">
+                                <div class="view overlay">
+                                    <img class="card-img-top "
+                                         th:src="'/product-images/'+${product.imageURL}"/>
+                                    <div class="mask rgba-white-slight"></div>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="grey-text">
+                                        <h5>[[${product.shortTitle}]]</h5>
+                                    </div>
+                                    <h6>
+                                        <strong>
+                                            <div class="dark-grey-text">[[${product.shortDescription}]]</div>
+                                        </strong>
+                                    </h6>
+                                    <h5 class="font-weight-bold blue-text">
+                                        <strong>
+                                            [[${product.price}]] &#8372;
+                                        </strong>
+                                    </h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+
+        </section>
+    </div>
+</main>
+
 <footer th:insert="~{blocks/fragments :: footer}"></footer>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
 </body>
 </html>

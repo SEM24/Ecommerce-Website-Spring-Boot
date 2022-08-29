@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head('Admin panel - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Admin panel - SENKO')"></head>
 
 <body>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
 <div class="container">
     <br>
     <h3>Welcome admin!</h3>
@@ -58,5 +60,7 @@
     </div>
     <br>
 </div>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+
 </body>
 </html>

@@ -8,12 +8,12 @@ import java.util.List;
 public interface IProductService {
     public List<Product> getAllProducts();
 
+    List<Product> getRandomAmountOfProducts();
+
     public void saveProduct(Product product);
 
     Product getProduct(Integer id) throws ProductNotFoundException;
     Product getProduct(String alias) throws ProductNotFoundException;
-
-//    public void deleteProduct(int id);
 
     void deleteProduct(Integer id) throws ProductNotFoundException;
 

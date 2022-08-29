@@ -6,6 +6,11 @@
 <body>
 <!--Scripts-->
 <div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+</script>
 <script th:src="@{/js/shopping-cart.js}"></script>
 
 <!--NavBar-->
@@ -38,7 +43,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>
-                                            <a class="bi-trash link-remove" style="color:red"
+                                            <a class="fas fa-trash link-remove" style="color:red"
                                                th:rowNumber="${status.count}"
                                                th:href="@{'/basket/remove/' +${product.id}}">
                                             </a>

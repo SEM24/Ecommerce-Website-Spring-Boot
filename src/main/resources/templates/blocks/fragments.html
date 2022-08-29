@@ -6,134 +6,193 @@
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
-    <link rel="stylesheet" th:href="@{css/styles.css}"/>
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>
+    <!--    Custom css-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 
-    <!--Script for icons from online lib-->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+    </style>
 </head>
 
 <!--Main scripts-->
 <div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <script type="text/javascript">
-        contextPath = "[[@{/}]]"
-        var csrfHeaderName = "[[${_csrf.headerName}]]";
-        var csrfValue = "[[${_csrf.token}]]";
-    </script>
+    <script type="text/javascript" th:src="@{/js/mdb.js}"></script>
 </div>
 
-
-<div th:replace="/blocks/modal-login :: login"></div>
-
-<div class="wrapper" th:fragment="navbar">
-    <nav>
-        <input type="checkbox" id="show-search">
-        <input type="checkbox" id="show-menu">
-        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div class="content1">
-            <div class="logo"><a href="/">SENKO</a></div>
-            <ul class="links">
-                <li><a th:href="@{/}">Home</a>
-                    <!--                    <a th:href="@{/}"><img th:src="@{/img/test_logo.png}" width="130" height="30"/></a>-->
+<!--Navigation bar-->
+<nav th:fragment="navbar" class="navbar fixed-top-top navbar-expand-lg">
+    <div class="container">
+        <!--Logo-->
+        <a href="/" class="navbar-brand waves-effect rounded">
+            <strong class="blue-text">SENKO</strong>
+        </a>
+        <!--For smartphones menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+        </button>
+        <!--Left-->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/">Home</a>
                 </li>
-                <li>
-                    <a href="/category" class="desktop-link">Categories</a>
-                    <input type="checkbox" id="show-categories">
-                    <label for="show-categories">Categories</label>
-                    <ul>
-                        <li><a href="#">Test drop menu 2 </a></li>
-                        <li><a href="#">Test drop menu 3 </a></li>
-                        <li><a href="#">Test drop menu 4 </a></li>
-                        <li>
-                            <a href="#" class="desktop-link">More products</a>
-                            <input type="checkbox" id="show-products">
-                            <label for="show-products">More products</label>
-                            <ul>
-                                <li><a href="#">Test sub menu 1 </a></li>
-                                <li><a href="#">Test sub menu 2 </a></li>
-                                <li><a href="#">Test sub menu 3 </a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                <li class="nav-item"><a class="nav-link waves-effect rounded" href="/category">Categories</a></li>
+            </ul>
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a sec:authorize="isAuthenticated()" href="/basket" class="nav-link waves-effect rounded">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span></span>
+                    </a>
                 </li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/logout">Logout</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/admin">Admin</a></li>
+                <!--Profile dropdown-->
+                <li class="nav-item dropdown ml-3" sec:authorize="isAnonymous()">
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button">
+                        <span class="fas fa-user blue-text"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light dark-grey-text font-weight-bold rounded"
+                       id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"><span class="fas fa-user blue-text"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn"
+                         aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
+                           sec:authorize="hasAuthority('ADMIN')">Admin</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/profile"
+                           sec:authorize="isAuthenticated()">My account</a> <a
+                            class="dropdown-item waves-effect waves-light" href="/orders"
+                            sec:authorize="isAuthenticated()">My orders</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/logout"
+                           sec:authorize="isAuthenticated()">Logout</a>
+                    </div>
+                </li>
+                <!--GitHub, linked ect icons-->
+                <li class="nav-item">
+                    <a href="https://github.com/SEM24" class="nav-link waves-effect rounded">
+                        <span class="fab fa-github"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="www.linkedin.com/in/samir-homsi-kak" class="nav-link waves-effect rounded">
+                        <span class="fab fa-linkedin"></span>
+                    </a>
+                </li>
             </ul>
         </div>
-        <form th:action="@{/basket}" method="get" class="show-cart">
-            <button type="submit" class="shopping-cart-button" data-toggle="shopping-cart-dropdown">
-                <i class="fa fa-shopping-cart"></i>
-                <span class="text">Cart</span>
-            </button>
-        </form>
-        <label for="show-search" class="search-icon"><i class="fas fa-search"></i></label>
-        <form action="#" class="search-box">
-            <input type="text" placeholder="Search product..." required>
-            <button type="submit" class="go-icon"><i class="fas fa-long-arrow-alt-right"></i></button>
-        </form>
-    </nav>
-</div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/login :: loginModal"></div>
+</nav>
 
 <!--Footer-->
-<footer th:fragment="footer">
-    <div class="main-content">
-        <div class="left box">
-            <h2>About us</h2>
-            <div class="content2">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non leo aliquam, interdum felis vel,
-                    accumsan mauris. Curabitur blandit, orci ut tincidunt blandit, metus ex posuere ex, in faucibus odio
-                    eros sit amet lorem. Quisque ligula nulla, placerat vitae venenatis eu, porta non odio. Donec
-                    sagittis neque diam, non tempor purus pulvinar sed. Cras eget feugiat justo. Sed sed nulla urna.
-                    Aliquam eu pulvinar massa. Pellentesque efficitur augue id lectus dapibus tristique. Integer viverra
-                    tincidunt tortor, sit amet porttitor lorem tempor sollicitudin. Mauris condimentum luctus lobortis.
-                    In lacinia ultrices risus ut suscipit. </p>
-                <div class="social">
-                    <a href="#"><span class="fab fa-facebook-f"></span></a>
-                    <a href="#"><span class="fab fa-twitter"></span></a>
-                    <a href="#"><span class="fab fa-instagram"></span></a>
-                    <a href="https://github.com/SEM24"><span class="fab fa-github"></span></a>
+
+<footer th:fragment="footer" class="footer text-center text-lg-start">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!--Grid row-->
+        <div class="row mt-4">
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">About company</h5>
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                    voluptatum deleniti atque corrupti.</p>
+                <p>Blanditiis praesentium voluptatum deleniti atque
+                    corrupti quos dolores et quas molestias.</p>
+
+                <!-- Social icons-->
+                <div class="mt-4">
+                    <!--GitHub-->
+                    <button onclick="location.href='https://github.com/SEM24'" type="button"
+                            class="btn btn-circle btn-md">
+                        <em class="fab fa-github fa-lg"></em></button>
+                    <!-- Linkedin -->
+                    <button onclick="location.href='www.linkedin.com/in/samir-homsi-kak'" type="button"
+                            class="btn btn-circle btn-md">
+                        <em class="fab fa-linkedin fa-lg"></em></button>
                 </div>
             </div>
-        </div>
-        <div class="center box">
-            <h2>Address</h2>
-            <div class="content2">
-                <div class="place">
-                    <span class="fas fa-map-marker-alt"></span>
-                    <span class="text">Kharkiv, Ukraine</span>
-                </div>
-                <div class="phone">
-                    <span class="fas fa-phone-alt"></span>
-                    <span class="text">+380(93)87-35-222</span>
-                </div>
-                <div class="email">
-                    <span class="fas fa-envelope"></span>
-                    <span class="text">shopme@gmail.com</span>
-                </div>
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4 pb-1">Address</h5>
+
+                <ul class="fa-ul" style="margin-left: 1.65em;">
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-home"></em></span><span
+                            class="ms-2">Kharkiv, Ukraine</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-envelope"></em></span><span
+                            class="ms-2">Shopme@gmail.com</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-phone"></em></span><span
+                            class="ms-2">+380(93)87-35-222</span>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class="right box">
-            <h2>Find us</h2>
-            <div class="content2">
-                <div class="location">
-                    <iframe class="google_map"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
-                            allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">Find us on map:</h5>
+                <iframe class="google_map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
+                        allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
-    <div class="bottom">
-        <center>
-            <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
-            <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
-        </center>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center copyright p-3">
+        <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
+        <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
     </div>
 </footer>
 
@@ -146,10 +205,10 @@
 </a>
 <div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
     <div class="text-center m-1" th:if="${totalItems > 0}">
-        <span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+        <span style="font-weight: 400; color: #6e757d">Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
     </div>
     <div class="text-center m-1" th:unless="${totalItems > 0}">
-        <span>No [[${entityName}]] found</span>
+        <span style="font-weight: 400; color: #6e757d">No [[${entityName}]] found</span>
     </div>
 
     <div th:if="${totalPages > 1}">

@@ -4,6 +4,7 @@ import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.repository.CategoryRepository;
 import com.khomsi.site_project.repository.UserRepository;
 import com.khomsi.site_project.service.OrdersService;
+import com.khomsi.site_project.service.ProductService;
 import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -36,27 +37,21 @@ public class MainController {
     @Autowired
     private OrdersService ordersService;
 
+    @Autowired
+    private ProductService productService;
+
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("listCategories", categoryRep.findAllEnabled());
+        model.addAttribute("listProducts", productService.getRandomAmountOfProducts());
+
         return "index";
     }
 
-//    @GetMapping("/header")
-//    public String test() {
-//        return "/blocks/header";
-//    }
-//
-//    @GetMapping("/footer")
-//    public String test2() {
-//        return "/blocks/footer";
-//    }
-//
 
-
+    //FIXME the two under methods aren't needed because they're not in use
     @GetMapping("/login")
-    public String login() {
-        //TODO тут исправить
-
+    public String login(Model model) {
         //   If user hasn't been login,give him access to go to url /login
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
@@ -66,12 +61,9 @@ public class MainController {
     }
 
     @GetMapping("/registration")
-    public String registration(Model userModel, Model userDetailsModel) {
-        User user = new User();
-        UserInfo userInfo = new UserInfo();
-        userModel.addAttribute("user", user);
-        userDetailsModel.addAttribute("userInfo", userInfo);
-
+    public String registration(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("userInfo", new UserInfo());
         return "registration";
     }
 
@@ -82,13 +74,14 @@ public class MainController {
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
         try {
-            userRepository.save(user);
+            userService.saveUser(user);
         } catch (JpaSystemException ex) {
             model.addAttribute("error", ex.getCause().getCause().getMessage());
             model.addAttribute("userInfo", userInfo);
             return "registration";
         }
         return "redirect:/";
+
     }
 
     @GetMapping("/basket")
@@ -100,7 +93,7 @@ public class MainController {
 
             model.addAttribute("orderBaskets", orderBaskets);
             model.addAttribute("order", new Order());
-        } else return "/login";
+        } else return "/error/404";
         return "shopping-cart";
     }
 
@@ -143,6 +136,7 @@ public class MainController {
         User user = userRepository.findByLogin(principal.getName());
         List<OrderBasket> orderBaskets = user.getOrderBaskets();
 
+        // TODO написать сервис снизу и просто юзануть
         float sum = 0;
         for (OrderBasket orderBasket : orderBaskets) {
             sum += orderBasket.getSubtotal();

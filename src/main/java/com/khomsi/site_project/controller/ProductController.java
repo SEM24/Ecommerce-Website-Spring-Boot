@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/category/{category_alias}")
+    @GetMapping({"/category/{category_alias}"})
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
                                         Model model) {
         return viewCategoryByPage(alias, model, 1);
@@ -54,12 +55,12 @@ public class ProductController {
             model.addAttribute("listProducts", listProducts);
 
             model.addAttribute("category", category);
-
             return "products_by_category";
         } catch (CategoryNotFoundException e) {
             return "error/404";
         }
     }
+
 
     //TODO нужно сделать уникальные алиасы по туториалу в папке продукты
     @GetMapping("/product/{product_alias}")
@@ -69,7 +70,7 @@ public class ProductController {
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("product", product);
-            return "product-details";
+            return "product-page";
         } catch (ProductNotFoundException e) {
             return "error/404";
         }

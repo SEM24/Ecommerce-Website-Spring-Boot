@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:spring="http://www.w3.org/1999/XSL/Transform"
       xmlns:c="http://www.w3.org/1999/XSL/Transform">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - User')"></head>
 
 <body>
 <div class="container">
@@ -13,6 +13,7 @@
             <thead style="text-align: center">
             <tr>
                 <th>Login</th>
+                <th>Email</th>
                 <th>Password</th>
                 <th>Role</th>
             </tr>
@@ -22,6 +23,11 @@
                 <td>
                     <label>
                         <input type="text" th:field="*{login}">
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="text" th:field="*{email}">
                     </label>
                 </td>
                 <td>
@@ -50,7 +56,6 @@
                     <th>Name</th>
                     <th>Surname</th>
                     <th>Phone</th>
-                    <th>Email</th>
                 </tr>
                 </thead>
                 <tbody style="text-align: center">
@@ -68,11 +73,6 @@
                     <td>
                         <label>
                             <input type="text" th:field="*{phone}">
-                        </label>
-                    </td>
-                    <td>
-                        <label>
-                            <input type="text" th:field="*{email}">
                         </label>
                     </td>
                 </tr>

@@ -23,7 +23,6 @@
 
 <div th:insert="~{blocks/main-tools :: scripts}"></div>
 <script th:src="@{/js/shopping-cart.js}"></script>
-<script th:src="@{/js/form-validation.js}"></script>
 <!-------------------------------------------------------------------------->
 <!--NavBar-->
 <div th:replace="blocks/main-tools :: navbar"></div>
@@ -93,7 +92,6 @@
                 </div>
             </div>
             <form th:action="@{/payment}" th:object="${order}" method="post">
-
                 <div class="mb-3">
                     <label for="address">Address</label>
                     <input th:field="*{address}" type="text" class="form-control" id="address"

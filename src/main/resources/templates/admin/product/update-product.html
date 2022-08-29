@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - Product')"></head>
 
 <body>
 <div class="container">
@@ -48,18 +48,18 @@
                     </label>
                 </td>
                 <td>
-                <select th:field="*{vendor}">
-                    <th:block th:each="vendor : ${vendorList}">
-                        <option th:value="${vendor.id}">[[${vendor.title}]]</option>
-                    </th:block>
-                </select>
+                    <select th:field="*{vendor}">
+                        <th:block th:each="vendor : ${vendorList}">
+                            <option th:value="${vendor.id}">[[${vendor.title}]]</option>
+                        </th:block>
+                    </select>
                 </td>
                 <td>
-                <select th:field="*{category}">
-                    <th:block th:each="category : ${categoryList}">
-                        <option th:value="${category.id}">[[${category.title}]]</option>
-                    </th:block>
-                </select>
+                    <select th:field="*{category}">
+                        <th:block th:each="category : ${categoryList}">
+                            <option th:value="${category.id}">[[${category.title}]]</option>
+                        </th:block>
+                    </select>
                 </td>
             </tr>
             </tbody>

@@ -60,8 +60,17 @@ public class Product {
         return title;
     }
 
+    @Transient
+    public String getShortDescription() {
 
-    //TODO add a new field in db discount if i need it in future
+        if (description != null && description.length() > 40) {
+            return description.substring(0, 40).concat("...");
+        }
+        return description;
+    }
+
+
+    //TODO add a new field in db discount if i need discount in future
 //    @Transient
 //    public float getDiscountPrice(){
 //        if (discountPercent > 0)
