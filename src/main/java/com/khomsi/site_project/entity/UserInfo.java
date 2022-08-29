@@ -5,6 +5,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +36,5 @@ public class UserInfo {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "email")
-    private String email;
 
 }

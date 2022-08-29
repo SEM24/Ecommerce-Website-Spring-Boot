@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - User Details')"></head>
+
 
 <body>
 <div class="container">
@@ -14,7 +15,6 @@
             <tr>
                 <th>Name</th>
                 <th>Phone</th>
-                <th>Email</th>
                 <th>City</th>
             </tr>
             </thead>
@@ -33,11 +33,6 @@
                 <td>
                     <label>
                         <input type="text" th:field="*{phone}">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="text" th:field="*{email}">
                     </label>
                 </td>
             </tr>
