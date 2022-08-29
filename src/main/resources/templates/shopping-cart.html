@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="blocks/main-tools :: head"></head>
-    <link rel="stylesheet" th:href="@{/css/shopping-cart.css}"/>
+<head th:replace="blocks/fragments :: head('Shopping Cart - SENKO')"></head>
+<link rel="stylesheet" th:href="@{/css/shopping-cart.css}"/>
 <body>
 <!--Scripts-->
-<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+    var csrfHeaderName = "[[${_csrf.headerName}]]";
+    var csrfValue = "[[${_csrf.token}]]";
+</script>
 <script th:src="@{/js/shopping-cart.js}"></script>
 
 <!--NavBar-->
-<div th:replace="blocks/main-tools :: navbar"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
 
 <!--Modal-->
 <div th:replace="/blocks/modal-fragments :: showModal"></div>
@@ -38,13 +43,13 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div>
-                                            <a class="bi-trash link-remove" style="color:red"
+                                            <a class="fas fa-trash link-remove" style="color:red"
                                                th:rowNumber="${status.count}"
                                                th:href="@{'/basket/remove/' +${product.id}}">
                                             </a>
                                         </div>
                                         <img class="img-fluid mx-auto d-block image"
-                                             th:src="@{${product.imageURL}}" width="130" height="130"/>
+                                             th:src="'/product-images/'+${product.imageURL}" width="130" height="130"/>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="info">
@@ -52,7 +57,7 @@
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
                                                         <a th:text="${product.title}"
-                                                           th:href="@{'/product/' + ${product.id}}"></a>
+                                                           th:href="@{'/product/' + ${product.alias}}"></a>
                                                         <div class="product-info">
                                                             <div>Vendor: <span
                                                                     class="value">[[${product.vendor.title}]]</span>
@@ -78,23 +83,27 @@
                                     </div>
                                 </div>
                             </div>
-<!--                            <hr/>-->
+                            <!--                            <hr/>-->
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4" th:unless="${#lists.isEmpty(orderBaskets)}">
                         <div class="summary">
+
                             <h3>Summary</h3>
                             <div class="summary-item"><span class="text">Total</span>
                                 <span class="price" id="totalAmount"></span>
                             </div>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+                            <a th:href="@{'/payment'}">
+                                <button value="Checkout"
+                                        class="order-button btn-primary btn-lg btn-block">Checkout
+                                </button>
+                            </a>
                             <div class="d-flex justify-content-center">
                                 <a th:href="@{'/'}">
                                     <button type="button" class="btn btn-primary">Go back to main page
                                     </button>
                                 </a>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -102,6 +111,6 @@
         </div>
     </section>
 </main>
-<footer th:insert="~{blocks/main-tools :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

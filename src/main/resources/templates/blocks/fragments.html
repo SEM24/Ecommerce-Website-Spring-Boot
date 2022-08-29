@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--Header-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title>[[${title}]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" th:href="@{/css/mdb.css}"/>
+    <!--    Custom css-->
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+
+    <style>
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+
+        @media (min-width: 800px) and (max-width: 850px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+
+<!--Main scripts-->
+<div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/mdb.js}"></script>
+</div>
+
+<!--Navigation bar-->
+<nav th:fragment="navbar" class="navbar fixed-top-top navbar-expand-lg">
+    <div class="container">
+        <!--Logo-->
+        <a href="/" class="navbar-brand waves-effect rounded">
+            <strong class="blue-text">SENKO</strong>
+        </a>
+        <!--For smartphones menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+        </button>
+        <!--Left-->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded" href="/category">Categories</a></li>
+            </ul>
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item">
+                    <a sec:authorize="isAuthenticated()" href="/basket" class="nav-link waves-effect rounded">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                    </a>
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span class="clearfix d-none d-sm-inline-block">Cart</span></span>
+                    </a>
+                </li>
+                <!--Profile dropdown-->
+                <li class="nav-item dropdown ml-3" sec:authorize="isAnonymous()">
+                    <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
+                       data-toggle="modal" href="#loginModal" role="button">
+                        <span class="fas fa-user blue-text"></span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light dark-grey-text font-weight-bold rounded"
+                       id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"><span class="fas fa-user blue-text"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn"
+                         aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
+                           sec:authorize="hasAuthority('ADMIN')">Admin</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/profile"
+                           sec:authorize="isAuthenticated()">My account</a> <a
+                            class="dropdown-item waves-effect waves-light" href="/orders"
+                            sec:authorize="isAuthenticated()">My orders</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/logout"
+                           sec:authorize="isAuthenticated()">Logout</a>
+                    </div>
+                </li>
+                <!--GitHub, linked ect icons-->
+                <li class="nav-item">
+                    <a href="https://github.com/SEM24" class="nav-link waves-effect rounded">
+                        <span class="fab fa-github"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="www.linkedin.com/in/samir-homsi-kak" class="nav-link waves-effect rounded">
+                        <span class="fab fa-linkedin"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/login :: loginModal"></div>
+</nav>
+
+<!--Footer-->
+
+<footer th:fragment="footer" class="footer text-center text-lg-start">
+    <!-- Grid container -->
+    <div class="container p-4">
+        <!--Grid row-->
+        <div class="row mt-4">
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">About company</h5>
+                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                    voluptatum deleniti atque corrupti.</p>
+                <p>Blanditiis praesentium voluptatum deleniti atque
+                    corrupti quos dolores et quas molestias.</p>
+
+                <!-- Social icons-->
+                <div class="mt-4">
+                    <!--GitHub-->
+                    <button onclick="location.href='https://github.com/SEM24'" type="button"
+                            class="btn btn-circle btn-md">
+                        <em class="fab fa-github fa-lg"></em></button>
+                    <!-- Linkedin -->
+                    <button onclick="location.href='www.linkedin.com/in/samir-homsi-kak'" type="button"
+                            class="btn btn-circle btn-md">
+                        <em class="fab fa-linkedin fa-lg"></em></button>
+                </div>
+            </div>
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4 pb-1">Address</h5>
+
+                <ul class="fa-ul" style="margin-left: 1.65em;">
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-home"></em></span><span
+                            class="ms-2">Kharkiv, Ukraine</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-envelope"></em></span><span
+                            class="ms-2">Shopme@gmail.com</span>
+                    </li>
+                    <li class="mb-3">
+                        <span class="fa-li"><em class="fas fa-phone"></em></span><span
+                            class="ms-2">+380(93)87-35-222</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">Find us on map:</h5>
+                <iframe class="google_map"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
+                        allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center copyright p-3">
+        <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
+        <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
+    </div>
+</footer>
+
+
+<!--Pagination-->
+<a th:fragment="page_link(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
+    [[${label}]]
+</a>
+<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">No [[${entityName}]] found</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, 1, 'First')"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</html>

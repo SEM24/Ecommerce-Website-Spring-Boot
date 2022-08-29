@@ -17,16 +17,14 @@ public class Order {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "order_status_id")
-    @ToString.Exclude
-    private OrderStatus orderStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
+    private OrderType orderStatus;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "order_basket_id")
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
-    private OrderBasket orderBasket;
+    private User user;
 
     @Column(name = "shipping_type")
     private int shippingType;

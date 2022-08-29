@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/main-tools :: head('Checkout - SENKO')"></head>
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+<!-- Custom styles for this template -->
+
+<link rel="stylesheet" th:href="@{/css/form-validation.css}"/>
+
+<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<script th:src="@{/js/shopping-cart.js}"></script>
+<!-------------------------------------------------------------------------->
+<!--NavBar-->
+<div th:replace="blocks/main-tools :: navbar"></div>
+<body class="bg-light">
+<div class="container">
+
+
+    <div class="py-5 left">
+        <h2>Checkout</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+            </h4>
+            <ul class="list-group mb-3">
+                <div class="items" th:each="basketItem: ${orderBaskets}">
+                    <div class="product" th:with="product = ${basketItem.product}">
+                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div>
+                                <img class="img-fluid mx-auto d-block image"
+                                     th:src="'/product-images/'+${product.imageURL}" width="50" height="50"/>
+                                <h6 class="my-0">
+                                    <a th:text="${product.title}"
+                                       th:href="@{'/product/' + ${product.alias}}"></a>
+                                </h6>
+                                <small class="text-muted">Brief description</small>
+                            </div>
+                            <div class="text-muted">
+                                    <span class="productSubtotal"
+                                          th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span><span>₴</span>
+                            </div>
+                        </li>
+                    </div>
+                </div>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div class="summary-item"><span class="text">Total</span>
+                        <span class="price" id="totalAmount"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <!--                <form class="needs-validation" novalidate>-->
+
+            <div class="userInfo" th:with="userInfo = ${user.userInfo}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>First name:</label>
+                        <span th:text="${userInfo.name}"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Surname:</label>
+                        <span th:text="${userInfo.surname}"></span>
+                    </div>
+                </div>
+                <hr/>
+                <div class="mb-3">
+                    <label>Username:</label>
+                    <span th:text="${user.login}"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label>Email:</label>
+                    <span th:text="${userInfo.email}"></span>
+                </div>
+            </div>
+            <form th:action="@{/payment}" th:object="${order}" method="post">
+                <div class="mb-3">
+                    <label for="address">Address</label>
+                    <input th:field="*{address}" type="text" class="form-control" id="address"
+                           placeholder="1234 Main St" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="city">City</label>
+                    <input th:field="*{city}" type="text" class="form-control" id="city" placeholder="Kharkiv"
+                           required>
+                    <div class="invalid-feedback">
+                        Please enter your city.
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Delivery</h4>
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
+                               required th:value="0">
+                        <span class="custom-control-label">---Ukr poshta---</span>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
+                               required
+                               th:value="1">
+                        <span class="custom-control-label">---Nova poshta---</span>
+                    </div>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input th:field="*{orderStatus}" id="store" name="paymentMethod" type="radio"
+                               class="custom-control-input" checked
+                               required th:value="${waiting}">
+                        <label class="custom-control-label" for="store">Pay in local store</label>
+                    </div>
+
+                    <div class="custom-control custom-radio">
+                        <input th:field="*{orderStatus}" id="card" name="paymentMethod" type="radio"
+                               class="custom-control-input"
+                               required th:value="${payed}">
+                        <label class="custom-control-label" for="card">Pay by card</label>
+                    </div>
+                </div>
+                <form class="card p-2">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                </form>
+            </form>
+            <!--                </form>-->
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

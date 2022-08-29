@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
-
+<head th:replace="blocks/fragments :: head('Admin - Orders')"></head>
 <body>
 <div class="container">
     <br>
@@ -30,12 +29,12 @@
             <td th:text="${order.address}"></td>
             <td th:text="${order.totalPrice}"></td>
             <td>
-                <form th:action="@{/admin/allOrders/{id}(id=${order.id})}" method="get">
+                <form th:action="@{/admin/orders/edit/{id}(id=${order.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>
             <td>
-                <form th:action="@{/admin/allOrders/{id}/delete(id=${order.id})}" method="post">
+                <form th:action="@{/admin/orders/{id}/delete(id=${order.id})}" method="post">
                     <input type="submit" value=Delete>
                 </form>
             </td>

@@ -25,6 +25,7 @@ public class OrderBasketService implements IOrderBasketService {
         return orderBasketRep.findByUser(user);
     }
 
+
     @Override
     public Integer addProduct(Integer productId, Integer quantity, User user) {
         Integer addedQuantity = quantity;
@@ -61,6 +62,7 @@ public class OrderBasketService implements IOrderBasketService {
     public void removeProduct(Integer productId, User user) {
         orderBasketRep.deleteByUserAndProduct(user.getId(), productId);
     }
+
 
 }
 

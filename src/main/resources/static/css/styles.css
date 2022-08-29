@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    /*Color for all text*/
+    /*color: #fff;*/
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+}
+
+.navbar {
+    /*Color bg of navbar*/
+    background: #171c24;
+}
+
+.navbar .navbar-brand {
+    color: #fff;
+    font-size: 21px;
+    font-weight: 300;
+}
+
+/*Color for links in bar*/
+.navbar .navbar-nav .nav-link {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+/*Animation and design for navbar*/
+.navbar .navbar-nav .nav-link:hover {
+    background-color: #323c4e;
+}
+
+/* stroke for navbar*/
+.navbar .navbar-nav .nav-item {
+    position: relative;
+}
+
+.navbar .navbar-nav .nav-item::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+    transition: all 0.5s;
+
+}
+
+/*Style for breadcrumb*/
+.breadcrumb {
+    background-color: unset;
+}
+
+/*Styles for breadcrumb items separate*/
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    font-size: 15px;
+    font-weight: 300;
+    color: #d5d5d5;
+}
+
+.navbar .navbar-nav .nav-item:hover::after {
+    width: 100%;
+}
+
+.category_label {
+    color: #6e757d;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.category_label:hover {
+    color: #918f8f;
+    transition: 0.6s ease;
+}
+
+/*Pagination style*/
+.pagination .page-item .page-link {
+    color: #fff;
+    font-size: 15px;
+    background: #171c24;
+    transition: 0.6s ease;
+}
+
+#modal input[type=submit]:hover,
+.pagination .page-item .page-link:hover {
+    background: #f12020;
+    transition: 0.6s ease;
+}
+
+
+/*Carousel*/
+html,
+body,
+.view {
+    height: 100%;
+}
+
+.carousel {
+    /*padding-top: 65px;*/
+    height: 50%;
+}
+
+.carousel .carousel-inner {
+    height: 100%;
+}
+
+.carousel .carousel-inner .carousel-item,
+.carousel .carousel-inner .active {
+    height: 100%;
+}
+
+@media (max-width: 776px) {
+    .carousel {
+        height: 100%;
+    }
+}
+
+/*Animation for dropdown*/
+/*@media (min-width: 768px) {*/
+/*    .animate {*/
+/*        animation-duration: 0.3s;*/
+/*        -webkit-animation-duration: 0.3s;*/
+/*        animation-fill-mode: both;*/
+/*        -webkit-animation-fill-mode: both;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 768px) {*/
+/*    .animate {*/
+/*        animation-duration: 0.3s;*/
+/*        -webkit-animation-duration: 0.3s;*/
+/*        animation-fill-mode: both;*/
+/*        -webkit-animation-fill-mode: both;*/
+/*    }*/
+/*}*/
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0rem);
+        opacity: 1;
+    }
+
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes slideIn {
+    0% {
+        -webkit-transform: transform;
+        -webkit-opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        -webkit-opacity: 1;
+    }
+
+    0% {
+        -webkit-transform: translateY(1rem);
+        -webkit-opacity: 0;
+    }
+}
+
+.slideIn {
+    -webkit-animation-name: slideIn;
+    animation-name: slideIn;
+}
+
+/*!Carousel*/
+
+/*Sizing product cards on index page*/
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 1000px) {
+    .card {
+        max-width: 50%;
+        display: flex;
+        /* Added */
+        float: none; /* Added */
+        /* Added */
+        margin: 0 auto 10px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+}
+
+/*Styling social buttons*/
+.btn-circle.btn {
+    background: #2C2B2B;
+    transition: 0.5s ease;
+}
+
+.btn-circle.btn-md {
+    width: 50px;
+    height: 50px;
+    padding: 7px 10px;
+    border-radius: 25px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.btn-circle.btn:hover {
+    color: #fff;
+    background: #f12020;
+}
+
+/*Styles for footer text*/
+.footer {
+    background: #171c24;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+/*Copyright style*/
+
+.text-center .copyright {
+    background: #2C2B2B;
+}
+
+.text-center .copyright span {
+    color: #656565;
+}
+
+.text-center .copyright a {
+    color: #f12020;
+    text-decoration: none;
+}
+
+.text-center .copyright a:hover {
+    text-decoration: underline;
+}
+
+/*Pop login/reg*/
+
+.form-group .input-group-append button,
+.modal .modal-body input {
+    display: block;
+    width: 250px;
+    margin-bottom: 20px;
+    outline: none;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    padding: 0px 10px;
+}
+
+.form-group .regButton {
+    display: block;
+    width: 100px;
+    margin-bottom: 20px;
+    outline: none;
+    height: 40px;
+    border: 1px solid #e6e6e6;
+    padding: 0px 10px;
+}
+
+.form-group .regButton,
+.modal .modal-body input[type=submit] {
+    background: #171c24;
+    color: #fff;
+    transition: 0.6s ease;
+}
+
+.form-group .regButton:hover,
+.modal .modal-body input[type=submit]:hover {
+    color: #fff;
+    background: #f12020;
+}
+
+/*Prevent modal problems when fade overlaps modal as well
+and */
+
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+    margin-right: 0px;!important;
+}
+
+.modal-backdrop {
+    display: none;
+}
+
+.navbar-fixed-top {
+    padding-right: inherit;
+}
+
+/*!Prevent modal problems when fade overlaps modal as well*/

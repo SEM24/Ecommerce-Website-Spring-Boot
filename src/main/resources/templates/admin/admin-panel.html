@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin panel - SENKO')"></head>
 
 <body>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
 <div class="container">
     <br>
     <h3>Welcome admin!</h3>
@@ -14,19 +16,19 @@
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allUsers}" method="get">
+        <form th:action="@{/admin/users}" method="get">
             <input type="submit" value="User page"/>
         </form>
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allOrders}" method="get">
+        <form th:action="@{/admin/orders}" method="get">
             <input type="submit" value="Orders page"/>
         </form>
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allUserDetails}" method="get">
+        <form th:action="@{/admin/user_details}" method="get">
             <input type="submit" value="UserDetails page"/>
         </form>
     </div>
@@ -38,15 +40,15 @@
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allVendors}" method="get">
+        <form th:action="@{/admin/vendors}" method="get">
             <input type="submit" value="Vendor page"/>
         </form>
     </div>
     <br>
     <br>
     <div>
-        <form th:action="@{/admin/allOrderBaskets}" method="get">
-            <input type="submit" value="OrderBasket page"/>
+        <form th:action="@{/admin/order_baskets}" method="get">
+            <input type="submit" value="OrderBaskets page"/>
         </form>
     </div>
     <br>
@@ -58,5 +60,7 @@
     </div>
     <br>
 </div>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+
 </body>
 </html>

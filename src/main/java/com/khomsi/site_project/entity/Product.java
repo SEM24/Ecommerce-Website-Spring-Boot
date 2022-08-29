@@ -52,4 +52,32 @@ public class Product {
     @ToString.Exclude
     private List<OrderBasket> orderBaskets;
 
+    @Transient
+    public String getShortTitle() {
+        if (title.length() > 60) {
+            return title.substring(0, 60).concat("...");
+        }
+        return title;
+    }
+
+    @Transient
+    public String getShortDescription() {
+
+        if (description != null && description.length() > 40) {
+            return description.substring(0, 40).concat("...");
+        }
+        return description;
+    }
+
+
+    //TODO add a new field in db discount if i need discount in future
+//    @Transient
+//    public float getDiscountPrice(){
+//        if (discountPercent > 0)
+//        {
+//            return price * ((100 - discountPercent) / 100);
+//        }
+//        return this.price;
+//    }
+
 }

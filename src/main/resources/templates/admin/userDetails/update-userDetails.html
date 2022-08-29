@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - User Details')"></head>
+
 
 <body>
 <div class="container">
     <br>
     <h3>Update User</h3>
     <hr/>
-    <form th:action="@{/admin/allUserDetails/{id}(id=${updateUserDetails.id})}"
+    <form th:action="@{/admin/user_details/save(id=${updateUserDetails.id})}"
           th:object="${updateUserDetails}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
                 <th>Name</th>
                 <th>Phone</th>
-                <th>Email</th>
                 <th>City</th>
             </tr>
             </thead>
@@ -35,11 +35,6 @@
                         <input type="text" th:field="*{phone}">
                     </label>
                 </td>
-                <td>
-                    <label>
-                        <input type="text" th:field="*{email}">
-                    </label>
-                </td>
             </tr>
             </tbody>
         </table>
@@ -49,7 +44,7 @@
         <br>
     </form>
     <div>
-        <form th:action="@{/admin/allUserDetails}" method="get">
+        <form th:action="@{/admin/user_details}" method="get">
             <input type="submit" value="Return to userInfo page">
         </form>
     </div>

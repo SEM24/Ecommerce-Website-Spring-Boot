@@ -1,27 +1,49 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/signin.css}"/>
-</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="blocks/fragments :: head('Login - SENKO')"></head>
 <body>
-<div class="login-page">
-    <div class="form">
-        <div th:if="${param.error}">
-            <h4>Invalid username and password.</h4>
+<!--Scripts-->
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:fragment="loginModal">
+    <div class="modal fade" id="loginModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div th:if="${param.error}">
+                    <h4>Invalid username and password.</h4>
+                </div>
+                <div th:if="${param.logout}">
+                    <h4>You have been logged out.</h4>
+                </div>
+                <div class="modal-header">
+                    <div class="col-1"></div>
+                    <div class="col-10 text-center">
+                        <h5 class="modal-title">Login</h5>
+                    </div>
+                    <div class="col-1 ms-3">
+                        <a type="button" class="close" aria-label="Close"
+                           data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    <form th:action="@{/login}" method="post">
+                        <input class="text-center rounded" type="text" name="username" placeholder="Login"/>
+                        <input class="text-center rounded" type="password" name="password" placeholder="Password"/>
+                        <input type="submit" class="rounded" value="Sign in">
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <span class="message">
+                        Not registered?<a th:href="@{/registration}"> Create
+                        new account</a>
+                    </span>
+                </div>
+            </div>
         </div>
-        <div th:if="${param.logout}">
-            <h4>You have been logged out.</h4>
-        </div>
-        <h3>Login</h3>
-        <form class="login-form" th:action="@{/login}" method="post">
-            <input type="text" placeholder="Username" name="username"/>
-            <input type="password" placeholder="Password" name="password"/>
-            <button type="submit" value="Login">Login</button>
-            <p class="message">Not registered? <a href="/registration">Create an account</a></p>
-            <p class="message">Changed mind? <a href="/">Return to main page</a></p>
-        </form>
     </div>
 </div>
 </body>

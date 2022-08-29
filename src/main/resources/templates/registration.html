@@ -1,27 +1,83 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Registration</title>
-    <link rel="stylesheet" th:href="@{/css/signin.css}"/>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="blocks/fragments :: head('Registration - SENKO')"></head>
 <body>
-<div class="login-page">
-    <div class="form">
-        <h3>Registration</h3>
-        <form class="login-form" th:action="@{/registration}" th:object="${user}" method="post">
-            <input type="text" placeholder="Login/Username" th:field="*{login}"/>
-            <input type="text" placeholder="Password" th:field="*{password}"/>
-            <div th:object="${userInfo}">
-                <input type="text" placeholder="Name" th:field="*{name}"/>
-                <input type="text" placeholder="Surname" th:field="*{surname}"/>
-                <input type="text" placeholder="Phone number" th:field="*{phone}"/>
-                <input type="text" placeholder="Email" th:field="*{email}"/>
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<div class="container mt-2 mb-4">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-4 border border-dark shadow rounded pt-2">
+            <div class="text-center"><img th:src="@{/assets/favicon.ico}" class="rounded-circle border p-1 mb-1"></div>
+            <div class="col-sm-12">
+                <form th:action="@{/registration}" th:object="${user}"
+                      method="post" id="singnupFrom" onSubmit="return validation();">
+                    <!--Call scripts to show info if the user has already seen another input fields-->
+                    <div th:if="${error}" id="alert"></div>
+                    <div th:if="${error}" class="alert alert-danger text-sm-center">
+                        <div>
+                            <span th:text="${error}" class="error"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold">Email</label>
+                        <div class="input-group" style="bottom: 5px">
+                            <input type="email" name="email" id="email" class="form-control"
+                                   placeholder="Enter valid email" th:field="*{email}">
+                        </div>
+                        <div class="input-group-append d-flex justify-content-center">
+                            <button type="button" class="regButton rounded" onClick="return emailCheck();"><i
+                                    class="fa fa-envelope"></i></button>
+                        </div>
+                    </div>
+                    <div id="next-form" class="collapse">
+                        <div class="form-group">
+                            <label class="font-weight-bold">User Name <small class="text-danger"><em>This will be
+                                your login name!</em></small></label>
+                            <input type="text" name="username" id="username" class="form-control"
+                                   placeholder="Choose your user name" th:field="*{login}">
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Password</label>
+                            <input type="password" name="password" id="password" class="form-control"
+                                   placeholder="***********" th:field="*{password}">
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Confirm Password</label>
+                            <input type="password" name="cpassword" id="cpassword" class="form-control"
+                                   placeholder="***********">
+                            <em id="cp"></em>
+                        </div>
+                        <div th:object="${userInfo}">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Name</label>
+                                <input type="text" name="name" id="name" class="form-control"
+                                       placeholder="Write your name" th:field="*{name}">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Surname</label>
+                                <input type="text" name="surname" id="surname" class="form-control"
+                                       placeholder="Write your surname" th:field="*{surname}">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Phone</label>
+                                <input type="text" name="phone" id="phone" class="form-control"
+                                       placeholder="+380..." th:field="*{phone}">
+                            </div>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <input type="submit" name="submit"
+                                   value="Sign Up" class="regButton rounded">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <button type="submit" value="Create">Create</button>
-            <p class="message">Already registered? <a href="/login">Sign In</a></p>
-        </form>
+        </div>
     </div>
 </div>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript" th:src="@{/js/formValidation.js}"></script>
+
 </body>
 </html>

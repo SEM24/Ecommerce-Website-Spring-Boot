@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - User Details')"></head>
 
 <body>
 <div class="container">
@@ -8,7 +8,7 @@
     <h3>UserDetail List</h3>
     <hr/>
     <div>
-        <form th:action="@{/admin/addUser}" method="get">
+        <form th:action="@{/admin/users/add}" method="get">
             <input type="submit" value="Add UserDetails">
         </form>
     </div>
@@ -20,7 +20,6 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Phone</th>
-            <th>Email</th>
             <th>Update</th>
         </tr>
         </thead>
@@ -30,9 +29,8 @@
             <td th:text="${userInfo.name}"></td>
             <td th:text="${userInfo.surname}"></td>
             <td th:text="${userInfo.phone}"></td>
-            <td th:text="${userInfo.email}"></td>
             <td>
-                <form th:action="@{/admin/allUserDetails/{id}(id=${userInfo.id})}" method="get">
+                <form th:action="@{/admin/user_details/edit/{id}(id=${userInfo.id})}" method="get">
                     <input type="submit" value=Update>
                 </form>
             </td>

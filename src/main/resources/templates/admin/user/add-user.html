@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:spring="http://www.w3.org/1999/XSL/Transform"
       xmlns:c="http://www.w3.org/1999/XSL/Transform">
-<head th:replace="blocks/main-tools :: head"></head>
+<head th:replace="blocks/fragments :: head('Admin - User')"></head>
 
 <body>
 <div class="container">
     <br>
     <h3>Add User</h3>
     <hr/>
-    <form th:action="@{/admin/addUser}" th:object="${addUser}" method="post">
+    <form th:action="@{/admin/users/add}" th:object="${addUser}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
                 <th>Login</th>
+                <th>Email</th>
                 <th>Password</th>
                 <th>Role</th>
             </tr>
@@ -26,10 +27,16 @@
                 </td>
                 <td>
                     <label>
+                        <input type="text" th:field="*{email}">
+                    </label>
+                </td>
+                <td>
+                    <label>
                         <input type="text" th:field="*{password}">
                     </label>
                 </td>
                 <td>
+<!--                    FIXME в модель для get засунь role.values() и тут вызвать-->
                     <select name="role">
                         <option th:each="roleList : ${T(com.khomsi.site_project.entity.Role).values()}"
                                 th:value="${roleList}" th:text="${roleList}"></option>
@@ -49,7 +56,6 @@
                     <th>Name</th>
                     <th>Surname</th>
                     <th>Phone</th>
-                    <th>Email</th>
                 </tr>
                 </thead>
                 <tbody style="text-align: center">
@@ -69,11 +75,6 @@
                             <input type="text" th:field="*{phone}">
                         </label>
                     </td>
-                    <td>
-                        <label>
-                            <input type="text" th:field="*{email}">
-                        </label>
-                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -83,13 +84,13 @@
         </div>
     </form>
     <div>
-        <form th:action="@{/admin/allUsers}" method="get">
+        <form th:action="@{/admin/users}" method="get">
             <input type="submit" value="Return to user page">
         </form>
     </div>
     <br>
     <div>
-        <form th:action="@{/admin/allUserDetails}" method="get">
+        <form th:action="@{/admin/user_details}" method="get">
             <input type="submit" value="Return to usersDetails page">
         </form>
     </div>
