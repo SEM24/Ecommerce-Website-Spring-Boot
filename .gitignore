@@ -35,5 +35,5 @@ build/
 /.mvn/
 /.jpb/
 src/main/java/com/khomsi/site_project/notesToFix.html
-/src/main/resources/sql/testRelationShips.mwb
-/src/main/resources/sql/testRelationShips.mwb.bak
+
+/src/main/resources/sql/WebShop_old.mwb
