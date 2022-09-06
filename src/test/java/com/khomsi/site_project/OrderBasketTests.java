@@ -53,4 +53,23 @@ public class OrderBasketTests {
 
     }
 
+//    @Test
+//    public String getProductsFromBasketsToOrder(List<OrderBasket> orderBaskets) {
+//        Product product = entityManager.find(Product.class, 6);
+//        User user = entityManager.find(User.class, 1);
+//
+//        OrderBasket newOrderBasket = new OrderBasket();
+//
+//        newOrderBasket.setUser(user);
+//        newOrderBasket.setProduct(product);
+//        newOrderBasket.setQuantity(1);
+//
+//        String result = null;
+//        if (!orderBaskets.isEmpty()) {
+//            for (OrderBasket orderBasket : orderBaskets) {
+//                result += String.valueOf(orderBasket.getProduct().getId()) + "/";
+//            }
+//        }
+//        return result;
+//    }
 }

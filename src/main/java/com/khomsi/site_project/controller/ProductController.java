@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -57,6 +56,7 @@ public class ProductController {
             model.addAttribute("category", category);
             return "products_by_category";
         } catch (CategoryNotFoundException e) {
+            model.addAttribute("error", e.getLocalizedMessage());
             return "error/404";
         }
     }
@@ -72,6 +72,7 @@ public class ProductController {
             model.addAttribute("product", product);
             return "product-page";
         } catch (ProductNotFoundException e) {
+            model.addAttribute("error", e.getLocalizedMessage());
             return "error/404";
         }
     }

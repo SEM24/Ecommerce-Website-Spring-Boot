@@ -62,7 +62,6 @@ public class UserProfileController {
         newUser.getUserInfo().setSurname(user.getUserInfo().getSurname());
         newUser.getUserInfo().setPhone(user.getUserInfo().getPhone());
         userRepository.save(newUser);
-//        FIXME тут может на / редирект? затести
         return "redirect:/profile";
     }
 }

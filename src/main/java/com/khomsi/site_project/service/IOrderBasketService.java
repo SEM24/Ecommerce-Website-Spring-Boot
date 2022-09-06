@@ -6,6 +6,8 @@ import com.khomsi.site_project.entity.User;
 import java.util.List;
 
 public interface IOrderBasketService {
+    List<OrderBasket> getAllOrderBaskets();
+
     public List<OrderBasket> listOrderBasket(User user);
 
     public Integer addProduct(Integer productId, Integer quantity, User user);

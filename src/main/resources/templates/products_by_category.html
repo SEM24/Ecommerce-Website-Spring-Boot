@@ -16,8 +16,8 @@
             <div class="col" th:if="${cat.enabled == true}">
                 <a th:href="@{'/category/'+ ${cat.alias}}">
                     <div class="text-center">
-                        <img class="rounded-circle z-depth-2"
-                             style="width: 100px; height: 100px;"
+                        <img style="-webkit-filter: drop-shadow(3px 3px 3px #222); filter: drop-shadow(3px 3px 3px #222);
+                     width: 100px; height: 100px;"
                              th:src="'/category-images/'+${cat.imageURL}"/>
                     </div>
                     <div class="category_label text-center">
@@ -33,15 +33,17 @@
     <div class="row text-center">
         <th:block th:each="product : ${listProducts}">
             <div class="col">
-                <div>
+                <div class="zoom">
                     <a th:href="@{'/product/'+${product.alias}}">
                         <img th:src="'/product-images/'+${product.imageURL}" width="150"/>
                         <br/>
-                        <b>[[${product.shortTitle}]]</b>
+                        <div class="card-body">
+                            <b>[[${product.shortTitle}]]</b>
+                            <div>
+                                <span class="font-weight-bolder text-dark">[[${product.price}]] &#8372;</span>
+                            </div>
+                        </div>
                     </a>
-                </div>
-                <div>
-                    <span>[[${product.price}]] &#8372;</span>
                 </div>
             </div>
         </th:block>
@@ -51,6 +53,6 @@
     <div th:replace="blocks/fragments :: pagination('/category/'+ ${category.alias}, 'product')"></div>
 
 </div>
-<footer class="mt-auto" th:insert="~{blocks/fragments :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

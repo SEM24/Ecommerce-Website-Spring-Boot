@@ -19,7 +19,7 @@
 <!--NavBar-->
 <div th:replace="blocks/fragments :: navbar"></div>
 <!-- Modal section-->
-<div th:replace="blocks/modal-fragments :: showModal"></div>
+<div th:replace="blocks/fragments :: showModal"></div>
 <!--Main layout-->
 <main class="container-fluid">
     <div th:replace="blocks/breadcrumb :: content"></div>
@@ -55,11 +55,11 @@
                     <p th:utext="${product.description}"></p>
 
                     <div class="d-flex justify-content-left">
-                        <div th:replace="/blocks/quantity_control :: quantity_control(1, ${product.id})"
+                        <div th:replace="/blocks/fragments :: quantity_control(1, ${product.id})"
                              style="max-width: 3rem">
                         </div>
                         <div>
-                            <button class="btn btn-primary btn-md my-0 p rounded" type="submit" id="addToCartBtn">
+                            <button class="productBtn my-0 rounded" type="submit" id="addToCartBtn">
                                 <i class="fas fa-shopping-cart ml-1"></i>
                                 Add to cart
                             </button>

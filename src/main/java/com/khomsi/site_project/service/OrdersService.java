@@ -1,5 +1,6 @@
 package com.khomsi.site_project.service;
 
+import com.khomsi.site_project.entity.Category;
 import com.khomsi.site_project.entity.Order;
 import com.khomsi.site_project.entity.OrderBasket;
 import com.khomsi.site_project.entity.User;
@@ -22,6 +23,11 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
+    public List<Order> getAllOrdersByUser(User user) {
+        return orderRepository.findOrdersByUser(user);
+    }
+
+    @Override
     public void saveOrder(Order orders) {
         orderRepository.save(orders);
     }
@@ -41,6 +47,15 @@ public class OrdersService implements IOrdersService {
             throw new OrderNotFoundException("Couldn't find any order with ID " + order.getId());
         }
         return order;
+    }
+
+    @Override
+    public float countSum(List<OrderBasket> orderBaskets) {
+        float sum = 0;
+        for (OrderBasket orderBasket : orderBaskets) {
+            sum += orderBasket.getSubtotal();
+        }
+        return sum;
     }
 
     @Override

@@ -14,17 +14,17 @@
     <div class="row">
         <div class="col" th:each="cat : ${listCategories}">
             <a th:href="@{'/category/'+ ${cat.alias}}">
-                <div class="text-center">
-                    <img class="rounded-circle z-depth-2"
-                         style="width: 140px; height: 140px;"
+                <div class="text-center zoom">
+                    <img style="-webkit-filter: drop-shadow(3px 3px 3px #222); filter: drop-shadow(3px 3px 3px #222);
+                     width: 140px; height: 140px;"
                          th:src="'/category-images/'+${cat.imageURL}"/>
                 </div>
-                <div class="category_label text-center">[[${cat.title}]]</div>
+                <div class="category_label text-center mt-4">[[${cat.title}]]</div>
             </a>
         </div>
     </div>
 </div>
 
-<footer class="mt-auto" th:insert="~{blocks/fragments :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

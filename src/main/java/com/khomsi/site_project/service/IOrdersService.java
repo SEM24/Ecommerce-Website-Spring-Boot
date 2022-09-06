@@ -10,11 +10,15 @@ import java.util.List;
 public interface IOrdersService {
     public List<Order> getAllOrders();
 
+    List<Order> getAllOrdersByUser(User user);
+
     public void saveOrder(Order orders);
 
     public Order getOrder(int id);
 
     public Order getOrderByUser(User user) throws OrderNotFoundException;
+
+    float countSum(List<OrderBasket> orderBaskets);
 
     public void deleteOrder(int id);
 

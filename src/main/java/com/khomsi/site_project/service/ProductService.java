@@ -16,6 +16,8 @@ import java.util.Random;
 
 @Service
 public class ProductService implements IProductService {
+    @Autowired
+    private ProductRepository productRepository;
     public static final int PRODUCTS_PER_PAGE = 10;
 
     public Page<Product> listByCategory(int pageNum, Integer categoryId) {
@@ -25,28 +27,30 @@ public class ProductService implements IProductService {
         return productRepository.listByCategory(categoryId, pageable, categoryIdMatch);
     }
 
-    @Autowired
-    private ProductRepository productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<Product> getAllProducts() throws ProductNotFoundException {
+        List<Product> listProducts = productRepository.findAll();
+        if (listProducts.isEmpty()) {
+            throw new ProductNotFoundException("Couldn't find any product in DB");
+        }
+        return listProducts;
     }
 
     @Override
-    public List<Product> getRandomAmountOfProducts() {
+    public List<Product> getRandomAmountOfProducts() throws ProductNotFoundException {
         List<Product> productList = productRepository.findAll();
-
+        if (productList.isEmpty()) {
+            throw new ProductNotFoundException("Couldn't find any product in DB");
+        }
         Collections.shuffle(productList);
-
         int randomSeriesLength = 8;
-
         return productList.subList(0, randomSeriesLength);
+
     }
 
     @Override
     public void saveProduct(Product product) {
-
         productRepository.save(product);
     }
 
@@ -61,11 +65,11 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProduct(String alias) throws ProductNotFoundException {
-        Product product = productRepository.findByAlias(alias);
-        if (product == null) {
+        try {
+            return productRepository.findByAlias(alias);
+        } catch (NoSuchElementException e) {
             throw new ProductNotFoundException("Couldn't find any product with alias " + alias);
         }
-        return product;
     }
 
     @Override

@@ -1,44 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/main-tools :: head('Checkout - SENKO')"></head>
-<style>
-    .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
+<head th:replace="blocks/fragments :: head('Checkout - SENKO')"></head>
 
-    @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-            font-size: 3.5rem;
-        }
-    }
-</style>
-<!-- Custom styles for this template -->
-
-<link rel="stylesheet" th:href="@{/css/form-validation.css}"/>
-
-<div th:insert="~{blocks/main-tools :: scripts}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
 <script th:src="@{/js/shopping-cart.js}"></script>
 <!-------------------------------------------------------------------------->
 <!--NavBar-->
-<div th:replace="blocks/main-tools :: navbar"></div>
-<body class="bg-light">
+<body class="bg-white">
 <div class="container">
+    <a href="/" class="navbar-brand waves-effect rounded mt-2">
+        <img th:src="@{/assets/logoicon.png}" width="65">
+    </a>
+    <hr class="mt-0"/>
 
-
-    <div class="py-5 left">
+    <div class="py-4 left">
         <h2>Checkout</h2>
     </div>
     <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
+        <div class="custom_product col-md-4 order-md-2 mb-4 sticky-top">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">Your cart</span>
             </h4>
-            <ul class="list-group mb-3">
+            <ul class="custom_product list-group mb-3 sticky-top">
                 <div class="items" th:each="basketItem: ${orderBaskets}">
                     <div class="product" th:with="product = ${basketItem.product}">
                         <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -60,17 +43,32 @@
                 </div>
                 <li class="list-group-item d-flex justify-content-between">
                     <div class="summary-item"><span class="text">Total</span>
-                        <span class="price" id="totalAmount"></span>
+                        <span class="price" style="margin-left: 70px; font-size: 21px; font-weight: 500;"
+                              id="totalAmount"></span>
                     </div>
                 </li>
+                <li class="list-group-item">
+                    <div class=" text-center">
+                        <label for="checkoutBtn" class="btn btn-primary btn-md my-0 p rounded"
+                               tabindex="0">Checkout</label>
+                    </div>
+                    <span class="grey-text" style="font-size: 12px">By confirming the order, I accept the terms:
+                    <ul class="ml-2">
+                        <li class="ml-3">
+                            provisions on the collection
+                        </li>
+                        <li class="ml-3">
+                            protection of personal data user agreement
+                        </li>
+                    </ul></span>
+                </li>
+
             </ul>
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">Billing address</h4>
-            <!--                <form class="needs-validation" novalidate>-->
-
+            <h5 class="mb-4">Your contact details</h5>
             <div class="userInfo" th:with="userInfo = ${user.userInfo}">
-                <div class="row">
+                <div class="row ml-4">
                     <div class="col-md-6 mb-3">
                         <label>First name:</label>
                         <span th:text="${userInfo.name}"></span>
@@ -80,78 +78,86 @@
                         <span th:text="${userInfo.surname}"></span>
                     </div>
                 </div>
-                <hr/>
-                <div class="mb-3">
-                    <label>Username:</label>
-                    <span th:text="${user.login}"></span>
+                <div class="row ml-4">
+                    <div class="col-md-6 mb-3">
+                        <label>Email:</label>
+                        <span th:text="${user.email}"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Login:</label>
+                        <span th:text="${user.login}"></span>
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <label>Email:</label>
-                    <span th:text="${userInfo.email}"></span>
+                <div class="col-md-6 mb-3 ml-4">
+                    <label>Phone:</label>
+                    <span th:text="${userInfo.phone}"></span>
                 </div>
             </div>
+
+            <hr class="mb-4">
+
+            <h5 class="mb-3">Delivery</h5>
+
             <form th:action="@{/payment}" th:object="${order}" method="post">
-                <div class="mb-3">
+                <div class="mb-3 ml-4">
                     <label for="address">Address</label>
-                    <input th:field="*{address}" type="text" class="form-control" id="address"
+                    <input style="width: 300px;" th:field="*{address}" type="text" class="form-control" id="address"
                            placeholder="1234 Main St" required>
                     <div class="invalid-feedback">
                         Please enter your shipping address.
                     </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 ml-4">
                     <label for="city">City</label>
-                    <input th:field="*{city}" type="text" class="form-control" id="city" placeholder="Kharkiv"
+                    <input style="width: 300px;" th:field="*{city}" type="text" class="form-control" id="city"
+                           placeholder="Kharkiv"
                            required>
                     <div class="invalid-feedback">
                         Please enter your city.
                     </div>
                 </div>
-
-                <hr class="mb-4">
-
-                <h4 class="mb-3">Delivery</h4>
+                <h6>Choose city</h6>
                 <div class="d-block my-3">
-                    <div class="custom-control custom-radio">
+                    <div class="custom-control custom-radio ml-4">
                         <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
                                required th:value="0">
-                        <span class="custom-control-label">---Ukr poshta---</span>
+                        <span class="custom-control-label">Ukr poshta</span>
                     </div>
-                    <div class="custom-control custom-radio">
+                    <div class="custom-control custom-radio ml-4">
                         <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
                                required
                                th:value="1">
-                        <span class="custom-control-label">---Nova poshta---</span>
+                        <span class="custom-control-label">Nova poshta</span>
                     </div>
                 </div>
                 <hr class="mb-4">
 
-                <h4 class="mb-3">Payment</h4>
+                <h5 class="mb-3">Payment</h5>
 
                 <div class="d-block my-3">
-                    <div class="custom-control custom-radio">
+                    <div class="custom-control custom-radio ml-4">
                         <input th:field="*{orderStatus}" id="store" name="paymentMethod" type="radio"
                                class="custom-control-input" checked
                                required th:value="${waiting}">
                         <label class="custom-control-label" for="store">Pay in local store</label>
                     </div>
 
-                    <div class="custom-control custom-radio">
+                    <div class="custom-control custom-radio ml-4">
                         <input th:field="*{orderStatus}" id="card" name="paymentMethod" type="radio"
                                class="custom-control-input"
                                required th:value="${payed}">
                         <label class="custom-control-label" for="card">Pay by card</label>
                     </div>
                 </div>
-                <form class="card p-2">
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-                </form>
+                <input type="submit" id="checkoutBtn" class="d-none"/>
             </form>
-            <!--                </form>-->
-
         </div>
+    </div>
+    <div class="text-center copyright p-3">
+        <hr/>
+        <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
+        <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
     </div>
 </div>
 </body>

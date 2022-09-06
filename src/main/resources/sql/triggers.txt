@@ -1,0 +1,99 @@
+Exceptions:
+
+DELIMITER //
+CREATE TRIGGER beforeInsertInCustomer BEFORE INSERT ON user FOR EACH ROW begin
+    declare UserLogin int default 0;
+    declare UserEmail int default 0;
+    select count(login) into UserLogin from user
+    where user.login = new.login;
+    select count(email) into UserEmail from user
+    where user.email = new.email;
+    if(UserLogin > 0) then
+        signal sqlstate '45000'
+        set message_text = 'This login is already used';
+    elseif(UserEmail > 0) then
+        signal sqlstate '45000'
+        set message_text = 'This email is already used';
+    end if;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER afterInsertInUser AFTER INSERT ON user FOR EACH ROW begin
+IF char_length(new.login) < 3 THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = "Loggin mustn't be less than 3 symbols";
+elseif char_length(new.login) > 14 THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = "Loggin mustn't be more than 14 symbols";
+
+elseif char_length(new.password) < 5 then
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = "Password mustn't be less than 5 symbols";
+END IF;
+END//
+
+
+DELIMITER //
+CREATE TRIGGER beforeInsInUserInfoPhone BEFORE INSERT ON user_info FOR EACH ROW begin
+ declare UserMobile int default 0;
+ select count(phone) into UserMobile from user_info
+    where user_info.phone = new.phone;
+    if(UserMobile > 0) then
+        signal sqlstate '45000'
+        set message_text = 'This mobile phone is already used in system';
+        end if;
+    if(char_length(new.phone)) > 13 then
+    signal sqlstate '45000'
+    set message_text = 'This mobile phone is not valid. Not enough numbers';
+    elseif new.phone not like '+380%' then
+    signal sqlstate '45000'
+    set message_text = 'This mobile phone is not valid. Check your input';
+    end if;
+END//
+
+DELIMITER //
+CREATE TRIGGER beforeInsInUserInfoName BEFORE INSERT ON user_info FOR EACH ROW begin
+if char_length(new.name) < 3 THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = "Name mustn't be less than 3 symbols";
+elseif char_length(new.surname) < 4 then
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = "Surname mustn't be less than 4 symbols";
+END IF;
+END//
+
+Business logic:
+
+DELIMITER //
+CREATE TRIGGER insOrders
+AFTER INSERT
+ON `orders`
+FOR EACH ROW
+BEGIN
+DELETE FROM order_basket WHERE user_id = NEW.user_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER afterUpdOrdersInsDel
+AFTER UPDATE on orders
+FOR EACH ROW
+BEGIN
+IF NEW.order_status = 'Оплачено' THEN
+INSERT INTO delivery(orders_id, status) values(OLD.id, 'Обработка');
+END IF;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER afterInsOrdersInsDel AFTER INSERT on orders
+FOR EACH ROW
+BEGIN
+IF NEW.order_status = 'Оплачено' THEN
+INSERT INTO delivery(orders_id, status) values(NEW.id, 'Обработка');
+END IF;
+END//
+DELIMITER ;
+

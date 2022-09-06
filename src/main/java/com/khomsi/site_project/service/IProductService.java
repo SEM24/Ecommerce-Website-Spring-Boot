@@ -6,9 +6,9 @@ import com.khomsi.site_project.exception.ProductNotFoundException;
 import java.util.List;
 
 public interface IProductService {
-    public List<Product> getAllProducts();
+    public List<Product> getAllProducts() throws ProductNotFoundException;
 
-    List<Product> getRandomAmountOfProducts();
+    List<Product> getRandomAmountOfProducts() throws ProductNotFoundException;
 
     public void saveProduct(Product product);
 

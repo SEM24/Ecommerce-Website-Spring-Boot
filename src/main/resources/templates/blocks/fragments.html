@@ -18,32 +18,6 @@
     <!--    Custom css-->
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 
-    <style>
-        html,
-        body,
-        header,
-        .carousel {
-            height: 60vh;
-        }
-
-        @media (max-width: 740px) {
-            html,
-            body,
-            header,
-            .carousel {
-                height: 100vh;
-            }
-        }
-
-        @media (min-width: 800px) and (max-width: 850px) {
-            html,
-            body,
-            header,
-            .carousel {
-                height: 100vh;
-            }
-        }
-    </style>
 </head>
 
 <!--Main scripts-->
@@ -55,11 +29,12 @@
 </div>
 
 <!--Navigation bar-->
-<nav th:fragment="navbar" class="navbar fixed-top-top navbar-expand-lg">
+<nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg">
     <div class="container">
         <!--Logo-->
         <a href="/" class="navbar-brand waves-effect rounded">
-            <strong class="blue-text">SENKO</strong>
+            <img th:src="@{/assets/logoicon.png}" width="65"
+                 style="-webkit-filter: drop-shadow(2px 2px 2px #222); filter: drop-shadow(2px 2px 2px #222);">
         </a>
         <!--For smartphones menu-->
         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -91,15 +66,15 @@
                 <li class="nav-item dropdown ml-3" sec:authorize="isAnonymous()">
                     <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
                        data-toggle="modal" href="#loginModal" role="button">
-                        <span class="fas fa-user blue-text"></span>
+                        <span class="fas fa-user text-white"></span>
                     </a>
                 </li>
                 <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
-                    <a class="nav-link dropdown-toggle waves-effect waves-light dark-grey-text font-weight-bold rounded"
+                    <a class="nav-link dropdown-toggle waves-effect waves-light text-white font-weight-bold rounded"
                        id="navbarDropdownMenuLink-4" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false"><span class="fas fa-user blue-text"></span>
+                       aria-haspopup="true" aria-expanded="false"><span class="fas fa-user text-white"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn"
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn text-center"
                          aria-labelledby="navbarDropdownMenuLink-4">
                         <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
                            sec:authorize="hasAuthority('ADMIN')">Admin</a>
@@ -118,20 +93,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="www.linkedin.com/in/samir-homsi-kak" class="nav-link waves-effect rounded">
+                    <a href="https://www.linkedin.com/in/samir-homsi-kak" class="nav-link waves-effect rounded">
                         <span class="fab fa-linkedin"></span>
                     </a>
                 </li>
+                <div class="language_selector">
+                    <a class="custom_link waves-effect rounded" th:href="@{/(lang=en)}">EN</a>
+                    <div class="vertical-line" style="height: 25px;"></div>
+                    <a class="custom_link waves-effect rounded" th:href="@{/(lang=es)}">UA</a>
+                </div>
             </ul>
         </div>
     </div>
     <!--Login modal-->
     <div th:replace="/login :: loginModal"></div>
+
 </nav>
 
 <!--Footer-->
 
-<footer th:fragment="footer" class="footer text-center text-lg-start">
+<footer th:fragment="footer" class="footer text-center text-lg-start mt-5">
     <!-- Grid container -->
     <div class="container p-4">
         <!--Grid row-->
@@ -139,10 +120,10 @@
             <!--Grid column-->
             <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
                 <h5 class="text-uppercase mb-4">About company</h5>
-                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
-                    voluptatum deleniti atque corrupti.</p>
-                <p>Blanditiis praesentium voluptatum deleniti atque
-                    corrupti quos dolores et quas molestias.</p>
+                <p><strong>SENKO</strong> offers a wide range of home appliances, peripherals and even clothing. On sale
+                    brand value is significantly lower than the market average.
+                    Goods are sold through an online store and an outlet located at the Barabashovo shopping center in
+                    Kharkov.</p>
 
                 <!-- Social icons-->
                 <div class="mt-4">
@@ -151,7 +132,7 @@
                             class="btn btn-circle btn-md">
                         <em class="fab fa-github fa-lg"></em></button>
                     <!-- Linkedin -->
-                    <button onclick="location.href='www.linkedin.com/in/samir-homsi-kak'" type="button"
+                    <button onclick="location.href='https://www.linkedin.com/in/samir-homsi-kak'" type="button"
                             class="btn btn-circle btn-md">
                         <em class="fab fa-linkedin fa-lg"></em></button>
                 </div>
@@ -179,8 +160,8 @@
 
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4">Find us on map:</h5>
-                <iframe class="google_map"
+                <h5 class="text-uppercase mb-4">Find us on map :</h5>
+                <iframe class="google_map rounded"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
                         allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -215,23 +196,64 @@
         <nav>
             <ul class="pagination justify-content-center flex-wrap">
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, 1, 'First')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, 1, 'First')"></a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
                 </li>
                 <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
                     th:each="i : ${#numbers.sequence(1, totalPages)}">
-                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL},${i}, ${i})"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL},${i}, ${i})"></a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/main-tools :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
                 </li>
             </ul>
         </nav>
+    </div>
+</div>
+
+<!--Button + - for products and checkout-->
+<div class="h-80 d-flex align-items-center justify-content-center" th:fragment="quantity_control(qtyValue, productId)">
+    <nav>
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link minusButton" href="" th:pid="${productId}"><b>-</b></a>
+            </li>
+
+            <li class="page-item">
+                <input type="text" th:value="${qtyValue}" class="form-control text-center"
+                       onkeydown="return false;" style="max-width: 55px; max-height: 35px"
+                       th:id="'quantity'+${productId}"/>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link plusButton" href="" th:pid="${productId}"><b>+</b></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal for errors-->
+<div th:fragment="showModal" class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody">This is content</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
     </div>
 </div>
 </html>

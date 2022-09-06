@@ -1,68 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+>
 <head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
 
 <!--Slider starts-->
 <!--Carousel Wrapper-->
-<div id="carousel-1z" class="carousel slide carousel-fade" data-ride="carousel">
-
-    <!--Indicators-->
+<div id="carouselFull" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
-        <li data-target="#carousel-1z" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel-1z" data-slide-to="1"></li>
-        <li data-target="#carousel-1z" data-slide-to="2"></li>
+        <li data-target="#carouselFull" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselFull" data-slide-to="1"></li>
+        <li data-target="#carouselFull" data-slide-to="2"></li>
+        <li data-target="#carouselFull" data-slide-to="3"></li>
     </ol>
-
-    <!--Slides-->
-    <div class="carousel-inner" role="listbox">
-        <!--First slide-->
+    <div class="carousel-inner">
         <div class="carousel-item active">
-            <div class="view"
-                 style="background-image: url('https://content1.rozetka.com.ua/banner_category/image/original/282506790.jpg'); background-repeat: no-repeat; background-size: cover;">
-
-                <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-                </div>
-            </div>
+            <a th:href="@{'/category/clothes'}">
+                <img class="d-block img-fluid" src="img/ClothesBanner.png" alt="First slide">
+            </a>
         </div>
-        <!--/First slide-->
-        <!--Second slide-->
         <div class="carousel-item">
-            <div class="view"
-                 style="background-image: url('https://images.pexels.com/photos/3184452/pexels-photo-3184452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); background-repeat: no-repeat; background-size: cover;">
-
-                <div class="mask rgba-black-strong d-flex justify-content-center align-items-center">
-
-                </div>
-            </div>
+            <a th:href="@{'/category'}">
+                <video class="d-block img-fluid" autoplay loop muted>
+                    <source src="img/samsungBanner.mp4"/>
+                </video>
+            </a>
         </div>
-        <!--Third slide-->
         <div class="carousel-item">
-            <div class="view"
-                 style="background-image: url('https://content2.rozetka.com.ua/banner_category/image/original/281886853.jpg'); background-repeat: no-repeat; background-size: cover;">
-
-                <div class="mask rgba-black-slight d-flex justify-content-center align-items-center">
-
-                </div>
-            </div>
+            <a th:href="@{'/category/phones'}">
+                <img class="d-block img-fluid" src="img/PhonesBanner.png" alt="Second slide">
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a th:href="@{'/category/electronincs'}">
+                <img class="d-block img-fluid" src="img/ElectronicsBanner.png" alt="Third slide">
+            </a>
         </div>
     </div>
-
     <!--Controls-->
-    <a class="carousel-control-prev" href="#carousel-1z" role="button" data-slide="prev">
+    <a class="carousel-control-prev" href="#carouselFull" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#carousel-1z" role="button" data-slide="next">
+    <a class="carousel-control-next" href="#carouselFull" role="button" data-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
     </a>
-    <!--/.Controls-->
 </div>
-
-<!--TODO make it ada-->
 <!--Categories with products starts-->
 <main>
     <div class="container">
@@ -77,9 +62,8 @@
                 <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
 
             </button>
-            <!-- FIXME idk how to make titles on full width on the cat bar-->
             <div class="collapse navbar-collapse" id="nextNav">
-                <ul class="navbar-nav mr-auto mx-auto justify-content-center">
+                <ul class="navbar-nav mx-auto justify-content-center">
                     <div th:each="categories : ${listCategories}">
                         <li class="nav-item">
                             <a class="nav-link rounded"
@@ -93,7 +77,7 @@
         <section class="text-center mb-4">
             <div class="row wow faceIn">
                 <th:block th:each="product : ${listProducts}">
-                    <div class="col-lg-3 col-mg-6 mb-4">
+                    <div class="col-6 col-sm-6 col-md-3 my-3 mb-4">
                         <div class="card">
                             <a th:href="@{'/product/'+${product.alias}}">
                                 <div class="view overlay">
@@ -105,11 +89,6 @@
                                     <div class="grey-text">
                                         <h5>[[${product.shortTitle}]]</h5>
                                     </div>
-                                    <h6>
-                                        <strong>
-                                            <div class="dark-grey-text">[[${product.shortDescription}]]</div>
-                                        </strong>
-                                    </h6>
                                     <h5 class="font-weight-bold blue-text">
                                         <strong>
                                             [[${product.price}]] &#8372;

@@ -3,31 +3,27 @@ package com.khomsi.site_project.controller;
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.exception.ProductNotFoundException;
-import com.khomsi.site_project.repository.*;
-import com.khomsi.site_project.service.CategoryService;
-import com.khomsi.site_project.service.ProductService;
+import com.khomsi.site_project.repository.VendorRepository;
+import com.khomsi.site_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class MyAdminController {
-//    @Autowired
-//    private ProductRepository productRep;
-
     @Autowired
     private ProductService productService;
     @Autowired
-    private UserRepository userRep;
+    private UserService userService;
     @Autowired
-    private UserInfoRepository userDetailsRep;
+    private UserInfoService userInfoService;
 
     @Autowired
     private CategoryService categoryService;
@@ -35,10 +31,10 @@ public class MyAdminController {
     private VendorRepository vendorRep;
 
     @Autowired
-    private OrderRepository ordersRep;
+    private OrdersService ordersService;
 
     @Autowired
-    private OrderBasketRepository orderBasketRep;
+    private OrderBasketService orderBasketService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -50,9 +46,13 @@ public class MyAdminController {
 
     @GetMapping("/products")
     public String allProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("allProducts", products);
-
+        try {
+            List<Product> products = productService.getAllProducts();
+            model.addAttribute("allProducts", products);
+        } catch (ProductNotFoundException exception) {
+            model.addAttribute("error", exception.getLocalizedMessage());
+            return "error/404";
+        }
         return "admin/product/all-product";
     }
 
@@ -67,13 +67,13 @@ public class MyAdminController {
             model.addAttribute("categoryList", categoryList);
             return "admin/product/update-product";
         } catch (ProductNotFoundException e) {
-            attributes.addFlashAttribute("message", e.getMessage());
+            attributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/admin/products";
         }
     }
 
     @PostMapping("/products/save")
-    public String saveProduct(Product product, RedirectAttributes attributes) {
+    public String saveProduct(Product product) {
         productService.saveProduct(product);
         return "redirect:/admin/products";
     }
@@ -107,7 +107,7 @@ public class MyAdminController {
 
     @GetMapping("/users")
     public String allUsers(Model model) {
-        List<User> users = userRep.findAll();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("allUsers", users);
 
         return "admin/user/all-users";
@@ -115,7 +115,7 @@ public class MyAdminController {
 
     @GetMapping("/users/edit/{id}")
     public String updateUser(@PathVariable int id, Model model) {
-        User user = userRep.getReferenceById(id);
+        User user = userService.getUser(id);
         model.addAttribute("updateUser", user);
         return "admin/user/update-user";
     }
@@ -123,13 +123,13 @@ public class MyAdminController {
     @PostMapping("/users/save")
     public String saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRep.save(user);
+        userService.saveUser(user);
         return "redirect:/admin/users";
     }
 
     @PostMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable int id) {
-        userRep.deleteById(id);
+        userService.deleteUser(id);
         return "redirect:/admin/users";
     }
 
@@ -143,15 +143,15 @@ public class MyAdminController {
     @PostMapping("/users/add")
     public String createUser(UserInfo userInfo, User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRep.save(user);
+        userService.saveUser(user);
         userInfo.setUser(user);
-        userDetailsRep.save(userInfo);
+        userInfoService.saveUserDetail(userInfo);
         return "redirect:/admin/users";
     }
 
     @GetMapping("/user_details")
     public String allUserDetails(Model model) {
-        List<UserInfo> userDetails = userDetailsRep.findAll();
+        List<UserInfo> userDetails = userInfoService.getAllUserDetails();
         model.addAttribute("allUserDetails", userDetails);
 
         return "admin/userDetails/all-userDetails";
@@ -159,14 +159,14 @@ public class MyAdminController {
 
     @GetMapping("/user_details/edit/{id}")
     public String updateUserDetails(@PathVariable int id, Model model) {
-        UserInfo userInfo = userDetailsRep.getReferenceById(id);
+        UserInfo userInfo = userInfoService.getUserDetail(id);
         model.addAttribute("updateUserDetails", userInfo);
         return "admin/userDetails/update-userDetails";
     }
 
     @PostMapping("/user_details/save")
     public String saveUserDetails(UserInfo userInfo) {
-        userDetailsRep.save(userInfo);
+        userInfoService.saveUserDetail(userInfo);
         return "redirect:/admin/user_details";
     }
 
@@ -251,7 +251,7 @@ public class MyAdminController {
 
     @GetMapping("/orders")
     public String allOrders(Model model) {
-        List<Order> orders = ordersRep.findAll();
+        List<Order> orders = ordersService.getAllOrders();
         model.addAttribute("allOrders", orders);
 
         return "admin/orders/all-orders";
@@ -259,28 +259,31 @@ public class MyAdminController {
 
     @GetMapping("/orders/edit/{id}")
     public String updateOrder(@PathVariable int id, Model model) {
-        Order order = ordersRep.getReferenceById(id);
+        Order order = ordersService.getOrder(id);
         model.addAttribute("updateOrder", order);
         return "admin/orders/update-order";
     }
 
     @PostMapping("/orders/save")
     public String saveOrder(Order orders) {
-        ordersRep.save(orders);
+        ordersService.saveOrder(orders);
         return "redirect:/admin/orders";
     }
 
     @PostMapping("/orders/{id}/delete")
     public String deleteOrder(@PathVariable int id) {
-        ordersRep.deleteById(id);
+        ordersService.deleteOrder(id);
         return "redirect:/admin/orders";
     }
 
     @GetMapping("/order_baskets")
     public String allOrderBasket(Model model) {
-        List<OrderBasket> orderBaskets = orderBasketRep.findAll();
-        model.addAttribute("allOrderBaskets", orderBaskets);
-
+        try {
+            model.addAttribute("allOrderBaskets", orderBasketService.getAllOrderBaskets());
+        } catch (NotFoundException ex) {
+            model.addAttribute("error", ex.getCause().getCause().getMessage());
+            return "/error/404";
+        }
         return "admin/order_basket/all-order_baskets";
     }
 }

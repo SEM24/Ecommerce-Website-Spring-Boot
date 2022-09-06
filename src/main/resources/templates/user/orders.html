@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
+<body>
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<div class="container mt-4">
+    <div class="error-middle" th:if="${#lists.isEmpty(orders)}">
+        <h3 class="text-warning">You didn't order anything yet</h3>
+        <a th:href="@{'/'}">
+            <button type="button" class="btn btn-primary rounded">Go back to main page
+            </button>
+        </a>
+    </div>
+    <div th:unless="${#lists.isEmpty(orders)}">
+        <div class="row">
+            <div class="col table-responsive">
+                <br>
+                <h2 class="border-light">My orders</h2>
+                <table id="tableA" class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">Number</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Your name</th>
+                        <th scope="col">Shipping type</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order?.id}"></td>
+                        <td th:text="${order?.orderStatus}"></td>
+                        <td th:text="${order?.user?.userInfo?.getName()}"></td>
+                        <div th:unless="${order?.shippingType} eq '0'">
+                            <td>Nova poshta</td>
+                        </div>
+                        <div th:if="${order.shippingType} eq '0'">
+                            <td>Ukr poshta</td>
+                        </div>
+                        <td th:text="${order?.city}"></td>
+                        <td th:text="${order?.address}"></td>
+                        <td>[[${order.totalPrice}]] ₴</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h2 class="border-light mt-4">Delivery</h2>
+        <div class="row">
+            <td class="col table-responsive">
+                <table id="tableB" class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">Number</th>
+                        <th scope="col">Status</th>
+                        <th class="hideable-column" scope="col">Shipping method</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}" th:with="delivery = ${order.delivery}">
+                        <td th:text="${delivery?.id}"></td>
+                        <td th:text="${delivery?.status}"></td>
+                        <td th:unless="${order?.shippingType} eq '0'">
+                            <img class="rounded"
+                                 src="https://cdn.aiidatapro.net/media/9e/51/fb/t780x490/9e51fb4779e0e137ff6aca595de7973d.jpg"
+                                 width="300">
+                        </td>
+                        <th scope="row" th:if="${order?.shippingType} eq '0'">
+                            <img class="rounded" src="https://eimg.pravda.com/images/doc/b/c/bc97a68-ukrposhta.jpg"
+                                 width="300">
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="float-right">
+            <a href="/static" class="btn btn-primary btn-md my-0 p rounded">
+                <span>Return to mage page</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>
