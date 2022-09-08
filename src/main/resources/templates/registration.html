@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+>
 <head th:replace="blocks/fragments :: head('Registration - SENKO')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-bold">Email</label>
+                        <label class="font-weight-bold">[[#{reg.email}]]</label>
                         <div class="input-group mb-1">
                             <input type="email" name="email" id="email" class="form-control"
                                    placeholder="Enter valid email" th:field="*{email}">
@@ -32,42 +32,43 @@
                     </div>
                     <div id="next-form" class="collapse">
                         <div class="form-group">
-                            <label class="font-weight-bold">User Name <small class="text-danger"><em>This will be
-                                your login name!</em></small></label>
+                            <label class="font-weight-bold">[[#{reg.userName}]] <small class="text-danger">
+                                <em>[[#{reg.userNotification}]]</em></small></label>
                             <input type="text" name="username" id="username" class="form-control"
-                                   placeholder="Choose your user name" th:field="*{login}">
+                                   th:attr="placeholder=#{reg.userNplaceholder}" th:field="*{login}">
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Password</label>
+                            <label class="font-weight-bold">[[#{reg.password}]]</label>
                             <input type="password" name="password" id="password" class="form-control"
                                    placeholder="***********" th:field="*{password}">
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Confirm Password</label>
+                            <label class="font-weight-bold">[[#{reg.cPassword}]]</label>
                             <input type="password" name="cpassword" id="cpassword" class="form-control"
                                    placeholder="***********">
                             <em id="cp"></em>
                         </div>
                         <div th:object="${userInfo}">
                             <div class="form-group">
-                                <label class="font-weight-bold">Name</label>
+                                <label class="font-weight-bold">[[#{reg.name}]]</label>
                                 <input type="text" name="name" id="name" class="form-control"
-                                       placeholder="Write your name" th:field="*{name}">
+                                       th:attr="placeholder=#{reg.namePlace}" th:field="*{name}">
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Surname</label>
+                                <label class="font-weight-bold">[[#{reg.surname}]]</label>
                                 <input type="text" name="surname" id="surname" class="form-control"
-                                       placeholder="Write your surname" th:field="*{surname}">
+                                       th:attr="placeholder=#{reg.surnamePlace}" th:field="*{surname}">
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Phone</label>
+                                <label class="font-weight-bold">[[#{reg.phone}]]</label>
                                 <input type="text" name="phone" id="phone" class="form-control"
-                                       placeholder="+380..." th:field="*{phone}">
+                                       placeholder="+380-(xx)-xx-xx-xxx." th:field="*{phone}">
                             </div>
                         </div>
                         <div class="form-group d-flex justify-content-center">
-                            <input type="submit" name="submit"
-                                   value="Sign Up" class="regButton rounded">
+                            <button type="submit" name="submit" class="custom_buttons btn-block rounded"
+                                    style="height:40px;width: 150px;">[[#{reg.signUp}]]
+                            </button>
                         </div>
                     </div>
                 </form>

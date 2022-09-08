@@ -45,21 +45,22 @@
         <!--Left-->
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/">Home</a>
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/">[[#{navbar.home}]]</a>
                 </li>
-                <li class="nav-item"><a class="nav-link waves-effect rounded" href="/category">Categories</a></li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/category">[[#{navbar.category}]]</a></li>
             </ul>
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
                 <li class="nav-item">
                     <a sec:authorize="isAuthenticated()" href="/basket" class="nav-link waves-effect rounded">
                         <em class="fa fa-shopping-cart"></em>
-                        <span class="clearfix d-none d-sm-inline-block">Cart</span>
+                        <span class="clearfix d-none d-sm-inline-block">[[#{navbar.cart}]]</span>
                     </a>
                     <a sec:authorize="isAnonymous()" class="nav-link waves-effect waves-light rounded"
                        data-toggle="modal" href="#loginModal" role="button">
                         <em class="fa fa-shopping-cart"></em>
-                        <span class="clearfix d-none d-sm-inline-block">Cart</span></span>
+                        <span class="clearfix d-none d-sm-inline-block">[[#{navbar.cart}]]</span></span>
                     </a>
                 </li>
                 <!--Profile dropdown-->
@@ -77,13 +78,13 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn text-center"
                          aria-labelledby="navbarDropdownMenuLink-4">
                         <a class="text-danger dropdown-item waves-effect waves-light rounded" href="/admin"
-                           sec:authorize="hasAuthority('ADMIN')">Admin</a>
+                           sec:authorize="hasAuthority('ADMIN')">[[#{navbar.admin}]]</a>
                         <a class="dropdown-item waves-effect waves-light" href="/profile"
-                           sec:authorize="isAuthenticated()">My account</a> <a
-                            class="dropdown-item waves-effect waves-light" href="/orders"
-                            sec:authorize="isAuthenticated()">My orders</a>
+                           sec:authorize="isAuthenticated()">[[#{navbar.myAccount}]]</a>
+                        <a class="dropdown-item waves-effect waves-light" href="/orders"
+                           sec:authorize="isAuthenticated()">[[#{navbar.myOrders}]]</a>
                         <a class="dropdown-item waves-effect waves-light" href="/logout"
-                           sec:authorize="isAuthenticated()">Logout</a>
+                           sec:authorize="isAuthenticated()">[[#{navbar.logout}]]</a>
                     </div>
                 </li>
                 <!--GitHub, linked ect icons-->
@@ -98,15 +99,15 @@
                     </a>
                 </li>
                 <div class="language_selector">
-                    <a class="custom_link waves-effect rounded" th:href="@{/(lang=en)}">EN</a>
+                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=en'}">EN</a>
                     <div class="vertical-line" style="height: 25px;"></div>
-                    <a class="custom_link waves-effect rounded" th:href="@{/(lang=es)}">UA</a>
+                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=uk'}">UA</a>
                 </div>
             </ul>
         </div>
     </div>
     <!--Login modal-->
-    <div th:replace="/login :: loginModal"></div>
+    <div th:replace="/blocks/login :: loginModal"></div>
 
 </nav>
 
@@ -119,11 +120,8 @@
         <div class="row mt-4">
             <!--Grid column-->
             <div class="col-lg-4 col-md-12 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4">About company</h5>
-                <p><strong>SENKO</strong> offers a wide range of home appliances, peripherals and even clothing. On sale
-                    brand value is significantly lower than the market average.
-                    Goods are sold through an online store and an outlet located at the Barabashovo shopping center in
-                    Kharkov.</p>
+                <h5 class="text-uppercase mb-4">[[#{footer.titleAbout}]]</h5>
+                <p><strong>SENKO</strong> [[#{footer.textAbout}]]</p>
 
                 <!-- Social icons-->
                 <div class="mt-4">
@@ -140,12 +138,12 @@
 
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4 pb-1">Address</h5>
+                <h5 class="text-uppercase mb-4 pb-1">[[#{footer.address}]]</h5>
 
                 <ul class="fa-ul" style="margin-left: 1.65em;">
                     <li class="mb-3">
                         <span class="fa-li"><em class="fas fa-home"></em></span><span
-                            class="ms-2">Kharkiv, Ukraine</span>
+                            class="ms-2">[[#{footer.city}]]</span>
                     </li>
                     <li class="mb-3">
                         <span class="fa-li"><em class="fas fa-envelope"></em></span><span
@@ -160,7 +158,7 @@
 
             <!--Grid column-->
             <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase mb-4">Find us on map :</h5>
+                <h5 class="text-uppercase mb-4">[[#{footer.findUs}]]</h5>
                 <iframe class="google_map rounded"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20515.64968586056!2d36.26422165814631!3d50.002803835495385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4127a0de6da556e3%3A0x9ef00b69907b366e!2z0JHQsNGA0LDQsdCw0YjQvtCy0L4!5e0!3m2!1sru!2snl!4v1660918084998!5m2!1sru!2snl"
                         allowfullscreen="" loading="lazy"
@@ -172,8 +170,8 @@
 
     <!-- Copyright -->
     <div class="text-center copyright p-3">
-        <span class="credit">Created By <a href="https://github.com/SEM24">SEM</a> | </span>
-        <span class="far fa-copyright"></span><span> 2022 All rights reserved.</span>
+        <span class="credit">[[#{footer.created}]] <a href="https://github.com/SEM24">SEM</a> | </span>
+        <span class="far fa-copyright"></span><span> [[#{footer.copyright}]]</span>
     </div>
 </footer>
 
@@ -186,30 +184,30 @@
 </a>
 <div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
     <div class="text-center m-1" th:if="${totalItems > 0}">
-        <span style="font-weight: 400; color: #6e757d">Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
     </div>
     <div class="text-center m-1" th:unless="${totalItems > 0}">
-        <span style="font-weight: 400; color: #6e757d">No [[${entityName}]] found</span>
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[${entityName}]] [[#{pagination.found}]]</span>
     </div>
 
     <div th:if="${totalPages > 1}">
         <nav>
             <ul class="pagination justify-content-center flex-wrap">
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, 1, 'First')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, 1, #{pagination.first})"></a>
                 </li>
                 <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage - 1}, Previous)"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
                 </li>
                 <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
                     th:each="i : ${#numbers.sequence(1, totalPages)}">
                     <a th:replace="/blocks/fragments :: page_link(${moduleURL},${i}, ${i})"></a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, 'Last')"></a>
+                    <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
                 </li>
             </ul>
         </nav>
@@ -250,7 +248,7 @@
                 <span id="modalBody">This is content</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger rounded" data-dismiss="modal">[[#{modal.closeBtn}]]</button>
             </div>
         </div>
 

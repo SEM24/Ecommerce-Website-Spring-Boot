@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,300');
 
 * {
     margin: 0;
@@ -6,7 +6,8 @@
     /*Color for all text*/
     /*color: #fff;*/
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 200;
     text-decoration: none;
 }
 
@@ -14,6 +15,7 @@
     /*Color bg of navbar*/
     /*background: #171c24;*/
     background: linear-gradient(15deg, #BD824C 0%, #660000 60%);
+    /*background-image: linear-gradient(to bottom,#08c,#04c);*/
     /*background: linear-gradient(120deg, #0cf9e5, #5a84eb);*/
 }
 
@@ -23,6 +25,23 @@
     font-size: 18px;
     font-weight: 250;
     letter-spacing: 1px
+}
+
+.language_selector {
+    margin-left: 10px;
+    color: #222;
+    font-size: 18px;
+    font-weight: 250;
+    letter-spacing: 1px
+}
+
+.language_selector .custom_link:hover {
+    color: #7D2C1D;
+    transition: 0.3s ease;
+}
+
+.language_selector .custom_link {
+    color: #222;
 }
 
 .navbar-nav .language_selector .custom_link:hover {
@@ -114,25 +133,148 @@ div.vertical-line {
     transition: 0.6s ease;
 }
 
-/* FIXME change styles for pagination and qty buttons*/
-/*Pagination style*/
-/*.pagination .page-item .page-link {*/
-/*    color: #fff;*/
-/*    font-size: 15px;*/
-/*    background: #171c24;*/
-/*    transition: 0.6s ease;*/
-/*}*/
+.pagination > li > a {
+    background-color: white;
+    color: #BD824C;
+}
 
-/*#modal input[type=submit]:hover,*/
-/*.pagination .page-item .page-link:hover {*/
-/*    background: #f12020;*/
-/*    transition: 0.6s ease;*/
-/*}*/
-/*/
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+    transition: 0.6s ease;
+}
 
-/*Carousel*/
+.pagination > .active > a {
+    color: white;
+    background-color: #BD824C !Important;
+    border: solid 1px #BD824C !Important;
+}
 
-/*Animation for dropdown*/
+.pagination > .active > a:hover {
+    background-color: #BD824C !Important;
+    border: solid 1px #BD824C;
+}
+
+/* Carousel */
+
+.carousel-caption {
+    margin-left: 120px;
+    padding-bottom: 4%;
+    top: auto;
+    width: 450px;
+    flex-wrap: wrap;
+}
+
+.carousel-caption h3 {
+    font-size: 35px;
+    margin-bottom: 3%;
+    /*font-weight: bold;*/
+}
+
+.carousel-caption p {
+    margin-top: 1%;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 1%;
+}
+
+/*Text adaptation for carousel*/
+@media (max-width: 1163px) {
+    .carousel-caption {
+        margin-left: 80px;
+        padding-bottom: 3%;
+        top: auto;
+        width: 350px;
+        flex-wrap: wrap;
+    }
+
+    .carousel-caption h3 {
+        font-size: 21px;
+        margin-bottom: 3%;
+        /*font-weight: bold;*/
+    }
+
+    .carousel-caption p {
+        margin-top: 1%;
+        font-size: 12px;
+        margin-bottom: 1%;
+    }
+}
+
+@media (max-width: 860px) {
+    .carousel-caption {
+        margin-left: 50px;
+        padding-bottom: 3%;
+        top: auto;
+        width: 250px;
+        flex-wrap: wrap;
+    }
+
+    .carousel-caption h3 {
+        font-size: 19px;
+        margin-bottom: 3%;
+        /*font-weight: bold;*/
+    }
+
+    .carousel-caption p {
+        margin-top: 1%;
+        font-size: 10px;
+        margin-bottom: 1%;
+    }
+}
+
+@media (max-width: 665px) {
+    .carousel-caption {
+        margin-left: 30px;
+        padding-bottom: 1%;
+        margin-top: 3%;
+        width: 150px;
+        flex-wrap: wrap;
+    }
+
+    .carousel-caption h3 {
+        font-size: 15px;
+        margin-bottom: 3%;
+        /*font-weight: bold;*/
+    }
+
+    .carousel-caption p {
+        margin-top: 1%;
+        font-size: 8px;
+        margin-bottom: 1%;
+    }
+}
+
+@media (max-width: 665px) {
+    .carousel-caption {
+        margin-left: 20px;
+        padding-bottom: 0;
+        margin-top: 9%;
+        width: 150px;
+        flex-wrap: wrap;
+    }
+
+    .carousel-caption h3 {
+        font-size: 13px;
+        margin-bottom: 1%;
+        /*font-weight: bold;*/
+    }
+
+    .carousel-caption p {
+        margin-top: 1%;
+        font-size: 5px;
+        margin-bottom: 0;
+    }
+}
+
+/*!Text adaptation for carousel*/
+
+/*Animation for dropdown
+FIXME check if i need it*/
 @media (min-width: 768px) {
     .animate {
         animation-duration: 0.3s;
@@ -528,7 +670,7 @@ svg {
     text-decoration: underline;
 }
 
-/*Pop login/reg*/
+/*Pop login/reg, buttons*/
 
 .form-group .input-group-append button,
 .modal .modal-body input {
@@ -560,6 +702,7 @@ svg {
     border: 1px solid #e6e6e6;
     padding: 0px 10px;
 }
+
 .container .productBtn,
 .form-group .regButton,
 .modal .modal-body input[type=submit] {
@@ -567,10 +710,39 @@ svg {
     color: #fff;
     transition: 0.6s ease;
 }
+
+.modal .modal-body button {
+    background: #171c24;
+    color: #fff;
+    transition: 0.6s ease;
+    border: 2px solid transparent;
+}
+
+.modal .modal-body button:hover {
+    color: #fff;
+    border: 2px solid transparent;
+    background: #f12020;
+}
+
+
 .container .productBtn:hover,
 .form-group .regButton:hover,
 .modal .modal-body input[type=submit]:hover {
     color: #fff;
+    background: #f12020;
+}
+
+
+.custom_buttons {
+    background: #171c24;
+    color: #fff;
+    transition: 0.6s ease;
+    border: 2px solid transparent;
+}
+
+.custom_buttons:hover {
+    color: #fff;
+    border: 2px solid transparent;
     background: #f12020;
 }
 

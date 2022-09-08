@@ -80,14 +80,10 @@ public class MyAdminController {
 
     @PostMapping("/products/{id}/delete")
     public String deleteProduct(@PathVariable int id, Model model) {
-        //FIXME doen't show error on the page, but shows in console
         try {
             productService.deleteProduct(id);
-//        } catch (JpaSystemException exception) {
-//            model.addAttribute("error", exception.getCause().getCause().getMessage());
-//            return "redirect:/admin/products";
         } catch (ProductNotFoundException e) {
-            model.addAttribute("error", e.getCause().getCause().getMessage());
+            model.addAttribute("error", e.getCause().getMessage());
             return "/error/404";
         }
         return "redirect:/admin/products";

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.webjars.NotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -30,22 +31,25 @@ public class OrderController {
             User user = userService.getUserByLogin(principal.getName());
             List<Order> orders = ordersService.getAllOrdersByUser(user);
             model.addAttribute("orders", orders);
-        } else return "/error/404";
+        } else {
+            model.addAttribute("error", new NotFoundException("Orders was not found"));
+            return "/error/404";
+        }
         return "/user/orders";
     }
 
     @GetMapping("/payment")
     public String createOrders(Model model, Principal principal) {
-        User user = userService.getUserByLogin(principal.getName());
-        List<OrderBasket> orderBaskets = user.getOrderBaskets();
-        try {
+        if (principal != null) {
+            User user = userService.getUserByLogin(principal.getName());
+            List<OrderBasket> orderBaskets = user.getOrderBaskets();
             model.addAttribute("order", new Order());
             model.addAttribute("user", user);
             model.addAttribute("orderBaskets", orderBaskets);
             model.addAttribute("waiting", OrderType.Ожидание);
             model.addAttribute("payed", OrderType.Оплачено);
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+        } else {
+            model.addAttribute("error", new NotFoundException("Orders for payment was not found"));
             return "/error/404";
         }
         return "checkout";

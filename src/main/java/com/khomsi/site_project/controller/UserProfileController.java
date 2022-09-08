@@ -12,6 +12,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.webjars.NotFoundException;
 
 import java.security.Principal;
 
@@ -25,12 +26,16 @@ public class UserProfileController {
 
     @GetMapping({"/", ""})
     public String getUserInfo(Principal principal, Model model) {
-        User user = userRepository.findByLogin(principal.getName());
-        UserInfo userInfo = user.getUserInfo();
-        model.addAttribute("userDetails", userInfo);
-        model.addAttribute("user", user);
-
-        return "/user/user-main";
+        if (principal != null) {
+            User user = userRepository.findByLogin(principal.getName());
+            UserInfo userInfo = user.getUserInfo();
+            model.addAttribute("userDetails", userInfo);
+            model.addAttribute("user", user);
+            return "/user/user-main";
+        } else {
+            model.addAttribute("error", new NotFoundException("User was not found"));
+            return "error/404";
+        }
     }
 
     @GetMapping("/edit")

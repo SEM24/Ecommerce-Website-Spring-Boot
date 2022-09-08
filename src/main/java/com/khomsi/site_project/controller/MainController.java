@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.webjars.NotFoundException;
 
 import java.security.Principal;
 import java.util.List;
@@ -70,10 +71,12 @@ public class MainController {
                                    Principal principal) {
         if (principal != null) {
             List<OrderBasket> orderBaskets = userService.getUserByLogin(principal.getName()).getOrderBaskets();
-
             model.addAttribute("orderBaskets", orderBaskets);
             model.addAttribute("order", new Order());
-        } else return "/error/404";
+        } else {
+            model.addAttribute("error", new NotFoundException("Order basket was not found"));
+            return "/error/404";
+        }
         return "shopping-cart";
     }
 

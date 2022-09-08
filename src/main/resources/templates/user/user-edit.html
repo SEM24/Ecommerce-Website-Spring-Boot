@@ -8,17 +8,17 @@
     <div class="row">
         <div class="col">
             <br>
-            <h2 class="border-light mb-5">Edit your profile, <span th:text="${user.userInfo.name}"></span>!</h2>
+            <h2 class="border-light mb-3">[[#{userEdit.edit}]] <span th:text="${user.userInfo.name}"></span>!</h2>
             <form th:action="@{/profile/edit}" th:object="${user}" method="post">
                 <table id="user_main" class="table table-striped text-center ">
                     <thead>
                     <tr>
-                        <th>Login</th>
-                        <th>Password</th>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Phone</th>
-                        <th>Email</th>
+                        <th>[[#{userMain.login}]]</th>
+                        <th>[[#{userMain.password}]]</th>
+                        <th>[[#{userMain.name}]]</th>
+                        <th>[[#{userMain.surname}]]</th>
+                        <th>[[#{userMain.phone}]]</th>
+                        <th>[[#{userMain.email}]]</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -64,9 +64,9 @@
         </div>
     </div>
     <div class="float-right btn-responsive">
-        <label for="updateBtn" class="btn btn-primary btn-md my-0 p rounded" tabindex="0">Update</label>
-        <a href="/profile" class="btn btn-primary btn-md my-0 p rounded">
-            <span>Return to profile</span>
+        <label for="updateBtn" class="btn custom_buttons btn-md my-0 p rounded" tabindex="0">[[#{userEdit.update}]]</label>
+        <a href="/profile" class="btn custom_buttons btn-md my-0 p rounded">
+            <span>[[#{userEdit.returnBtn}]]</span>
         </a>
     </div>
     <br>

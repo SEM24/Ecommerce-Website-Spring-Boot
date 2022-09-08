@@ -23,14 +23,14 @@
     <section class="shopping-cart dark">
         <div class="container">
             <div class="block-heading">
-                <h2>Your Shopping Cart</h2>
-                <p>Make changes and pay</p>
+                <h2>[[#{shoppingCart.title}]]</h2>
+                <p>[[#{shoppingCart.subtitle}]]</p>
             </div>
             <div class="content">
                 <div class="block-heading" th:color="red" th:if="${#lists.isEmpty(orderBaskets)}">
-                    <h3>You haven't chosen any products yet</h3>
+                    <h3>[[#{shoppingCart.errorTitle}]]</h3>
                     <a th:href="@{'/'}">
-                        <button type="button" class="btn btn-primary">Go back to main page
+                        <button type="button" class="btn btn-primary">[[#{shoppingCart.errorSubtitle}]]
                         </button>
                     </a>
                 </div>
@@ -61,10 +61,10 @@
                                                         <a th:text="${product.title}"
                                                            th:href="@{'/product/' + ${product.alias}}"></a>
                                                         <div class="product-info mb-3">
-                                                            <div>Vendor: <span
+                                                            <div>[[#{shoppingCart.vendor}]] <span
                                                                     class="value">[[${product.vendor.title}]]</span>
                                                             </div>
-                                                            <div>Category: <span class="value">[[${product.category.title}]]</span>
+                                                            <div>[[#{shoppingCart.category}]] <span class="value">[[${product.category.title}]]</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -78,7 +78,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 price">
-                                                    <span class="productSubtotalTitle">Subtotal</span>
+                                                    <span class="productSubtotalTitle">[[#{shoppingCart.subtotal}]]</span>
                                                     <span class="productSubtotal"
                                                           style="width:800px; margin:0 auto; font-weight: 500;"
                                                           th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span><span>₴</span>
@@ -93,14 +93,15 @@
                     <div class="col-md-12 col-lg-4" th:unless="${#lists.isEmpty(orderBaskets)}">
                         <div class="summary">
 
-                            <h3>Summary</h3>
-                            <div class="summary-item"><span class="text">Total</span>
+                            <h3>[[#{shoppingCart.summaryTitle}]]</h3>
+                            <div class="summary-item"><span class="text">[[#{shoppingCart.total}]]</span>
                                 <span class="price" id="totalAmount"></span>
                             </div>
-                            <a th:href="@{'/payment'}" class="payment-btn btn-lg btn-block mt-3 text-center">Checkout
-                            </a>
-                            <a th:href="@{'/'}" class="d-flex justify-content-center ">
-                                <button type="button" class="btn-lg btn-sm mt-3">Go back to main page
+                            <a th:href="@{'/payment'}"
+                               class="payment-btn btn-lg btn-block mt-3 text-center">[[#{shoppingCart.checkout}]]</a>
+                            <a th:href="@{'/'}" class="d-flex justify-content-center">
+                                <button type="button"
+                                        class="btn-lg btn-sm mt-3 custom_buttons">[[#{shoppingCart.errorSubtitle}]]
                                 </button>
                             </a>
                         </div>

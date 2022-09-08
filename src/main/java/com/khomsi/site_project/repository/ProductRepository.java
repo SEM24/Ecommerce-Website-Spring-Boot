@@ -12,7 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     public Page<Product> listByCategory(Integer categoryId, Pageable pageable, String categoryIDMatch);
 
     public Product findByAlias(String alias);
-
-    //TODO make test
     public Long countById(Integer id);
 }
