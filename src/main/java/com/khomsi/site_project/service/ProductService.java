@@ -1,5 +1,6 @@
 package com.khomsi.site_project.service;
 
+import com.khomsi.site_project.entity.Category;
 import com.khomsi.site_project.entity.Product;
 import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.repository.ProductRepository;
@@ -12,14 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 @Service
 public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
     public static final int PRODUCTS_PER_PAGE = 10;
+    public static final int SEARCH_RESULTS_PAGE = 10;
 
+    @Override
     public Page<Product> listByCategory(int pageNum, Integer categoryId) {
         String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
         Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_PAGE);
@@ -51,6 +53,12 @@ public class ProductService implements IProductService {
 
     @Override
     public void saveProduct(Product product) {
+        if (product.getAlias() == null || product.getAlias().isEmpty()) {
+            String defaultAlias = product.getTitle().toLowerCase();
+            product.setAlias((new CategoryService().convertCyrillic(defaultAlias).replaceAll(" ", "_")));
+        } else {
+            product.setAlias(product.getAlias().replaceAll(" ", "_").toLowerCase());
+        }
         productRepository.save(product);
     }
 
@@ -79,5 +87,26 @@ public class ProductService implements IProductService {
             throw new ProductNotFoundException("Couldn't find any product with ID " + id);
         }
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public String checkUnique(Integer id, String title) {
+        boolean isCreatingNew = (id == null || id == 0);
+        Product productByName = productRepository.findByTitle(title);
+
+        if (isCreatingNew) {
+            if (productByName != null) return "Duplicate";
+        } else {
+            if (productByName != null && productByName.getId() != id) {
+                return "Duplicate";
+            }
+        }
+        return "OK";
+    }
+
+    public Page<Product> search(String keyword, int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, SEARCH_RESULTS_PAGE);
+        return productRepository.search(keyword, pageable);
+
     }
 }

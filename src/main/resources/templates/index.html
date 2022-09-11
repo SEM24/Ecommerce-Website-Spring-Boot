@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
@@ -94,7 +93,7 @@
                             <a th:href="@{'/product/'+${product.alias}}">
                                 <div class="view overlay">
                                     <img class="card-img-top "
-                                         th:src="'/product-images/'+${product.imageURL}"/>
+                                         th:src="'/product-images/'+${product.imageURL}" width="00"/>
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
                                 <div class="card-body text-center">

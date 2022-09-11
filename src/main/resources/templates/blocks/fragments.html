@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.png}"/>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
     <!-- Google Fonts Roboto -->
@@ -26,15 +26,18 @@
     <script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/mdb.js}"></script>
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+        var csrfHeaderName = "[[${_csrf.headerName}]]";
+        var csrfValue = "[[${_csrf.token}]]";
+    </script>
 </div>
-
 <!--Navigation bar-->
 <nav th:fragment="navbar" class="navbar sticky-top navbar-expand-lg">
     <div class="container">
         <!--Logo-->
         <a href="/" class="navbar-brand waves-effect rounded">
-            <img th:src="@{/assets/logoicon.png}" width="65"
-                 style="-webkit-filter: drop-shadow(2px 2px 2px #222); filter: drop-shadow(2px 2px 2px #222);">
+            <img th:src="@{/assets/logo.gif}" width="100">
         </a>
         <!--For smartphones menu-->
         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -49,6 +52,18 @@
                 </li>
                 <li class="nav-item"><a class="nav-link waves-effect rounded"
                                         href="/category">[[#{navbar.category}]]</a></li>
+            </ul>
+            <ul class="navbar-nav mr-auto ml-auto">
+                <li class="custom_item">
+                    <form class="form-inline" th:action="@{/search}" method="get">
+                        <div class="search-box">
+                            <button type="submit" class="btn-search" onclick="this.blur();"><i
+                                    class="fas fa-search"></i></button>
+                            <input type="text" name="keyword"
+                                   class="input-search" placeholder="Type to Search..." required/>
+                        </div>
+                    </form>
+                </li>
             </ul>
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
@@ -110,6 +125,7 @@
     <div th:replace="/blocks/login :: loginModal"></div>
 
 </nav>
+
 
 <!--Footer-->
 
@@ -186,8 +202,8 @@
     <div class="text-center m-1" th:if="${totalItems > 0}">
         <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
     </div>
-    <div class="text-center m-1" th:unless="${totalItems > 0}">
-        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[${entityName}]] [[#{pagination.found}]]</span>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
     </div>
 
     <div th:if="${totalPages > 1}">

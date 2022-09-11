@@ -11,6 +11,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             + "ORDER BY product.title ASC")
     public Page<Product> listByCategory(Integer categoryId, Pageable pageable, String categoryIDMatch);
 
+    @Query(value = "SELECT * FROM product WHERE MATCH(title, description) AGAINST (?1)",
+            nativeQuery = true)
+    public Page<Product> search(String keyword, Pageable pageable);
+
     public Product findByAlias(String alias);
+
+    public Product findByTitle(String title);
+
     public Long countById(Integer id);
 }

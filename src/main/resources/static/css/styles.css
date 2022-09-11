@@ -53,6 +53,76 @@
     color: #fff;
 }
 
+.search-box {
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    right: 70px;
+}
+
+.input-search {
+    height: 50px;
+    width: 50px;
+    border-style: none;
+    font-size: 18px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: transparent;
+    padding: 10px 40px 10px 10px;
+    color: #fff;
+}
+
+.input-search::placeholder {
+    color: rgba(255, 255, 255, .5);
+    font-size: 18px;
+    letter-spacing: 2px;
+    font-weight: 100;
+}
+
+.btn-search {
+    width: 50px;
+    height: 50px;
+    border-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 0px;
+    color: #ffffff;
+    background-color: transparent;
+    pointer-events: painted;
+}
+
+.btn-search:hover {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-search:hover ~ .input-search {
+    width: 300px;
+    border-radius: 0px;
+    background-color: transparent;
+    border: none;
+    transition: all 500ms;
+}
+
+.input-search:hover {
+    width: 300px;
+    border-radius: 0px;
+    background-color: transparent;
+    border: none;
+    transition: .2s;
+}
+@media (max-width: 992px) {
+    .custom_item {
+        padding-right: 0.5rem;
+        padding-left: 4rem;
+    }
+}
 
 div.vertical-line {
     width: 0.5px; /* Line width */
@@ -272,6 +342,19 @@ div.vertical-line {
 }
 
 /*!Text adaptation for carousel*/
+
+
+.form-group #icon1,
+.form-group #icon2 {
+    /*position: absolute;*/
+    color: #222;
+    margin-left: 10px;
+    /*padding: 10px;*/
+    /*right: 0;*/
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
+    cursor: pointer;
+}
 
 /*Animation for dropdown
 FIXME check if i need it*/

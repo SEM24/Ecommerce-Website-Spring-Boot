@@ -8,7 +8,7 @@
 <div class="container mt-2 mb-4">
     <div class="row justify-content-md-center">
         <div class="col-sm-4 border border-dark shadow rounded pt-2">
-            <div class="text-center"><img th:src="@{/assets/favicon.ico}" class="rounded-circle border p-1 mb-1"></div>
+            <div class="text-center"><img th:src="@{/assets/favicon.png}" class="p-1 mb-1"></div>
             <div class="col-sm-12">
                 <form th:action="@{/registration}" th:object="${user}"
                       method="post" id="singnupFrom" onSubmit="return validation();">
@@ -38,12 +38,14 @@
                                    th:attr="placeholder=#{reg.userNplaceholder}" th:field="*{login}">
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">[[#{reg.password}]]</label>
+                            <label class="font-weight-bold">[[#{reg.password}]]</label><i id="icon1"
+                                                                                          class="fas fa-eye"></i>
                             <input type="password" name="password" id="password" class="form-control"
                                    placeholder="***********" th:field="*{password}">
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">[[#{reg.cPassword}]]</label>
+                            <label class="font-weight-bold">[[#{reg.cPassword}]]</label><i id="icon2"
+                                                                                           class="fas fa-eye"></i>
                             <input type="password" name="cpassword" id="cpassword" class="form-control"
                                    placeholder="***********">
                             <em id="cp"></em>
@@ -79,6 +81,25 @@
 <footer th:insert="~{blocks/fragments :: footer}"></footer>
 <div th:insert="~{blocks/fragments :: scripts}"></div>
 <script type="text/javascript" th:src="@{/js/formValidation.js}"></script>
+<!--Show password when press ico-->
+<script type="text/javascript">
+    let password = document.getElementById('password');
+    let icon1 = document.getElementById('icon1');
+    let cpassword = document.getElementById('cpassword');
+    let icon2 = document.getElementById('icon2');
 
+    icon1.addEventListener('click', () => {
+        password.type =
+            password.type == 'password' ? 'text' : 'password';
+        icon1.className =
+            icon1.className == 'fas fa-eye' ? 'fas fa-eye-slash' : 'fas fa-eye';
+    });
+    icon2.addEventListener('click', () => {
+        cpassword.type =
+            cpassword.type == 'password' ? 'text' : 'password';
+        icon2.className =
+            icon2.className == 'fas fa-eye' ? 'fas fa-eye-slash' : 'fas fa-eye';
+    });
+</script>
 </body>
 </html>

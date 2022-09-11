@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head th:replace="blocks/fragments :: head('Shopping Cart - SENKO')"></head>
 <body>
-<!--Scripts-->
-<div th:insert="~{blocks/fragments :: scripts}"></div>
-<script type="text/javascript">
-    contextPath = "[[@{/}]]";
-    var csrfHeaderName = "[[${_csrf.headerName}]]";
-    var csrfValue = "[[${_csrf.token}]]";
-</script>
-<script th:src="@{/js/shopping-cart.js}"></script>
-
 <!--NavBar-->
 <div th:replace="blocks/fragments :: navbar"></div>
 
-<!--Modal-->
-<div th:replace="/blocks/fragments :: showModal"></div>
 
 <!--Shopping cart-->
 <main class="page">
@@ -110,7 +99,12 @@
             </div>
         </div>
     </section>
-
+    <!--Scripts-->
+    <div th:insert="~{blocks/fragments :: scripts}"></div>
+    <script th:src="@{/js/shopping-cart.js}"></script>
+    <!--Modal-->
+    <div th:replace="/blocks/fragments :: showModal"></div>
+    <!--Footer-->
     <footer class="mt-0" th:insert="~{blocks/fragments :: footer}"></footer>
 </main>
 </body>

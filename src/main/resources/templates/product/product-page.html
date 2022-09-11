@@ -1,25 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head th:replace="blocks/fragments :: head('Product page - SENKO')"></head>
-
 <body>
-<!--Scripts-->
-<div th:insert="~{blocks/fragments :: scripts}"></div>
-<script type="text/javascript">
-    contextPath = "[[@{/}]]";
-    var csrfHeaderName = "[[${_csrf.headerName}]]";
-    var csrfValue = "[[${_csrf.token}]]";
-    var productId = "[[${product.id}]]";
-</script>
-<script th:src="@{/js/quantity_control.js}"></script>
-<script th:src="@{/js/added_to_cart.js}"></script>
-
-
 <!--NavBar-->
 <div th:replace="blocks/fragments :: navbar"></div>
-<!-- Modal section-->
-<div th:replace="blocks/fragments :: showModal"></div>
+
 <!--Main layout-->
 <main class="container-fluid">
     <div th:replace="blocks/breadcrumb :: content"></div>
@@ -79,7 +65,19 @@
     </div>
 </main>
 <!--Main layout-->
-<!--/.Footer-->
+
+<!--Scripts-->
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    var productId = "[[${product.id}]]";
+    var productName = "[[${product.title}]]";
+</script>
+<script th:src="@{/js/quantity_control.js}"></script>
+<script th:src="@{/js/added_to_cart.js}"></script>
+
+<!-- Modal section-->
+<div th:replace="blocks/fragments :: showModal"></div>
+<!--Footer-->
 <footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 

@@ -63,11 +63,11 @@
                     <tr th:each="order : ${orders}" th:with="delivery = ${order.delivery}">
                         <td th:text="${delivery?.id}"></td>
                         <td th:text="${delivery?.status}"></td>
-                        <td th:unless="${order?.shippingType} eq '0'">
+                        <th scope="row"th:unless="${order?.shippingType} eq '0'">
                             <img class="rounded"
                                  src="https://cdn.aiidatapro.net/media/9e/51/fb/t780x490/9e51fb4779e0e137ff6aca595de7973d.jpg"
                                  width="300">
-                        </td>
+                        </th>
                         <th scope="row" th:if="${order?.shippingType} eq '0'">
                             <img class="rounded" src="https://eimg.pravda.com/images/doc/b/c/bc97a68-ukrposhta.jpg"
                                  width="300">

@@ -4,19 +4,19 @@
 
 <div th:insert="~{blocks/fragments :: scripts}"></div>
 <script th:src="@{/js/shopping-cart.js}"></script>
-<!-------------------------------------------------------------------------->
+
 <!--NavBar-->
 <body class="bg-white">
 <div class="container">
     <a href="/" class="navbar-brand waves-effect rounded mt-2">
-        <img th:src="@{/assets/logoicon.png}" width="65">
+        <img th:src="@{/assets/favicon.png}" width="65">
     </a>
     <div class="language_selector mt-4 float-right row">
         <div class="col border-right">
-        <a class="custom_link waves-effect rounded" th:href="@{'?lang=en'}">EN</a>
+            <a class="custom_link waves-effect rounded" th:href="@{'?lang=en'}">EN</a>
         </div>
         <div class="col">
-        <a class="custom_link waves-effect rounded" th:href="@{'?lang=uk'}">UA</a>
+            <a class="custom_link waves-effect rounded" th:href="@{'?lang=uk'}">UA</a>
         </div>
     </div>
     <hr class="mt-0"/>
@@ -128,15 +128,14 @@
                 <h6>[[#{checkout.chooseDelivery}]]</h6>
                 <div class="d-block my-3">
                     <div class="custom-control custom-radio ml-4">
-                        <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
-                               required checked th:value="0">
-                        <span class="custom-control-label">[[#{checkout.ukrPoshta}]]</span>
+                        <input th:field="*{shippingType}" id="ukrPoshta" name="deliveryMethod" type="radio" class="custom-control-input"
+                               required th:value="0">
+                        <label class="custom-control-label" for="ukrPoshta">[[#{checkout.ukrPoshta}]]</label>
                     </div>
                     <div class="custom-control custom-radio ml-4">
-                        <input th:field="*{shippingType}" name="paymentMethod" type="radio" class="custom-control-input"
-                               required
-                               th:value="1">
-                        <span class="custom-control-label">[[#{checkout.novaPoshta}]]</span>
+                        <input th:field="*{shippingType}" id="novaPoshta" name="deliveryMethod" type="radio" class="custom-control-input"
+                               required th:value="1">
+                        <label class="custom-control-label" for="novaPoshta">[[#{checkout.novaPoshta}]]</label>
                     </div>
                 </div>
                 <hr class="mb-4">

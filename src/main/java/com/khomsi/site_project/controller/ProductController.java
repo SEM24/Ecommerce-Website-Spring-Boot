@@ -8,10 +8,14 @@ import com.khomsi.site_project.service.CategoryService;
 import com.khomsi.site_project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -36,33 +40,24 @@ public class ProductController {
 
             List<Category> listCategoryParents = categoryService.getCategoryParents(category);
             Page<Product> pageProduct = productService.listByCategory(pageNum, category.getId());
-
             List<Product> listProducts = pageProduct.getContent();
             long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
             long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
-            if (endCount > pageProduct.getTotalElements()) {
-                endCount = pageProduct.getTotalElements();
-            }
-            model.addAttribute("currentPage", pageNum);
-            model.addAttribute("totalPages", pageProduct.getTotalPages());
-            model.addAttribute("startCount", startCount);
-            model.addAttribute("endCount", endCount);
-            model.addAttribute("totalItems", pageProduct.getTotalElements());
+
+            pageCountMethod(pageNum, model, pageProduct, startCount, endCount);
 
             model.addAttribute("pageTitle", category.getTitle());
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("listProducts", listProducts);
 
             model.addAttribute("category", category);
-            return "products_by_category";
+            return "product/products_by_category";
         } catch (CategoryNotFoundException e) {
             model.addAttribute("error", e.getLocalizedMessage());
             return "error/404";
         }
     }
 
-
-    //TODO нужно сделать уникальные алиасы по туториалу в папке продукты
     @GetMapping("/product/{product_alias}")
     public String viewProductDetails(@PathVariable("product_alias") String alias, Model model) {
         try {
@@ -70,10 +65,52 @@ public class ProductController {
             List<Category> listCategoryParents = categoryService.getCategoryParents(product.getCategory());
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("product", product);
-            return "product-page";
+            return "product/product-page";
         } catch (ProductNotFoundException e) {
             model.addAttribute("error", e.getLocalizedMessage());
             return "error/404";
         }
+    }
+
+    @PostMapping("/products/check_unique")
+    public @ResponseBody String checkUnique(@Param("id") Integer id, @Param("title") String title) {
+        return productService.checkUnique(id, title);
+    }
+
+    @GetMapping("/search")
+    public String searchFirstPage(@Param("keyword") String keyword, Model model) {
+        return searchByPage(keyword, 1, model);
+    }
+
+    /*
+     * We need param of page num, so i use pathVariable
+     */
+    @GetMapping("/search/page/{pageNum}")
+    public String searchByPage(@Param("keyword") String keyword,
+                               @PathVariable("pageNum") int pageNum,
+                               Model model) {
+        Page<Product> productsPage = productService.search(keyword, pageNum);
+        List<Product> resultList = productsPage.getContent();
+
+        long startCount = (pageNum - 1) * ProductService.SEARCH_RESULTS_PAGE + 1;
+        long endCount = startCount + ProductService.SEARCH_RESULTS_PAGE - 1;
+        pageCountMethod(pageNum, model, productsPage, startCount, endCount);
+
+        model.addAttribute("pageTitle", StringUtils.capitalize(keyword) + " - Search Result");
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("resultList", resultList);
+        return "product/search_result";
+    }
+
+    private void pageCountMethod(@PathVariable("pageNum") int pageNum, Model model, Page<Product> productsPage,
+                                 long startCount, long endCount) {
+        if (endCount > productsPage.getTotalElements()) {
+            endCount = productsPage.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("totalPages", productsPage.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", productsPage.getTotalElements());
     }
 }

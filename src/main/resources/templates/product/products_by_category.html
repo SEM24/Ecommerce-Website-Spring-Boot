@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+>
 <!--Header-->
 <head th:replace="blocks/fragments :: head('Products - SENKO')"></head>
 
@@ -15,7 +15,7 @@
         <th:block th:each="cat : ${category.children}">
             <div class="col" th:if="${cat.enabled == true}">
                 <a th:href="@{'/category/'+ ${cat.alias}}">
-                    <div class="text-center">
+                    <div class="text-center zoom">
                         <img style="-webkit-filter: drop-shadow(3px 3px 3px #222); filter: drop-shadow(3px 3px 3px #222);
                      width: 100px; height: 100px;"
                              th:src="'/category-images/'+${cat.imageURL}"/>
@@ -32,20 +32,7 @@
 
     <div class="row text-center">
         <th:block th:each="product : ${listProducts}">
-            <div class="col">
-                <div class="zoom">
-                    <a th:href="@{'/product/'+${product.alias}}">
-                        <img th:src="'/product-images/'+${product.imageURL}" width="150"/>
-                        <br/>
-                        <div class="card-body">
-                            <b>[[${product.shortTitle}]]</b>
-                            <div>
-                                <span class="font-weight-bolder text-dark">[[${product.price}]] &#8372;</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <div th:replace="product/product_fragment :: content"></div>
         </th:block>
     </div>
 

@@ -68,7 +68,39 @@ public class CategoryService implements ICategoryService {
             allParentIds += String.valueOf(parent.getId()) + "-";
             category.setAllParentsIDs(allParentIds);
         }
+        if (category.getAlias() == null || category.getAlias().isEmpty()) {
+            String defaultAlias = category.getTitle().toLowerCase();
+            category.setAlias(convertCyrillic(defaultAlias).replaceAll(" ", "_"));
+        } else {
+            category.setAlias(category.getAlias().replaceAll(" ", "_").toLowerCase());
+        }
         return categoryRep.save(category);
+    }
+
+    //Method to convert alias into english letters
+    public String convertCyrillic(String message) {
+        char[] abcCyr = {' ', 'а', 'б', 'в', 'г', 'д', 'і', 'е', 'ж', 'з', 'ѕ', 'и', 'ј', 'к', 'л', 'ґ', 'м', 'н', 'є',
+                'о', 'п', 'р', 'с', 'т', 'ї', 'у', 'ф', 'х', 'ц', 'ч', 'џ', 'ш', 'А', 'Б', 'В', 'Г', 'Д', 'І', 'Е', 'Ж',
+                'З', 'Ѕ', 'И', 'Ј', 'К', 'Л', 'Ґ', 'М', 'Н', 'Є', 'О', 'П', 'Р', 'С', 'Т', 'Ї', 'У', 'Ф', 'Х', 'Ц', 'Ч',
+                'Џ', 'Ш', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+                't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/'};
+
+        String[] abcLat = {" ", "a", "b", "v", "g", "d", "i", "e", "zh", "z", "y", "i", "j", "k", "l", "g", "m", "n", "e",
+                "o", "p", "r", "s", "t", "ї", "u", "f", "h", "c", ";", "x", "{", "A", "B", "V", "G", "D", "І", "E", "Zh",
+                "Z", "Y", "I", "J", "K", "L", "G", "M", "N", "E", "O", "P", "R", "S", "T", "I", "U", "F", "H", "C", ":",
+                "X", "{", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+                "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+                "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "_"};
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            for (int x = 0; x < abcCyr.length; x++) {
+                if (message.charAt(i) == abcCyr[x]) {
+                    builder.append(abcLat[x]);
+                }
+            }
+        }
+        return builder.toString();
     }
 
     @Override

@@ -80,8 +80,8 @@ CREATE TRIGGER afterUpdOrdersInsDel
 AFTER UPDATE on orders
 FOR EACH ROW
 BEGIN
-IF NEW.order_status = 'Îïëà÷åíî' THEN
-INSERT INTO delivery(orders_id, status) values(OLD.id, 'Îáðàáîòêà');
+IF NEW.order_status = 'ÐžÐ¿Ð»Ð°Ñ‡ÐµÐ½Ð¾' THEN
+INSERT INTO delivery(orders_id, status) values(OLD.id, 'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°');
 END IF;
 END//
 DELIMITER ;
@@ -91,9 +91,42 @@ DELIMITER //
 CREATE TRIGGER afterInsOrdersInsDel AFTER INSERT on orders
 FOR EACH ROW
 BEGIN
-IF NEW.order_status = 'Îïëà÷åíî' THEN
-INSERT INTO delivery(orders_id, status) values(NEW.id, 'Îáðàáîòêà');
+IF NEW.order_status = 'ÐžÐ¿Ð»Ð°Ñ‡ÐµÐ½Ð¾' THEN
+INSERT INTO delivery(orders_id, status) values(NEW.id, 'ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°');
 END IF;
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER checkUniqueProduct
+BEFORE INSERT on product
+FOR EACH ROW
+BEGIN
+ declare ProductTitle int default 0;
+ declare ProductAlias int default 0;
+ select count(title) into ProductTitle from product
+    where product.title = new.title;
+
+select count(alias) into ProductAlias from product
+    where product.alias = new.alias;
+
+ if(ProductAlias > 0 OR ProductTitle > 0) then
+        signal sqlstate '45000'
+        set message_text = 'This product is already exist';
+elseif(char_length(new.title) OR char_length(new.alias)) > 13 then
+    signal sqlstate '45000'
+    set message_text = 'Title or alias can not be empty';
+END IF;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER deleteOrder_delivery
+BEFORE DELETE
+ON `orders`
+FOR EACH ROW
+BEGIN
+DELETE FROM delivery WHERE orders_id = OLD.id;
+END //
+DELIMITER ;

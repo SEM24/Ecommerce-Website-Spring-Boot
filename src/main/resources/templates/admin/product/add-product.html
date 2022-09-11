@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blocks/fragments :: head('Admin - Product')"></head>
 <body>
+
 <div class="container">
     <br>
     <h3>Add Product</h3>
     <hr/>
-    <form th:action="@{/admin/products/save}" th:object="${addProduct}" method="post">
+    <form th:action="@{/admin/products/save}" onsubmit="return checkUnique(this)" th:object="${product}" method="post">
         <table class="table table-bordered table-striped">
             <thead style="text-align: center">
             <tr>
@@ -75,5 +76,52 @@
     </div>
     <br>
 </div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script type="text/javascript">
+    var productId = "[[${product.id}]]";
+    var productName = "[[${product.title}]]";
+</script>
+<!--Script to check unique product-->
+<script type="text/javascript">
+    function checkUnique(form) {
+        productId = $("#id").val();
+        productName = $("#title").val();
+
+        csrfValue = $("input[name='_csrf']").val();
+
+        url = "[[@{/products/check_unique}]]"
+
+        params = {id: productId, title: productName, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+                showWarningModal("There is another product with title " + productName)
+            } else {
+                showErrorModal("Unknown response from server")
+            }
+        }).fail(function () {
+            showErrorModal("Could not connect to server")
+        });
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#myModal").modal();
+    }
+
+    function showErrorModal(message) {
+        showModalDialog("Error", message);
+    }
+
+    function showWarningModal(message) {
+        showModalDialog("Warning", message);
+    }
+</script>
+<!-- Modal section-->
+<div th:replace="blocks/fragments :: showModal"></div>
 </body>
 </html>

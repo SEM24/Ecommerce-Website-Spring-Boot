@@ -61,7 +61,7 @@ public class MyAdminController {
         try {
             Product product = productService.getProduct(id);
             List<Vendor> vendorList = vendorRep.findAll();
-            List<Category> categoryList = categoryService.listAll();
+            List<Category> categoryList = categoryService.listCategoriesUserInForm();
             model.addAttribute("updateProduct", product);
             model.addAttribute("vendorList", vendorList);
             model.addAttribute("categoryList", categoryList);
@@ -70,6 +70,18 @@ public class MyAdminController {
             attributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/admin/products";
         }
+    }
+
+    @GetMapping("/products/add")
+    public String addProduct(Model model) {
+
+        List<Vendor> vendorList = vendorRep.findAll();
+        List<Category> categoryList = categoryService.listCategoriesUserInForm();
+        model.addAttribute("product", new Product());
+        model.addAttribute("vendorList", vendorList);
+        model.addAttribute("categoryList", categoryList);
+
+        return "admin/product/add-product";
     }
 
     @PostMapping("/products/save")
@@ -87,18 +99,6 @@ public class MyAdminController {
             return "/error/404";
         }
         return "redirect:/admin/products";
-    }
-
-    @GetMapping("/products/add")
-    public String addProduct(Model model) {
-
-        List<Vendor> vendorList = vendorRep.findAll();
-        List<Category> categoryList = categoryService.listCategoriesUserInForm();
-        model.addAttribute("addProduct", new Product());
-        model.addAttribute("vendorList", vendorList);
-        model.addAttribute("categoryList", categoryList);
-
-        return "admin/product/add-product";
     }
 
     @GetMapping("/users")
