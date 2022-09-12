@@ -161,11 +161,7 @@
             </form>
         </div>
     </div>
-    <div class="text-center copyright p-3">
-        <hr/>
-        <span class="credit">[[#{footer.created}]] <a href="https://github.com/SEM24">SEM</a> | </span>
-        <span class="far fa-copyright"></span><span> [[#{footer.copyright}]]</span>
-    </div>
+    <div th:insert="~{blocks/fragments :: additional_footer}"></div>
 </div>
 </body>
 </html>

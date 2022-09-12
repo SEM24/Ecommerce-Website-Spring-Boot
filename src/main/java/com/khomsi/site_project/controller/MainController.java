@@ -20,9 +20,6 @@ import java.util.List;
 @Controller
 public class MainController {
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -50,18 +47,11 @@ public class MainController {
     }
 
     @PostMapping("/registration")
-    public String registration(User user, UserInfo userInfo, Model model) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public String registration(User user, UserInfo userInfo) {
         user.setRole(Role.USER);
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
-        try {
-            userService.saveUser(user);
-        } catch (JpaSystemException ex) {
-            model.addAttribute("error", ex.getCause().getCause().getMessage());
-            model.addAttribute("userInfo", userInfo);
-            return "registration";
-        }
+        userService.saveUser(user);
         return "redirect:/";
 
     }

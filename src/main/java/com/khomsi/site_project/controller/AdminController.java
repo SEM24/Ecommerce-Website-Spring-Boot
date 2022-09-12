@@ -3,9 +3,11 @@ package com.khomsi.site_project.controller;
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.exception.ProductNotFoundException;
+import com.khomsi.site_project.exception.UserNotFoundException;
 import com.khomsi.site_project.repository.VendorRepository;
 import com.khomsi.site_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class MyAdminController {
+public class AdminController {
     @Autowired
     private ProductService productService;
     @Autowired
@@ -37,7 +39,7 @@ public class MyAdminController {
     private OrderBasketService orderBasketService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AdminTools adminTools;
 
     @GetMapping({"", "/", "/admin-panel"})
     public String showAdminPanel() {
@@ -102,68 +104,55 @@ public class MyAdminController {
     }
 
     @GetMapping("/users")
-    public String allUsers(Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("allUsers", users);
+    public String listFirstPage(Model model) {
 
-        return "admin/user/all-users";
+        return adminTools.listByPage(1, model);
     }
-
-    @GetMapping("/users/edit/{id}")
-    public String updateUser(@PathVariable int id, Model model) {
-        User user = userService.getUser(id);
-        model.addAttribute("updateUser", user);
-        return "admin/user/update-user";
+    @GetMapping("/users/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("userInfo", new UserInfo());
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("pageTitle", "Create New User");
+        return "admin/user/user_form";
     }
 
     @PostMapping("/users/save")
-    public String saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
-        return "redirect:/admin/users";
-    }
-
-    @PostMapping("/users/{id}/delete")
-    public String deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
-        return "redirect:/admin/users";
-    }
-
-    @GetMapping("/users/add")
-    public String addUser(Model userModel, Model userDetailsModel) {
-        userModel.addAttribute("addUser", new User());
-        userDetailsModel.addAttribute("addUserDetails", new UserInfo());
-        return "admin/user/add-user";
-    }
-
-    @PostMapping("/users/add")
-    public String createUser(UserInfo userInfo, User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
+    public String createUser(UserInfo userInfo, User user, RedirectAttributes redirect) {
+        user.setUserInfo(userInfo);
         userInfo.setUser(user);
-        userInfoService.saveUserDetail(userInfo);
+        userService.saveUser(user);
+        redirect.addFlashAttribute("message", "The user was saved successfully");
+
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/user_details")
-    public String allUserDetails(Model model) {
-        List<UserInfo> userDetails = userInfoService.getAllUserDetails();
-        model.addAttribute("allUserDetails", userDetails);
-
-        return "admin/userDetails/all-userDetails";
+    @GetMapping("/users/edit/{id}")
+    public String updateUser(@PathVariable(name = "id") int id, Model model, RedirectAttributes redirect) {
+        try {
+            User user = userService.getUser(id);
+            UserInfo userInfo = userInfoService.getUserDetail(id);
+            model.addAttribute("user", user);
+            model.addAttribute("userInfo", userInfo);
+            model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
+            model.addAttribute("roles", Role.values());
+        } catch (UserNotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/users";
+        }
+        return "admin/user/user_form";
     }
 
-    @GetMapping("/user_details/edit/{id}")
-    public String updateUserDetails(@PathVariable int id, Model model) {
-        UserInfo userInfo = userInfoService.getUserDetail(id);
-        model.addAttribute("updateUserDetails", userInfo);
-        return "admin/userDetails/update-userDetails";
-    }
-
-    @PostMapping("/user_details/save")
-    public String saveUserDetails(UserInfo userInfo) {
-        userInfoService.saveUserDetail(userInfo);
-        return "redirect:/admin/user_details";
+    @GetMapping("/users/delete/{id}")
+    public String deleteUser(@PathVariable(name = "id") Integer id, RedirectAttributes redirect) {
+        try {
+            userService.deleteUser(id);
+            redirect.addFlashAttribute("message",
+                    "The user ID " + id + " has been deleted successfully");
+        } catch (UserNotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/categories")

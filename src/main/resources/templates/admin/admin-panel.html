@@ -4,63 +4,10 @@
 
 <body>
 <div th:insert="~{blocks/fragments :: scripts}"></div>
-<div th:replace="blocks/fragments :: navbar"></div>
-<div class="container">
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<div class="container-fluid">
     <br>
-    <h3>Welcome admin!</h3>
-    <hr/>
-    <div>
-        <form th:action="@{/admin/products}" method="get">
-            <input type="submit" value="Products page"/>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form th:action="@{/admin/users}" method="get">
-            <input type="submit" value="User page"/>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form th:action="@{/admin/orders}" method="get">
-            <input type="submit" value="Orders page"/>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form th:action="@{/admin/user_details}" method="get">
-            <input type="submit" value="UserDetails page"/>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form th:action="@{/admin/categories}" method="get">
-            <input type="submit" value="Category page"/>
-        </form>
-    </div>
-    <br>
-    <div>
-        <form th:action="@{/admin/vendors}" method="get">
-            <input type="submit" value="Vendor page"/>
-        </form>
-    </div>
-    <br>
-    <br>
-    <div>
-        <form th:action="@{/admin/order_baskets}" method="get">
-            <input type="submit" value="OrderBaskets page"/>
-        </form>
-    </div>
-    <br>
-    <br>
-    <div>
-        <form th:action="@{/}" method="get">
-            <input type="submit" value="Return to main page"/>
-        </form>
-    </div>
-    <br>
+    <h2 class="text-center mt-5">Welcome admin!<br> Use navbar to manage the DataBase!</h2>
 </div>
-<footer th:insert="~{blocks/fragments :: footer}"></footer>
-
 </body>
 </html>

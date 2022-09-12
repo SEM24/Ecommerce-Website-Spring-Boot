@@ -356,8 +356,7 @@ div.vertical-line {
     cursor: pointer;
 }
 
-/*Animation for dropdown
-FIXME check if i need it*/
+/*Animation for dropdown*/
 @media (min-width: 768px) {
     .animate {
         animation-duration: 0.3s;

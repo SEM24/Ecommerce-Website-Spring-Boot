@@ -5,8 +5,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +16,7 @@ import javax.validation.constraints.Size;
 public class UserInfo {
     @Id
     @Column(name = "user_info_id", nullable = false)
-    private int id;
+    private int user_id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)

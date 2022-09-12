@@ -23,7 +23,7 @@
         <tbody style="text-align: center">
         <tr th:each="order : ${allOrders}">
             <td th:text="${order.id}"></td>
-            <td th:text="${order?.orderStatus?.orderType}"></td>
+            <td th:text="${order?.orderStatus}"></td>
             <td th:text="${order.shippingType}"></td>
             <td th:text="${order.city}"></td>
             <td th:text="${order.address}"></td>

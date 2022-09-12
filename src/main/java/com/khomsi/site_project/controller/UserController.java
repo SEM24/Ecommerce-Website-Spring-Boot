@@ -2,8 +2,9 @@ package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.User;
 import com.khomsi.site_project.entity.UserInfo;
-import com.khomsi.site_project.repository.UserRepository;
+import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,22 +13,23 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.webjars.NotFoundException;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/profile")
-public class UserProfileController {
+public class UserController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping({"/", ""})
     public String getUserInfo(Principal principal, Model model) {
         if (principal != null) {
-            User user = userRepository.findByLogin(principal.getName());
+            User user = userService.getUserByLogin(principal.getName());
             UserInfo userInfo = user.getUserInfo();
             model.addAttribute("userDetails", userInfo);
             model.addAttribute("user", user);
@@ -40,7 +42,7 @@ public class UserProfileController {
 
     @GetMapping("/edit")
     public String showEditPage(Principal principal, Model model) {
-        User user = userRepository.findByLogin(principal.getName());
+        User user = userService.getUserByLogin(principal.getName());
         UserInfo userInfo = user.getUserInfo();
         model.addAttribute("userDetails", userInfo);
         model.addAttribute("user", user);
@@ -50,7 +52,7 @@ public class UserProfileController {
 
     @PostMapping("/edit")
     public String editUser(Principal principal, User user, BindingResult bindingResult) {
-        User newUser = userRepository.findByLogin(principal.getName());
+        User newUser = userService.getUserByLogin(principal.getName());
 
         if (!user.getPassword().equals("")) {
             if (!passwordEncoder.matches(user.getPassword(), newUser.getPassword())) {
@@ -66,7 +68,8 @@ public class UserProfileController {
         newUser.getUserInfo().setName(user.getUserInfo().getName());
         newUser.getUserInfo().setSurname(user.getUserInfo().getSurname());
         newUser.getUserInfo().setPhone(user.getUserInfo().getPhone());
-        userRepository.save(newUser);
+        userService.saveUser(newUser);
         return "redirect:/profile";
     }
+
 }

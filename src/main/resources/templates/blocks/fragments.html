@@ -126,9 +126,83 @@
 
 </nav>
 
+<!--Navigation bar-->
+<nav th:fragment="admin_navbar" class="navbar sticky-top navbar-expand-lg">
+    <div class="container">
+        <!--Logo-->
+        <a href="/" class="navbar-brand waves-effect rounded">
+            <img th:src="@{/assets/logo.gif}" width="100">
+        </a>
+        <!--For smartphones menu-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
+        </button>
+        <!--Left-->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/admin">[[#{admin_nav.home}]]</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/products">[[#{admin_nav.products}]]</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/users">[[#{admin_nav.users}]]</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/orders">[[#{admin_nav.orders}]]</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/categories">[[#{admin_nav.categories}]]</a>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/vendors">[[#{admin_nav.vendors}]]</a>
+                </li>
+                </li>
+                <li class="nav-item"><a class="nav-link waves-effect rounded"
+                                        href="/admin/order_baskets">[[#{admin_nav.order_baskets}]]</a>
+                </li>
+            </ul>
+            <!-- Right -->
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item dropdown ml-3" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle waves-effect waves-light text-white font-weight-bold rounded"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"><span class="fas fa-user text-white"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-cyan animated slideIn text-center"
+                         aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="dropdown-item waves-effect waves-light" href="/logout"
+                           sec:authorize="isAuthenticated()">[[#{navbar.logout}]]</a>
+                    </div>
+                </li>
+                <!--GitHub, linked ect icons-->
+                <li class="nav-item">
+                    <a href="https://github.com/SEM24" class="nav-link waves-effect rounded">
+                        <span class="fab fa-github"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://www.linkedin.com/in/samir-homsi-kak" class="nav-link waves-effect rounded">
+                        <span class="fab fa-linkedin"></span>
+                    </a>
+                </li>
+                <div class="language_selector">
+                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=en'}">EN</a>
+                    <div class="vertical-line" style="height: 25px;"></div>
+                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=uk'}">UA</a>
+                </div>
+            </ul>
+        </div>
+    </div>
+    <!--Login modal-->
+    <div th:replace="/blocks/login :: loginModal"></div>
+
+</nav>
+
 
 <!--Footer-->
-
 <footer th:fragment="footer" class="footer text-center text-lg-start mt-5">
     <!-- Grid container -->
     <div class="container p-4">
@@ -249,6 +323,12 @@
             </li>
         </ul>
     </nav>
+</div>
+<!--Addition footer for checkout and admin-->
+<div th:fragment="additional_footer" class="text-center copyright mt-5 p-4">
+    <hr/>
+    <span class="credit">[[#{footer.created}]] <a href="https://github.com/SEM24">SEM</a> | </span>
+    <span class="far fa-copyright"></span><span> [[#{footer.copyright}]]</span>
 </div>
 
 <!-- Modal for errors-->

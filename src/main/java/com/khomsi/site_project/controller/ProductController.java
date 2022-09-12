@@ -25,6 +25,8 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private AdminTools adminTools;
 
     @GetMapping({"/category/{category_alias}"})
     public String viewCategoryFirstPage(@PathVariable("category_alias") String alias,
@@ -44,7 +46,7 @@ public class ProductController {
             long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_PAGE + 1;
             long endCount = startCount + ProductService.PRODUCTS_PER_PAGE - 1;
 
-            pageCountMethod(pageNum, model, pageProduct, startCount, endCount);
+            adminTools.pageCountMethod(pageNum, model, pageProduct, startCount, endCount);
 
             model.addAttribute("pageTitle", category.getTitle());
             model.addAttribute("listCategoryParents", listCategoryParents);
@@ -94,7 +96,7 @@ public class ProductController {
 
         long startCount = (pageNum - 1) * ProductService.SEARCH_RESULTS_PAGE + 1;
         long endCount = startCount + ProductService.SEARCH_RESULTS_PAGE - 1;
-        pageCountMethod(pageNum, model, productsPage, startCount, endCount);
+        adminTools.pageCountMethod(pageNum, model, productsPage, startCount, endCount);
 
         model.addAttribute("pageTitle", StringUtils.capitalize(keyword) + " - Search Result");
         model.addAttribute("keyword", keyword);
@@ -102,15 +104,4 @@ public class ProductController {
         return "product/search_result";
     }
 
-    private void pageCountMethod(@PathVariable("pageNum") int pageNum, Model model, Page<Product> productsPage,
-                                 long startCount, long endCount) {
-        if (endCount > productsPage.getTotalElements()) {
-            endCount = productsPage.getTotalElements();
-        }
-        model.addAttribute("currentPage", pageNum);
-        model.addAttribute("totalPages", productsPage.getTotalPages());
-        model.addAttribute("startCount", startCount);
-        model.addAttribute("endCount", endCount);
-        model.addAttribute("totalItems", productsPage.getTotalElements());
-    }
 }
