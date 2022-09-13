@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
 >
-<head th:replace="blocks/fragments :: head('Login - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Login - SENKO', 'none')"></head>
 <body>
 <!--Scripts-->
 <div th:insert="~{blocks/fragments :: scripts}"></div>
@@ -26,10 +26,11 @@
                 <div class="modal-body d-flex justify-content-center">
                     <form th:action="@{/login}" method="post">
                         <input class="text-center rounded" type="text" name="username"
-                               th:attr="placeholder=#{login.username}"/>
+                               th:attr="placeholder=#{login.username}" required minlength="4" maxlength="30"/>
                         <input class="text-center rounded" type="password" name="password"
-                               th:attr="placeholder=#{login.password}"/>
-                        <button type="submit" class="btn-block rounded" style="height: 35px;">[[#{login.submit}]]</button>
+                               th:attr="placeholder=#{login.password}" required minlength="4" maxlength="40"/>
+                        <button type="submit" class="btn-block rounded" style="height: 35px;">[[#{login.submit}]]
+                        </button>
                     </form>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">

@@ -1,6 +1,5 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.Category;
 import com.khomsi.site_project.entity.Product;
 import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.repository.ProductRepository;
@@ -21,6 +20,8 @@ public class ProductService implements IProductService {
     public static final int PRODUCTS_PER_PAGE = 10;
     public static final int SEARCH_RESULTS_PAGE = 10;
 
+    public static final int PRODUCTS_PER_ADMIN_PAGE = 5;
+
     @Override
     public Page<Product> listByCategory(int pageNum, Integer categoryId) {
         String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
@@ -29,6 +30,11 @@ public class ProductService implements IProductService {
         return productRepository.listByCategory(categoryId, pageable, categoryIdMatch);
     }
 
+    @Override
+    public Page<Product> listByPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_ADMIN_PAGE);
+        return productRepository.findAll(pageable);
+    }
 
     @Override
     public List<Product> getAllProducts() throws ProductNotFoundException {

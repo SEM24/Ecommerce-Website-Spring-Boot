@@ -12,4 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     List<Order> findOrdersByUser(User user);
 
+    public Long countById(Integer id);
+
 }

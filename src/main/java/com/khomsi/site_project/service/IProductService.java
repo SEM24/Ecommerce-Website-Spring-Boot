@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IProductService {
+    Page<Product> listByPage(int pageNum);
+
     public List<Product> getAllProducts() throws ProductNotFoundException;
 
     List<Product> getRandomAmountOfProducts() throws ProductNotFoundException;

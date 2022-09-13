@@ -6,8 +6,6 @@ import com.khomsi.site_project.repository.CategoryRepository;
 import com.khomsi.site_project.service.ProductService;
 import com.khomsi.site_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +51,6 @@ public class MainController {
         userInfo.setUser(user);
         userService.saveUser(user);
         return "redirect:/";
-
     }
 
     @GetMapping("/basket")

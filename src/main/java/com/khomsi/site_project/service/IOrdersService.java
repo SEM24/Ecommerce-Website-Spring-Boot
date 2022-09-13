@@ -4,6 +4,7 @@ import com.khomsi.site_project.entity.Order;
 import com.khomsi.site_project.entity.OrderBasket;
 import com.khomsi.site_project.entity.User;
 import com.khomsi.site_project.exception.OrderNotFoundException;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ public interface IOrdersService {
 
     float countSum(List<OrderBasket> orderBaskets);
 
-    public void deleteOrder(int id);
+    public void deleteOrder(int id) throws OrderNotFoundException;
 
 
+    Page<Order> listByPage(int pageNum);
 }

@@ -1,8 +1,7 @@
 package com.khomsi.site_project.controller;
 
-import com.khomsi.site_project.entity.User;
-import com.khomsi.site_project.service.ProductService;
-import com.khomsi.site_project.service.UserService;
+import com.khomsi.site_project.entity.*;
+import com.khomsi.site_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +18,15 @@ import java.util.List;
 public class AdminTools {
     @Autowired
     private UserService userService;
+    @Autowired
+    private VendorService vendorService;
+    @Autowired
+    private OrdersService ordersService;
+
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
 
     @PostMapping("/users/check_login")
     public @ResponseBody String checkLoginUnique(@Param("id") Integer id, @Param("login") String login) {
@@ -35,9 +43,19 @@ public class AdminTools {
         return userService.checkLoginRegistration(login) ? "OK" : "Duplicate";
     }
 
+    @PostMapping("/categories/check")
+    public @ResponseBody String checkCategory(@Param("id") Integer id, @Param("title") String title) {
+        return categoryService.checkCategoryTitle(id,title);
+    }
+
+    @PostMapping("/vendors/check")
+    public @ResponseBody String checkVendor(@Param("id") Integer id, @Param("title") String title) {
+        return vendorService.checkVendorTitle(id, title);
+    }
+
     //Controller in admin panel for users
     @GetMapping("/admin/users/page/{pageNum}")
-    public String listByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+    public String listUsersByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
         Page<User> page = userService.listByPage(pageNum);
         List<User> listUsers = page.getContent();
 
@@ -51,8 +69,72 @@ public class AdminTools {
         return "admin/user/users";
     }
 
+    //Controller in admin panel for vendors
+    @GetMapping("/admin/vendors/page/{pageNum}")
+    public String listVendorsByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+        Page<Vendor> page = vendorService.listByPage(pageNum);
+        List<Vendor> vendorList = page.getContent();
+
+        long startCount = (pageNum - 1) * VendorService.VENDORS_PER_PAGE + 1;
+        long endCount = startCount + VendorService.VENDORS_PER_PAGE - 1;
+
+        pageCountMethod(pageNum, model, page, startCount, endCount);
+
+        model.addAttribute("vendors", vendorList);
+
+        return "admin/vendor/vendors";
+    }
+
+    //Controller in admin panel for orders
+    @GetMapping("/admin/orders/page/{pageNum}")
+    public String listOrdersByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+        Page<Order> page = ordersService.listByPage(pageNum);
+        List<Order> orderList = page.getContent();
+
+        long startCount = (pageNum - 1) * OrdersService.ORDERS_PER_PAGE + 1;
+        long endCount = startCount + OrdersService.ORDERS_PER_PAGE - 1;
+
+        pageCountMethod(pageNum, model, page, startCount, endCount);
+
+        model.addAttribute("orders", orderList);
+
+        return "admin/orders/orders";
+    }
+
+    //Controller in admin panel for products
+    @GetMapping("/admin/products/page/{pageNum}")
+    public String listProductsByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+        Page<Product> page = productService.listByPage(pageNum);
+        List<Product> productList = page.getContent();
+
+        long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_ADMIN_PAGE + 1;
+        long endCount = startCount + ProductService.PRODUCTS_PER_ADMIN_PAGE - 1;
+
+        pageCountMethod(pageNum, model, page, startCount, endCount);
+
+        model.addAttribute("products", productList);
+
+        return "admin/product/products";
+    }
+
+    //Controller in admin panel for categories
+    @GetMapping("/admin/categories/page/{pageNum}")
+    public String listCategoriesByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+        Page<Category> page = categoryService.listByPage(pageNum);
+        List<Category> categoryList = page.getContent();
+
+        long startCount = (pageNum - 1) * CategoryService.CATEGORIES_PER_PAGE + 1;
+        long endCount = startCount + CategoryService.CATEGORIES_PER_PAGE - 1;
+
+        pageCountMethod(pageNum, model, page, startCount, endCount);
+
+        model.addAttribute("categories", categoryList);
+
+        return "admin/category/categories";
+    }
+
     public void pageCountMethod(@PathVariable("pageNum") int pageNum, Model model, Page<?> page,
-                                 long startCount, long endCount) {
+                                long startCount, long endCount) {
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }

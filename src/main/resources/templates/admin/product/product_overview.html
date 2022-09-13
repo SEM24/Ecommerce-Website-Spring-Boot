@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.title}]]</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control"
+                   th:field="*{title}" required minlength="4"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.alias}]]</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control"
+                   th:field="*{alias}" minlength="4"
+                   th:attr="placeholder=#{admin.product.aliasPlace}"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.vendor}]]</label>
+        <div class="col-sm-10">
+            <select class="form-control" th:field="*{vendor}">
+                <th:block th:each="vendor :${vendorList}">
+                    <option th:value="${vendor.id}">[[${vendor.title}]]</option>
+                </th:block>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.image}]]</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control"
+                   th:field="*{imageURL}" minlength="4"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.category}]]</label>
+        <div class="col-sm-10">
+            <select class="form-control" th:field="*{category}">
+                <th:block th:each="category :${categoryList}">
+                    <option th:value="${category.id}">[[${category.title}]]</option>
+                </th:block>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">[[#{admin.product.price}]]</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control"
+                   th:field="*{price}" minlength="8"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

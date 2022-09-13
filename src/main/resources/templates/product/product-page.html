@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
 >
-<head th:replace="blocks/fragments :: head('Product page - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Product page - SENKO', 'none')"></head>
 <body>
 <!--NavBar-->
 <div th:replace="blocks/fragments :: navbar"></div>
@@ -28,15 +28,15 @@
                     </div>
                     <div class="mb-3">
                         <a th:href="@{'/category/'+ ${product.category.alias}}">
-                            <span class="badge purple mr-1">Category: [[${product.category.title}]]</span>
+                            <span class="badge purple mr-1">[[#{admin.product.category}]]: [[${product.category.title}]]</span>
                         </a>
-                        <span class="badge blue mr-1">Vendor: [[${product.vendor.title}]]</span>
+                        <span class="badge blue mr-1">[[#{admin.product.vendor}]]: [[${product.vendor.title}]]</span>
                     </div>
                     <p class="lead">
-                        <span>Price: [[${product.price}]] &#8372;</span>
+                        <h4><strong>[[#{admin.product.price}]]: [[${product.price}]] &#8372;</strong> </h4>
                     </p>
 
-                    <p class="lead font-weight-bold">Description</p>
+                    <p class="lead font-weight-bold">[[#{admin.product.shortDescription}]]:</p>
 
                     <p th:utext="${product.description}"></p>
 
@@ -47,7 +47,7 @@
                         <div>
                             <button class="productBtn my-0 rounded" type="submit" id="addToCartBtn">
                                 <i class="fas fa-shopping-cart ml-1"></i>
-                                Add to cart
+                                [[#{product.addToCartBtn}]]
                             </button>
                         </div>
                     </div>

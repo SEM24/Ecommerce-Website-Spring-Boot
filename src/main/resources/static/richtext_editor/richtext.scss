@@ -1,0 +1,340 @@
+/*
+ RichText: WYSIWYG editor developed as jQuery plugin
+
+ @name RichText
+ @author https://github.com/webfashionist - Bob Schockweiler - richtext@webfashion.eu
+
+ Copyright (C) 2020 Bob Schockweiler ( richtext@webfashion.eu )
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Affero General Public License as published
+ by the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Affero General Public License for more details.
+
+ You should have received a copy of the GNU Affero General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+$highlight: #3498db;
+
+.richText {
+    position: relative;
+    background-color: #FAFAFA;
+    border: #EFEFEF solid 1px;
+    color: #333333;
+    width: 100%;
+
+    .richText-form {
+        font-family: Calibri,Verdana,Helvetica,sans-serif;
+        label {
+            display: block;
+            padding: 10px 15px;
+        }
+
+        input[type="text"], input[type="file"], input[type="number"], select {
+            padding: 10px 15px;
+            border: #999999 solid 1px;
+            min-width: 200px;
+            width: 100%;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        button {
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: $highlight;
+            border: none;
+            color: #FAFAFA;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+    }
+
+    .richText-toolbar {
+        position: sticky;
+        top: 0;
+        min-height: 20px;
+        background-color: inherit;
+        border-bottom: #EFEFEF solid 1px;
+
+        .richText-length {
+            font-family: Verdana, Helvetica, sans-serif;
+            font-size: 13px;
+            vertical-align: middle;
+            line-height: 34px;
+            .black {
+                color: #000;
+            }
+            .orange {
+                color: orange;
+            }
+            .red {
+                color: red;
+            }
+        }
+
+        ul {
+            padding-left: 0;
+            padding-right: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+
+            li {
+                float: left;
+                display: block;
+                list-style: none;
+
+                a {
+                    display: block;
+                    padding: 10px 13px;
+                    border-right: #EFEFEF solid 1px;
+                    cursor: pointer;
+                    -webkit-transition: background-color 0.4s;
+                    -moz-transition: background-color 0.4s;
+                    transition: background-color 0.4s;
+
+                    .fa, .fas, .far, svg {
+                        pointer-events: none;
+                    }
+
+                    .richText-dropdown-outer {
+                        display: none;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background-color: rgba(0,0,0,0.3);
+                        cursor: default;
+
+                        .richText-dropdown {
+                            position:relative;
+                            display: block;
+                            margin: 3% auto 0 auto;
+                            background-color: #FAFAFA;
+                            border: #EFEFEF solid 1px;
+                            min-width: 100px;
+                            width: 300px;
+                            max-width: 90%;
+                            -webkit-box-shadow:0 0 5px 0 #333;
+                            -moz-box-shadow:0 0 5px 0 #333;
+                            box-shadow:0 0 5px 0 #333;
+
+                            .richText-dropdown-close {
+                                position: absolute;
+                                top: 0;
+                                right: -23px;
+                                background: #FFF;
+                                color: #333;
+                                cursor: pointer;
+                                font-size: 20px;
+                                text-align: center;
+                                width: 20px;
+                            }
+                        }
+
+
+                        ul.richText-dropdown {
+                            list-style: none;
+
+                            li {
+                                display: block;
+                                float: none;
+                                font-family: Calibri,Verdana,Helvetica,sans-serif;
+
+                                a {
+                                    display: block;
+                                    padding: 10px 15px;
+                                    border-bottom: #EFEFEF solid 1px;
+                                }
+
+                                a:hover {
+                                    background-color: #FFFFFF;
+                                }
+                            }
+
+                            li.inline{
+                                margin: 10px 6px;
+                                float: left;
+
+                                a {
+                                    display: block;
+                                    padding: 0;
+                                    margin: 0;
+                                    border: none;
+                                    -webkit-border-radius: 50%;
+                                    -moz-border-radius: 50%;
+                                    border-radius: 50%;
+                                    -webkit-box-shadow: 0 0 10px 0 #999;
+                                    -moz-box-shadow: 0 0 10px 0 #999;
+                                    box-shadow: 0 0 10px 0 #999;
+
+                                    span {
+                                        display: block;
+                                        height: 30px;
+                                        width: 30px;
+                                        -webkit-border-radius: 50%;
+                                        -moz-border-radius: 50%;
+                                        border-radius: 50%;
+                                    }
+                                }
+                            }
+                        }
+
+                        div.richText-dropdown {
+                            padding: 10px 15px;
+
+                        }
+                    }
+
+
+                }
+
+                a:hover {
+                    background-color: #FFFFFF;
+                }
+            }
+
+            li[data-disable="true"] {
+                opacity: 0.1;
+                a {
+                    cursor: default;
+                }
+            }
+
+            li:not([data-disable="true"]).is-selected .richText-dropdown-outer {
+                display: block;
+            }
+        }
+
+        ul:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+    }
+
+    .richText-toolbar:last-child {
+        font-size: 12px;
+    }
+
+    .richText-toolbar:after{
+        display: block;
+        clear: both;
+        content:"";
+    }
+
+    .richText-editor {
+        padding: 20px;
+        background-color: #FFFFFF;
+        border-left: #FFFFFF solid 2px;
+        font-family: Calibri,Verdana,Helvetica,sans-serif;
+        height: 300px;
+        outline: none;
+        overflow-y: scroll;
+        overflow-x: auto;
+
+        &[placeholder] {
+            &:before {
+                content: attr(placeholder);
+                color: #555;
+            }
+        }
+
+        ul, ol {
+            margin: 10px 25px;
+        }
+
+        table {
+            margin:10px 0;
+            border-spacing:0;
+            width:100%;
+
+            td, th {
+                padding: 10px;
+                border:#EFEFEF solid 1px;
+            }
+        }
+    }
+
+
+    .richText-editor:focus {
+        border-left: $highlight solid 2px;
+    }
+
+    .richText-initial {
+        margin-bottom: -4px;
+        padding: 10px;
+        background-color: #282828;
+        border: none;
+        color: #33FF33;
+        font-family: Monospace,Calibri,Verdana,Helvetica,sans-serif;
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+        min-height: 400px;
+        height: 400px;
+    }
+
+    .richText-help {
+        float: right;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+
+    .richText-undo,
+    .richText-redo {
+        float: left;
+        display: block;
+        padding: 10px 15px;
+        border-right: #EFEFEF solid 1px;
+        cursor: pointer;
+    }
+    .richText-undo.is-disabled,
+    .richText-redo.is-disabled {
+        opacity: 0.4;
+    }
+
+    .richText-help-popup {
+        a {
+            color:#3498db;
+            text-decoration:underline;
+        }
+
+        hr {
+            margin: 10px auto 5px auto;
+            border:none;
+            border-top: #EFEFEF solid 1px;
+        }
+    }
+
+    .richText-list.list-rightclick {
+        position: absolute;
+        background-color: #FAFAFA;
+        border-right: #EFEFEF solid 1px;
+        border-bottom: #EFEFEF solid 1px;
+
+        li {
+            padding: 5px 7px;
+            cursor: pointer;
+            list-style: none;
+        }
+    }
+
+}
+

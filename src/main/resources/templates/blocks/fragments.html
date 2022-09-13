@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <!--Header-->
-<head th:fragment="head(title)">
+<head th:fragment="head(title, remove)" th:remove="${remove}">
     <meta charset="UTF-8">
     <title>[[${title}]]</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.png}"/>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
@@ -23,9 +23,7 @@
 <!--Main scripts-->
 <div th:fragment="scripts" xmlns:th="http://www.thymeleaf.org">
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/mdb.js}"></script>
     <script type="text/javascript">
         contextPath = "[[@{/}]]";
         var csrfHeaderName = "[[${_csrf.headerName}]]";
@@ -135,12 +133,12 @@
         </a>
         <!--For smartphones menu-->
         <button class="navbar-toggler" type="button" data-toggle="collapse"
-                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-target="#navbarContent2" aria-controls="navbarContent" aria-expanded="false"
+                aria-label="Toggle navigation" >
             <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
         </button>
         <!--Left-->
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="navbarContent2">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link waves-effect rounded" aria-current="page" href="/admin">[[#{admin_nav.home}]]</a>
                 </li>
@@ -237,7 +235,7 @@
                     </li>
                     <li class="mb-3">
                         <span class="fa-li"><em class="fas fa-envelope"></em></span><span
-                            class="ms-2">Shopme@gmail.com</span>
+                            class="ms-2">senkostore@outlook.com</span>
                     </li>
                     <li class="mb-3">
                         <span class="fa-li"><em class="fas fa-phone"></em></span><span

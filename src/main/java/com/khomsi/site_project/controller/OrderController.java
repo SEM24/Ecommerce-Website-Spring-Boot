@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.webjars.NotFoundException;
 
 import javax.mail.MessagingException;
@@ -65,15 +66,23 @@ public class OrderController {
     }
 
     @PostMapping("/payment")
-    public String saveOrder(Order newOrder, Principal principal, Model model) {
+    public String saveOrder(Order newOrder, Principal principal,
+                            Model model, RedirectAttributes attributes) {
         User user = userService.getUserByLogin(principal.getName());
         List<OrderBasket> orderBaskets = user.getOrderBaskets();
         newOrder.setUser(user);
         newOrder.setTotalPrice(ordersService.countSum(orderBaskets));
         try {
             ordersService.saveOrder(newOrder);
-            sendVerificationEmail(newOrder);
-        } catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
+            attributes.addFlashAttribute("message", "Order was completed! Check your email!");
+            //FIXME заменить почту, когда буду делать гифку для гита
+//            sendVerificationEmail(newOrder);
+        }
+//        catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
+//            model.addAttribute("error", ex.getCause().getCause().getMessage());
+//            return "error/404";
+//        }
+        catch (JpaSystemException ex) {
             model.addAttribute("error", ex.getCause().getCause().getMessage());
             return "error/404";
         }
@@ -81,7 +90,7 @@ public class OrderController {
     }
 
     /*
-     * Method that creates the email with order that will be sent to user's email
+     * Method that creates the email with orders that will be sent to user's email
      * */
     private void sendVerificationEmail(Order order)
             throws MessagingException, UnsupportedEncodingException {

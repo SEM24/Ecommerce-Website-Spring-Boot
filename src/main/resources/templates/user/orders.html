@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 >
-<head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Home - SENKO', 'none')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
 
@@ -11,6 +11,9 @@
         <a th:href="@{'/'}">
             <button type="button" class="btn custom_buttons rounded">[[#{userMain.returnBtn}]]</button>
         </a>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
     </div>
     <div th:unless="${#lists.isEmpty(orders)}">
         <div class="row">

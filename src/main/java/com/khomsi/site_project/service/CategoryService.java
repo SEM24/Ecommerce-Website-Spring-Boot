@@ -4,6 +4,9 @@ import com.khomsi.site_project.entity.Category;
 import com.khomsi.site_project.exception.CategoryNotFoundException;
 import com.khomsi.site_project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,10 +19,7 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private CategoryRepository categoryRep;
 
-    @Override
-    public List<Category> listAll() {
-        return categoryRep.findAll();
-    }
+    public static final int CATEGORIES_PER_PAGE = 5;
 
     @Override
     public List<Category> listCategoriesUserInForm() {
@@ -87,7 +87,7 @@ public class CategoryService implements ICategoryService {
                 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/'};
 
         String[] abcLat = {" ", "a", "b", "v", "g", "d", "i", "e", "zh", "z", "y", "i", "j", "k", "l", "g", "m", "n", "e",
-                "o", "p", "r", "s", "t", "ї", "u", "f", "h", "c", ";", "x", "{", "A", "B", "V", "G", "D", "І", "E", "Zh",
+                "o", "p", "r", "s", "t", "ї", "u", "f", "h", "c", "ch", "x", "h", "A", "B", "V", "G", "D", "І", "E", "Zh",
                 "Z", "Y", "I", "J", "K", "L", "G", "M", "N", "E", "O", "P", "R", "S", "T", "I", "U", "F", "H", "C", ":",
                 "X", "{", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
                 "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
@@ -104,7 +104,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public void deleteCategory(int id) throws CategoryNotFoundException {
+        Long countById = categoryRep.countById(id);
+        if (countById == null || countById == 0) {
+            throw new CategoryNotFoundException("Couldn't find any category with id " + id);
+        }
         categoryRep.deleteById(id);
     }
 
@@ -141,4 +145,26 @@ public class CategoryService implements ICategoryService {
 
         return listParents;
     }
+
+    @Override
+    public Page<Category> listByPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, CATEGORIES_PER_PAGE);
+        return categoryRep.findAll(pageable);
+    }
+
+    @Override
+    public String checkCategoryTitle(Integer id, String title) {
+        Category category = categoryRep.findByTitle(title);
+        boolean isCreatingNew = (id == null);
+
+        if (isCreatingNew) {
+            if (category != null) return "Duplicate";
+        } else {
+            if (category.getId() != id) {
+                return "Duplicate";
+            }
+        }
+        return "OK";
+    }
+
 }

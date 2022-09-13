@@ -777,7 +777,7 @@ svg {
 
 .container .productBtn {
     display: block;
-    width: 150px;
+    width: 200px;
     margin-bottom: 20px;
     outline: none;
     height: 40px;
@@ -1001,5 +1001,5 @@ and */
     .container .custom_product {
         position: relative;
     }
-
 }
+

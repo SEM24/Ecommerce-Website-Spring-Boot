@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 >
-<head th:replace="blocks/fragments :: head('Registration - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Registration - SENKO', 'none')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
 
@@ -83,8 +83,7 @@
 
         $.post(url, params, function (response) {
             if (response == "OK") {
-                showWarningModal("OK: " + customerLogin)
-                // form.submit();
+                form.submit();
             } else if (response == "Duplicate") {
                 showWarningModal("There is another user with login: " + customerLogin)
             } else {
@@ -113,16 +112,5 @@
 <!-- Modal section-->
 <div th:replace="blocks/fragments :: showModal"></div>
 <script type="text/javascript" th:src="@{/js/formValidation.js}"></script>
-<!--Show password when press ico-->
-<!--<script type="text/javascript">-->
-<!--    let password = document.getElementById('password');-->
-<!--    let icon1 = document.getElementById('icon1');-->
-<!--    icon1.addEventListener('click', () => {-->
-<!--        password.type =-->
-<!--            password.type == 'password' ? 'text' : 'password';-->
-<!--        icon1.className =-->
-<!--            icon1.className == 'fas fa-eye' ? 'fas fa-eye-slash' : 'fas fa-eye';-->
-<!--    });-->
-<!--</script>-->
 </body>
 </html>

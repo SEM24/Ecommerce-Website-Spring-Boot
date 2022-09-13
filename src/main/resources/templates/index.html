@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="blocks/fragments :: head('Home - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Home - SENKO', 'none')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
 
@@ -15,7 +15,7 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <a th:href="@{'/category/clothes'}">
+            <a th:href="@{'/category/odg'}">
                 <img class="d-block img-fluid" src="img/ClothesBanner.png" alt="First slide">
                 <div class="carousel-caption d-md-block">
                     <h3 class="text-left">[[#{index.titleFirst}]]</h3>
@@ -31,7 +31,7 @@
             </a>
         </div>
         <div class="carousel-item">
-            <a th:href="@{'/category/phones'}">
+            <a th:href="@{'/category/mobilni_telefoni'}">
                 <img class="d-block img-fluid" src="img/PhonesBanner.png" alt="Second slide">
                 <div class="carousel-caption d-md-block" style="margin-bottom: 55px">
                     <h3 class="text-left">[[#{index.titleSecond}]]</h3>
@@ -40,7 +40,7 @@
             </a>
         </div>
         <div class="carousel-item">
-            <a th:href="@{'/category/electronincs'}">
+            <a th:href="@{'/category/elektronika'}">
                 <img class="d-block img-fluid" src="img/ElectronicsBanner.png" alt="Third slide">
                 <div class="carousel-caption d-md-block">
                     <h3 class="text-left">[[#{index.titleThird}]]</h3>

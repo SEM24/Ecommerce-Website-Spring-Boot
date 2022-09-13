@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="m-2">
+        <label class="mt-1">[[#{admin.product.shortDescription}]]:</label>
+        <textarea id="txtEditor" class="form-control" th:field="*{description}"
+                  rows="10" required></textarea>
+    </div>
+</div>
+</body>
+</html>

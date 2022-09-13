@@ -1,13 +1,14 @@
 package com.khomsi.site_project.service;
 
-import com.khomsi.site_project.entity.Category;
-import com.khomsi.site_project.entity.Order;
-import com.khomsi.site_project.entity.OrderBasket;
-import com.khomsi.site_project.entity.User;
+import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.exception.OrderNotFoundException;
 import com.khomsi.site_project.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class OrdersService implements IOrdersService {
     @Autowired
     private OrderRepository orderRepository;
+
+    public static final int ORDERS_PER_PAGE = 8;
+
 
     @Override
     public List<Order> getAllOrders() {
@@ -44,7 +48,7 @@ public class OrdersService implements IOrdersService {
     public Order getOrderByUser(User user) throws OrderNotFoundException {
         Order order = orderRepository.findByUser(user);
         if (order == null) {
-            throw new OrderNotFoundException("Couldn't find any order with ID " + order.getId());
+            throw new OrderNotFoundException("Couldn't find any orders with ID " + order.getId());
         }
         return order;
     }
@@ -59,7 +63,17 @@ public class OrdersService implements IOrdersService {
     }
 
     @Override
-    public void deleteOrder(int id) {
+    public void deleteOrder(int id) throws OrderNotFoundException {
+        Long countById = orderRepository.countById(id);
+        if (countById == null || countById == 0) {
+            throw new OrderNotFoundException("Couldn't find any orders with id " + id);
+        }
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Order> listByPage(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum - 1, ORDERS_PER_PAGE);
+        return orderRepository.findAll(pageable);
     }
 }

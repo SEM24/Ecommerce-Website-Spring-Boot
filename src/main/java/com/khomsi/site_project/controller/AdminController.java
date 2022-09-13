@@ -2,13 +2,11 @@ package com.khomsi.site_project.controller;
 
 import com.khomsi.site_project.entity.*;
 import com.khomsi.site_project.exception.CategoryNotFoundException;
+import com.khomsi.site_project.exception.OrderNotFoundException;
 import com.khomsi.site_project.exception.ProductNotFoundException;
 import com.khomsi.site_project.exception.UserNotFoundException;
-import com.khomsi.site_project.repository.VendorRepository;
 import com.khomsi.site_project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +28,7 @@ public class AdminController {
     @Autowired
     private CategoryService categoryService;
     @Autowired
-    private VendorRepository vendorRep;
+    private VendorService vendorService;
 
     @Autowired
     private OrdersService ordersService;
@@ -47,73 +45,67 @@ public class AdminController {
     }
 
     @GetMapping("/products")
-    public String allProducts(Model model) {
-        try {
-            List<Product> products = productService.getAllProducts();
-            model.addAttribute("allProducts", products);
-        } catch (ProductNotFoundException exception) {
-            model.addAttribute("error", exception.getLocalizedMessage());
-            return "error/404";
-        }
-        return "admin/product/all-product";
+    public String listProductsFirstPage(Model model) {
+        return adminTools.listProductsByPage(1, model);
     }
 
     @GetMapping("/products/edit/{id}")
-    public String updateProduct(@PathVariable int id, Model model, RedirectAttributes attributes) {
+    public String updateProduct(@PathVariable(name = "id") int id, Model model, RedirectAttributes attributes) {
         try {
             Product product = productService.getProduct(id);
-            List<Vendor> vendorList = vendorRep.findAll();
+            List<Vendor> vendorList = vendorService.getAllVendors();
             List<Category> categoryList = categoryService.listCategoriesUserInForm();
-            model.addAttribute("updateProduct", product);
+            model.addAttribute("product", product);
             model.addAttribute("vendorList", vendorList);
             model.addAttribute("categoryList", categoryList);
-            return "admin/product/update-product";
         } catch (ProductNotFoundException e) {
-            attributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/admin/products";
+            attributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/product/products";
         }
+        return "admin/product/product_form";
     }
 
-    @GetMapping("/products/add")
+    @GetMapping("/products/new")
     public String addProduct(Model model) {
 
-        List<Vendor> vendorList = vendorRep.findAll();
+        List<Vendor> vendorList = vendorService.getAllVendors();
         List<Category> categoryList = categoryService.listCategoriesUserInForm();
         model.addAttribute("product", new Product());
         model.addAttribute("vendorList", vendorList);
         model.addAttribute("categoryList", categoryList);
 
-        return "admin/product/add-product";
+        return "admin/product/product_form";
     }
 
     @PostMapping("/products/save")
-    public String saveProduct(Product product) {
+    public String saveProduct(Product product, RedirectAttributes redirect) {
         productService.saveProduct(product);
+        redirect.addFlashAttribute("message", "The product was saved successfully");
         return "redirect:/admin/products";
     }
 
-    @PostMapping("/products/{id}/delete")
-    public String deleteProduct(@PathVariable int id, Model model) {
+    @GetMapping("/products/delete/{id}")
+    public String deleteProduct(@PathVariable(name = "id") Integer id, RedirectAttributes redirect) {
         try {
             productService.deleteProduct(id);
+            redirect.addFlashAttribute("message",
+                    "The product ID " + id + " has been deleted successfully");
         } catch (ProductNotFoundException e) {
-            model.addAttribute("error", e.getCause().getMessage());
-            return "/error/404";
+            redirect.addFlashAttribute("message", e.getMessage());
         }
         return "redirect:/admin/products";
     }
 
     @GetMapping("/users")
-    public String listFirstPage(Model model) {
-
-        return adminTools.listByPage(1, model);
+    public String listUsersFirstPage(Model model) {
+        return adminTools.listUsersByPage(1, model);
     }
+
     @GetMapping("/users/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("userInfo", new UserInfo());
         model.addAttribute("roles", Role.values());
-        model.addAttribute("pageTitle", "Create New User");
         return "admin/user/user_form";
     }
 
@@ -134,7 +126,6 @@ public class AdminController {
             UserInfo userInfo = userInfoService.getUserDetail(id);
             model.addAttribute("user", user);
             model.addAttribute("userInfo", userInfo);
-            model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
             model.addAttribute("roles", Role.values());
         } catch (UserNotFoundException e) {
             redirect.addFlashAttribute("message", e.getMessage());
@@ -156,11 +147,8 @@ public class AdminController {
     }
 
     @GetMapping("/categories")
-    public String allCategories(Model model) {
-        List<Category> categories = categoryService.listAll();
-        model.addAttribute("allCategories", categories);
-
-        return "admin/category/all-categories";
+    public String listCategoriesFirstPage(Model model) {
+        return adminTools.listCategoriesByPage(1, model);
     }
 
     @GetMapping("/categories/edit/{id}")
@@ -168,22 +156,22 @@ public class AdminController {
         try {
             Category category = categoryService.getCategory(id);
             List<Category> categoryList = categoryService.listCategoriesUserInForm();
-            model.addAttribute("updateCategory", category);
+            model.addAttribute("category", category);
             model.addAttribute("categoryList", categoryList);
-            return "admin/category/update-category";
+            return "admin/category/category_form";
         } catch (CategoryNotFoundException e) {
             attributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/admin/categories";
         }
     }
 
-    @GetMapping("/categories/add")
+    @GetMapping("/categories/new")
     public String addCategory(Model model) {
         List<Category> categoryList = categoryService.listCategoriesUserInForm();
-        model.addAttribute("addCategory", new Category());
+        model.addAttribute("category", new Category());
         model.addAttribute("categoryList", categoryList);
 
-        return "admin/category/add-category";
+        return "admin/category/category_form";
     }
 
     @PostMapping("/categories/save")
@@ -193,82 +181,106 @@ public class AdminController {
         return "redirect:/admin/categories";
     }
 
-    @PostMapping("/categories/{id}/delete")
-    public String deleteCategory(@PathVariable int id) {
-        categoryService.deleteCategory(id);
+    @GetMapping("/categories/delete/{id}")
+    public String deleteCategory(@PathVariable(name = "id") Integer id, RedirectAttributes redirect) {
+        try {
+            categoryService.deleteCategory(id);
+            redirect.addFlashAttribute("message",
+                    "The category ID " + id + " has been deleted successfully");
+        } catch (CategoryNotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+        }
         return "redirect:/admin/categories";
     }
 
-
     @GetMapping("/vendors")
-    public String allVendors(Model model) {
-        List<Vendor> vendors = vendorRep.findAll();
-        model.addAttribute("allVendors", vendors);
-
-        return "admin/vendor/all-vendors";
+    public String listVendorsFirstPage(Model model) {
+        return adminTools.listVendorsByPage(1, model);
     }
 
-    @GetMapping("/vendors/edit/{id}")
-    public String updateVendor(@PathVariable int id, Model model) {
-        Vendor vendor = vendorRep.getReferenceById(id);
-        model.addAttribute("updateVendor", vendor);
-        return "admin/vendor/update-vendor";
-    }
-
-    @PostMapping("/vendors/{id}/delete")
-    public String deleteVendor(@PathVariable int id) {
-        vendorRep.deleteById(id);
-        return "redirect:/admin/vendors";
-    }
-
-    @GetMapping("/vendors/add")
-    public String addVendor(Model model) {
-        Vendor vendor = new Vendor();
-        model.addAttribute("addVendor", vendor);
-        return "admin/vendor/add-vendor";
+    @GetMapping("/vendors/new")
+    public String newVendor(Model model) {
+        model.addAttribute("vendor", new Vendor());
+        return "admin/vendor/vendor_form";
     }
 
     @PostMapping("/vendors/save")
-    public String createVendor(Vendor vendor) {
-        vendorRep.save(vendor);
+    public String createVendor(Vendor vendor, RedirectAttributes redirect) {
+        vendorService.saveVendor(vendor);
+        redirect.addFlashAttribute("message", "The vendor was saved successfully");
+        return "redirect:/admin/vendors";
+    }
+
+    @GetMapping("/vendors/edit/{id}")
+    public String updateVendor(@PathVariable(name = "id") int id, Model model, RedirectAttributes redirect) {
+        try {
+            Vendor vendor = vendorService.getVendor(id);
+            model.addAttribute("vendor", vendor);
+        } catch (NotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/vendors";
+        }
+        return "admin/vendor/vendor_form";
+    }
+
+    @GetMapping("/vendors/delete/{id}")
+    public String deleteVendor(@PathVariable(name = "id") Integer id, RedirectAttributes redirect) {
+        try {
+            vendorService.deleteVendor(id);
+            redirect.addFlashAttribute("message",
+                    "The vendor ID " + id + " has been deleted successfully");
+        } catch (NotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+        }
         return "redirect:/admin/vendors";
     }
 
     @GetMapping("/orders")
-    public String allOrders(Model model) {
-        List<Order> orders = ordersService.getAllOrders();
-        model.addAttribute("allOrders", orders);
-
-        return "admin/orders/all-orders";
-    }
-
-    @GetMapping("/orders/edit/{id}")
-    public String updateOrder(@PathVariable int id, Model model) {
-        Order order = ordersService.getOrder(id);
-        model.addAttribute("updateOrder", order);
-        return "admin/orders/update-order";
+    public String listOrdersFirstPage(Model model) {
+        return adminTools.listOrdersByPage(1, model);
     }
 
     @PostMapping("/orders/save")
-    public String saveOrder(Order orders) {
-        ordersService.saveOrder(orders);
+    public String createOrder(Order order, RedirectAttributes redirect) {
+        ordersService.saveOrder(order);
+
+        redirect.addFlashAttribute("message", "The order was saved successfully");
         return "redirect:/admin/orders";
     }
 
-    @PostMapping("/orders/{id}/delete")
-    public String deleteOrder(@PathVariable int id) {
-        ordersService.deleteOrder(id);
+    @GetMapping("/orders/edit/{id}")
+    public String updateOrder(@PathVariable(name = "id") int id, Model model, RedirectAttributes redirect) {
+        try {
+            Order order = ordersService.getOrder(id);
+            model.addAttribute("orderTypes", OrderType.values());
+            model.addAttribute("order", order);
+        } catch (NotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+            return "redirect:/admin/orders";
+        }
+        return "admin/orders/order_form";
+    }
+
+    @GetMapping("/orders/delete/{id}")
+    public String deleteOrder(@PathVariable(name = "id") Integer id, RedirectAttributes redirect) {
+        try {
+            ordersService.deleteOrder(id);
+            redirect.addFlashAttribute("message",
+                    "The orders ID " + id + " has been deleted successfully");
+        } catch (OrderNotFoundException e) {
+            redirect.addFlashAttribute("message", e.getMessage());
+        }
         return "redirect:/admin/orders";
     }
 
     @GetMapping("/order_baskets")
     public String allOrderBasket(Model model) {
         try {
-            model.addAttribute("allOrderBaskets", orderBasketService.getAllOrderBaskets());
+            model.addAttribute("orderBaskets", orderBasketService.getAllOrderBaskets());
         } catch (NotFoundException ex) {
             model.addAttribute("error", ex.getCause().getCause().getMessage());
             return "/error/404";
         }
-        return "admin/order_basket/all-order_baskets";
+        return "admin/order_basket/order_baskets";
     }
 }
