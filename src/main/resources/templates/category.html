@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-
-<head th:replace="blocks/fragments :: head('Category - SENKO')"></head>
+<head th:replace="blocks/fragments :: head('Category - SENKO', 'none')"></head>
 <body class="d-flex flex-column min-vh-100">
 <div th:insert="~{blocks/fragments :: scripts}"></div>
 <div th:replace="blocks/fragments :: navbar"></div>
 
 <div class="container-fluid">
     <div>
-        <h4 class="text-center mb-4 mt-4" style="font-weight: 400;">Shop by Category</h4>
+        <h4 class="text-center mb-4 mt-4" style="font-weight: 400;">[[#{category.title}]]</h4>
     </div>
     <div class="row">
         <div class="col" th:each="cat : ${listCategories}">
             <a th:href="@{'/category/'+ ${cat.alias}}">
-                <div class="text-center">
-                    <img class="rounded-circle z-depth-2"
-                         style="width: 140px; height: 140px;"
+                <div class="text-center zoom">
+                    <img style="-webkit-filter: drop-shadow(3px 3px 3px #222); filter: drop-shadow(3px 3px 3px #222);
+                     width: 140px; height: 140px;"
                          th:src="'/category-images/'+${cat.imageURL}"/>
                 </div>
-                <div class="category_label text-center">[[${cat.title}]]</div>
+                <div class="category_label text-center mt-4">[[${cat.title}]]</div>
             </a>
         </div>
     </div>
 </div>
 
-<footer class="mt-auto" th:insert="~{blocks/fragments :: footer}"></footer>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

@@ -1,0 +1,48 @@
+DELIMITER //
+CREATE TRIGGER deleteFromUserInfo
+AFTER DELETE ON user
+ FOR EACH ROW begin
+DELETE FROM user_info WHERE user_info_id = OLD.id;
+END//
+
+DELIMITER //
+CREATE TRIGGER insOrders
+AFTER INSERT
+ON `orders`
+FOR EACH ROW
+BEGIN
+DELETE FROM order_basket WHERE user_id = NEW.user_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER afterUpdOrdersInsDel
+AFTER UPDATE on orders
+FOR EACH ROW
+BEGIN
+IF NEW.order_status = 'Оплачено' THEN
+INSERT INTO delivery(orders_id, status) values(OLD.id, 'Обработка');
+END IF;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER afterInsOrdersInsDel AFTER INSERT on orders
+FOR EACH ROW
+BEGIN
+IF NEW.order_status = 'Оплачено' THEN
+INSERT INTO delivery(orders_id, status) values(NEW.id, 'Обработка');
+END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER deleteOrder_delivery
+BEFORE DELETE
+ON `orders`
+FOR EACH ROW
+BEGIN
+DELETE FROM delivery WHERE orders_id = OLD.id;
+END //
+DELIMITER ;

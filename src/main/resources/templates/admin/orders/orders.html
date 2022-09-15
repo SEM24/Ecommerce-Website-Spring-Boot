@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Orders - SENKO', 'none')"></head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.orders.create.title}]]</h2>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl text-center">
+            <thead class="thead-dark">
+            <th>[[#{admin.order.id}]]</th>
+            <th>[[#{admin.users.login}]]</th>
+            <th>[[#{admin.order.orderStatus}]]</th>
+            <th>[[#{admin.order.shipping}]]</th>
+            <th>[[#{admin.order.city}]]</th>
+            <th>[[#{admin.order.address}]]</th>
+            <th>[[#{admin.order.total}]]</th>
+            <th>[[#{admin.managment}]]</th>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user.login}"></td>
+                <td th:text="${order.orderStatus}"></td>
+                <td th:text="${order.shippingType}"></td>
+                <td th:text="${order.city}"></td>
+                <td th:text="${order.address}"></td>
+                <td th:text="${order.totalPrice}"></td>
+                <td><a class="far fa-edit fa-2x green-text"
+                       th:href="@{'/admin/orders/edit/' + ${order.id}}" title="Edit this orders"></a>
+                    &nbsp; <a class="fas fa-trash-alt fa-2x red-text"
+                              th:href="@{'/admin/orders/delete/' + ${order.id}}" title="Delete this orders"></a></td>
+            </tbody>
+        </table>
+    </div>
+    <!--Pagination-->
+    <!--Pagination-->
+    <div th:replace="blocks/fragments :: pagination('/admin/orders', 'order')"></div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

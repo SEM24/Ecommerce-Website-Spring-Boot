@@ -8,7 +8,7 @@
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a th:href="@{/}">Home</a>
+                            <a th:href="@{/}">[[#{navbar.home}]]</a>
                         </li>
 
                         <th:block th:each="parent : ${listCategoryParents}">

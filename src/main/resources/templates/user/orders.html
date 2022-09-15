@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="blocks/fragments :: head('Home - SENKO', 'none')"></head>
+<body>
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<div class="container mt-4">
+    <div class="error-middle" th:if="${#lists.isEmpty(orders)}">
+        <h3 class="text-warning">[[#{orders.noOrders}]]</h3>
+        <a th:href="@{'/'}">
+            <button type="button" class="btn custom_buttons rounded">[[#{userMain.returnBtn}]]</button>
+        </a>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div th:unless="${#lists.isEmpty(orders)}">
+        <div class="row">
+            <div class="col table-responsive">
+                <br>
+                <h2 class="border-light">[[#{orders.ordersTitle}]]</h2>
+                <table id="tableA" class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">[[#{orders.number}]]</th>
+                        <th scope="col">[[#{orders.payment}]]</th>
+                        <th scope="col">[[#{orders.name}]]</th>
+                        <th scope="col">[[#{orders.shipping}]]</th>
+                        <th scope="col">[[#{orders.city}]]</th>
+                        <th scope="col">[[#{orders.address}]]</th>
+                        <th scope="col">[[#{label.total}]]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order?.id}"></td>
+                        <td th:text="${order?.orderStatus}"></td>
+                        <td th:text="${order?.user?.userInfo?.getName()}"></td>
+                        <div th:unless="${order?.shippingType} eq '0'">
+                            <td>Nova poshta</td>
+                        </div>
+                        <div th:if="${order.shippingType} eq '0'">
+                            <td>Ukr poshta</td>
+                        </div>
+                        <td th:text="${order?.city}"></td>
+                        <td th:text="${order?.address}"></td>
+                        <td>[[${order.totalPrice}]] ₴</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h2 class="border-light mt-4">[[#{orders.deliveryTitle}]]</h2>
+        <div class="row">
+            <td class="col table-responsive">
+                <table id="tableB" class="table table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th scope="col">[[#{orders.number}]]</th>
+                        <th scope="col">[[#{orders.status}]]</th>
+                        <th class="hideable-column" scope="col">[[#{orders.shippingMethod}]]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}" th:with="delivery = ${order.delivery}">
+                        <td th:text="${delivery?.id}"></td>
+                        <td th:text="${delivery?.status}"></td>
+                        <th scope="row"th:unless="${order?.shippingType} eq '0'">
+                            <img class="rounded"
+                                 src="https://cdn.aiidatapro.net/media/9e/51/fb/t780x490/9e51fb4779e0e137ff6aca595de7973d.jpg"
+                                 width="300">
+                        </th>
+                        <th scope="row" th:if="${order?.shippingType} eq '0'">
+                            <img class="rounded" src="https://eimg.pravda.com/images/doc/b/c/bc97a68-ukrposhta.jpg"
+                                 width="300">
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="float-right">
+            <a href="/" class="btn custom_buttons btn-md my-0 p rounded">
+                <span>[[#{userMain.returnBtn}]]</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div th:insert="~{blocks/fragments :: footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

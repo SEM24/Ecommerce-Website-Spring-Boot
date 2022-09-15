@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head th:replace="blocks/fragments :: head('Manage Product - SENKO', 'tag')"></head>
+    <link rel="stylesheet" th:href="@{/richtext_editor/richtext.min.css}"/>
+</head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.products.create.title}]]</h2>
+    </div>
+    <form th:action="@{/admin/products/save}" onsubmit="return checkUnique(this)" th:object="${product}"
+          method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">[[#{admin.products.create.overview}]]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#description" role="tab">[[#{admin.product.shortDescription}]]</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active p-3" id="overview" role="tabpanel">
+                    <div th:replace="admin/product/product_overview :: content"></div>
+                </div>
+                <div class="tab-pane fade" id="description" role="tabpanel">
+                    <div th:replace="admin/product/product_description :: content"></div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="custom_buttons rounded"
+                        style="height:40px;width: 80px;">[[#{admin.users.create.submit}]]
+                </button>
+                <button type="button" id="cancelBtn" class="custom_buttons rounded"
+                        style="height:40px;width: 80px;">[[#{admin.users.create.cancel}]]
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<script th:src="@{/richtext_editor/jquery.richtext.min.js}"></script>
+<script type="text/javascript">
+    var productId = "[[${product.id}]]";
+    var productName = "[[${product.title}]]";
+</script>
+<!--Script to check unique product-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtEditor").richText();
+    });
+
+    $(document).ready(function () {
+        $('#cancelBtn').on("click", function () {
+            window.location = "[[@{/admin/products}]]";
+        });
+    });
+    function checkUnique(form) {
+        productId = $("#id").val();
+        productName = $("#title").val();
+
+        csrfValue = $("input[name='_csrf']").val();
+
+        url = "[[@{/products/check_unique}]]";
+
+        params = {id: productId, title: productName, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+                showWarningModal("There is another product with title " + productName)
+            } else {
+                showErrorModal("Unknown response from server")
+            }
+        }).fail(function () {
+            showErrorModal("Could not connect to server")
+        });
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#myModal").modal();
+    }
+
+    function showErrorModal(message) {
+        showModalDialog("Error", message);
+    }
+
+    function showWarningModal(message) {
+        showModalDialog("Warning", message);
+    }
+</script>
+<!-- Modal section-->
+<div th:replace="blocks/fragments :: showModal"></div>
+</body>
+</html>

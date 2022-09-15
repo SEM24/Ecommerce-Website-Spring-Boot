@@ -54,17 +54,24 @@ public class Product {
 
     @Transient
     public String getShortTitle() {
-        if (title.length() > 60) {
-            return title.substring(0, 60).concat("...");
+        if (title.length() > 40) {
+            return title.substring(0, 40).concat("...");
         }
         return title;
+    }
+    @Transient
+    public String getShortAlias() {
+        if (alias.length() > 40) {
+            return alias.substring(0, 40).concat("...");
+        }
+        return alias;
     }
 
     @Transient
     public String getShortDescription() {
 
-        if (description != null && description.length() > 40) {
-            return description.substring(0, 40).concat("...");
+        if (description != null && description.length() > 50) {
+            return description.substring(0, 50).concat("...");
         }
         return description;
     }

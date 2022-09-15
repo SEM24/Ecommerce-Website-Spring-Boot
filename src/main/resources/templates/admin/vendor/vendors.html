@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Vendor - SENKO', 'none')"></head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.vendors.title}]]</h2>
+        <a th:href="@{/admin/vendors/new}">[[#{admin.vendors.newVendor}]]</a>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl text-center">
+            <thead class="thead-dark">
+            <th>[[#{admin.vendor.id}]]</th>
+            <th>[[#{admin.vendor.title}]]</th>
+            <th>[[#{admin.managment}]]</th>
+            </thead>
+            <tbody>
+            <tr th:each="vendor : ${vendors}">
+                <td th:text="${vendor.id}"></td>
+                <td th:text="${vendor.title}"></td>
+                <td><a class="far fa-edit fa-2x green-text"
+                       th:href="@{'/admin/vendors/edit/' + ${vendor.id}}" title="Edit this vendor"></a>
+                    &nbsp; <a class="fas fa-trash-alt fa-2x red-text"
+                              th:href="@{'/admin/vendors/delete/' + ${vendor.id}}" title="Delete this vendor"></a></td>
+            </tbody>
+        </table>
+    </div>
+    <!--Pagination-->
+    <div th:replace="blocks/fragments :: pagination('/admin/vendors', 'vendor')"></div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

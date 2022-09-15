@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="blocks/fragments :: head('Registration - SENKO')"></head>
+>
+<head th:replace="blocks/fragments :: head('Registration - SENKO', 'none')"></head>
 <body>
 <div th:replace="blocks/fragments :: navbar"></div>
 
 <div class="container mt-2 mb-4">
     <div class="row justify-content-md-center">
         <div class="col-sm-4 border border-dark shadow rounded pt-2">
-            <div class="text-center"><img th:src="@{/assets/favicon.ico}" class="rounded-circle border p-1 mb-1"></div>
+            <div class="text-center"><img th:src="@{/assets/favicon.png}" class="p-1 mb-1"></div>
             <div class="col-sm-12">
-                <form th:action="@{/registration}" th:object="${user}"
-                      method="post" id="singnupFrom" onSubmit="return validation();">
-                    <!--Call scripts to show info if the user has already seen another input fields-->
-                    <div th:if="${error}" id="alert"></div>
-                    <div th:if="${error}" class="alert alert-danger text-sm-center">
-                        <div>
-                            <span th:text="${error}" class="error"></span>
-                        </div>
-                    </div>
+                <form th:action="@{/registration}" onsubmit="return checkLogin(this);" th:object="${user}"
+                      method="post">
                     <div class="form-group">
-                        <label class="font-weight-bold">Email</label>
-                        <div class="input-group" style="bottom: 5px">
+                        <label class="font-weight-bold">[[#{reg.email}]]</label>
+                        <div class="input-group mb-1">
                             <input type="email" name="email" id="email" class="form-control"
                                    placeholder="Enter valid email" th:field="*{email}">
                         </div>
@@ -32,42 +25,43 @@
                     </div>
                     <div id="next-form" class="collapse">
                         <div class="form-group">
-                            <label class="font-weight-bold">User Name <small class="text-danger"><em>This will be
-                                your login name!</em></small></label>
-                            <input type="text" name="username" id="username" class="form-control"
-                                   placeholder="Choose your user name" th:field="*{login}">
+                            <label class="font-weight-bold">[[#{reg.userName}]] <small class="text-danger">
+                                <em>[[#{reg.userNotification}]]</em></small></label>
+                            <input type="text" class="form-control"
+                                   th:attr="placeholder=#{reg.userNplaceholder}" th:field="*{login}"
+                                   required minlength="4" maxlength="30"/>
                         </div>
                         <div class="form-group">
-                            <label class="font-weight-bold">Password</label>
+                            <label class="font-weight-bold">[[#{reg.password}]]</label><i id="icon1"
+                                                                                          class="fas fa-eye"></i>
                             <input type="password" name="password" id="password" class="form-control"
-                                   placeholder="***********" th:field="*{password}">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Confirm Password</label>
-                            <input type="password" name="cpassword" id="cpassword" class="form-control"
-                                   placeholder="***********">
-                            <em id="cp"></em>
+                                   placeholder="***********" th:field="*{password}"
+                                   required minlength="4" maxlength="40"/>
                         </div>
                         <div th:object="${userInfo}">
                             <div class="form-group">
-                                <label class="font-weight-bold">Name</label>
+                                <label class="font-weight-bold">[[#{reg.name}]]</label>
                                 <input type="text" name="name" id="name" class="form-control"
-                                       placeholder="Write your name" th:field="*{name}">
+                                       th:attr="placeholder=#{reg.namePlace}" th:field="*{name}"
+                                       required minlength="2" maxlength="35"/>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Surname</label>
+                                <label class="font-weight-bold">[[#{reg.surname}]]</label>
                                 <input type="text" name="surname" id="surname" class="form-control"
-                                       placeholder="Write your surname" th:field="*{surname}">
+                                       th:attr="placeholder=#{reg.surnamePlace}" th:field="*{surname}"
+                                       required minlength="2" maxlength="40"/>
                             </div>
                             <div class="form-group">
-                                <label class="font-weight-bold">Phone</label>
+                                <label class="font-weight-bold">[[#{reg.phone}]]</label>
                                 <input type="text" name="phone" id="phone" class="form-control"
-                                       placeholder="+380..." th:field="*{phone}">
+                                       placeholder="+380-(xx)-xx-xx-xxx." th:field="*{phone}"
+                                       required minlength="13"/>
                             </div>
                         </div>
                         <div class="form-group d-flex justify-content-center">
-                            <input type="submit" name="submit"
-                                   value="Sign Up" class="regButton rounded">
+                            <button type="submit" class="custom_buttons btn-block rounded"
+                                    style="height:40px;width: 150px;">[[#{reg.signUp}]]
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -77,7 +71,46 @@
 </div>
 <footer th:insert="~{blocks/fragments :: footer}"></footer>
 <div th:insert="~{blocks/fragments :: scripts}"></div>
-<script type="text/javascript" th:src="@{/js/formValidation.js}"></script>
+<script type="text/javascript">
+    function checkLogin(form) {
+        url = "[[@{/user/check}]]";
 
+        customerLogin = $("#login").val();
+
+        csrfValue = $("input[name='_csrf']").val();
+
+        params = {login: customerLogin, _csrf: csrfValue};
+
+        $.post(url, params, function (response) {
+            if (response == "OK") {
+                form.submit();
+            } else if (response == "Duplicate") {
+                showWarningModal("There is another user with login: " + customerLogin)
+            } else {
+                showErrorModal("Unknown response from server")
+            }
+        }).fail(function () {
+            showErrorModal("Could not connect to server")
+        });
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#myModal").modal();
+    }
+
+    function showErrorModal(message) {
+        showModalDialog("Error", message);
+    }
+
+    function showWarningModal(message) {
+        showModalDialog("Warning", message);
+    }
+</script>
+<!-- Modal section-->
+<div th:replace="blocks/fragments :: showModal"></div>
+<script type="text/javascript" th:src="@{/js/formValidation.js}"></script>
 </body>
 </html>

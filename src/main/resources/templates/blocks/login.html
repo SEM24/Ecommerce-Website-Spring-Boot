@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="blocks/fragments :: head('Login - SENKO', 'none')"></head>
+<body>
+<!--Scripts-->
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:fragment="loginModal">
+    <div class="modal fade" id="loginModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-1"></div>
+                    <div class="col-10 text-center">
+                        <h5 class="modal-title">[[#{login.title}]]</h5>
+                    </div>
+                    <div class="col-1 ms-3">
+                        <a type="button" class="close" aria-label="Close"
+                           data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    <form th:action="@{/login}" method="post">
+                        <input class="text-center rounded" type="text" name="username"
+                               th:attr="placeholder=#{login.username}" required minlength="4" maxlength="30"/>
+                        <input class="text-center rounded" type="password" name="password"
+                               th:attr="placeholder=#{login.password}" required minlength="4" maxlength="40"/>
+                        <button type="submit" class="btn-block rounded" style="height: 35px;">[[#{login.submit}]]
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <span class="message text-center">
+                        [[#{login.notReg}]]<a th:href="@{/registration}"><br>[[#{login.createAc}]]</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

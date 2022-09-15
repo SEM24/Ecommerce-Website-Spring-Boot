@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="blocks/fragments :: head('Shopping Cart - SENKO')"></head>
-<link rel="stylesheet" th:href="@{/css/shopping-cart.css}"/>
+>
+<head th:replace="blocks/fragments :: head('Shopping Cart - SENKO', 'none')"></head>
 <body>
-<!--Scripts-->
-<div th:insert="~{blocks/fragments :: scripts}"></div>
-<script type="text/javascript">
-    contextPath = "[[@{/}]]";
-    var csrfHeaderName = "[[${_csrf.headerName}]]";
-    var csrfValue = "[[${_csrf.token}]]";
-</script>
-<script th:src="@{/js/shopping-cart.js}"></script>
-
 <!--NavBar-->
 <div th:replace="blocks/fragments :: navbar"></div>
 
-<!--Modal-->
-<div th:replace="/blocks/modal-fragments :: showModal"></div>
 
 <!--Shopping cart-->
 <main class="page">
     <section class="shopping-cart dark">
         <div class="container">
             <div class="block-heading">
-                <h2>Your Shopping Cart</h2>
-                <p>Make changes and pay</p>
+                <h2>[[#{shoppingCart.title}]]</h2>
+                <p>[[#{shoppingCart.subtitle}]]</p>
             </div>
             <div class="content">
                 <div class="block-heading" th:color="red" th:if="${#lists.isEmpty(orderBaskets)}">
-                    <h3>You haven't chosen any products yet</h3>
+                    <h3>[[#{shoppingCart.errorTitle}]]</h3>
                     <a th:href="@{'/'}">
-                        <button type="button" class="btn btn-primary">Go back to main page
+                        <button type="button" class="btn btn-primary">[[#{shoppingCart.errorSubtitle}]]
                         </button>
                     </a>
                 </div>
@@ -42,40 +30,46 @@
                                  th:id="'row' + ${status.count}">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <div>
-                                            <a class="fas fa-trash link-remove" style="color:red"
+                                        <div class="ml-2 mb-2">
+                                            <a class="fas fa-trash link-remove red-text"
                                                th:rowNumber="${status.count}"
                                                th:href="@{'/basket/remove/' +${product.id}}">
                                             </a>
                                         </div>
-                                        <img class="img-fluid mx-auto d-block image"
-                                             th:src="'/product-images/'+${product.imageURL}" width="130" height="130"/>
+                                        <a th:href="@{'/product/' + ${product.alias}}" class="zoom">
+                                            <img class="img-fluid mx-auto d-block image"
+                                                 th:src="'/product-images/'+${product.imageURL}" width="130"
+                                                 height="130"/>
+                                        </a>
                                     </div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-9 text-center mt-5">
                                         <div class="info">
                                             <div class="row">
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
                                                         <a th:text="${product.title}"
                                                            th:href="@{'/product/' + ${product.alias}}"></a>
-                                                        <div class="product-info">
-                                                            <div>Vendor: <span
+                                                        <div class="product-info mb-3">
+                                                            <div>[[#{shoppingCart.vendor}]] <span
                                                                     class="value">[[${product.vendor.title}]]</span>
                                                             </div>
-                                                            <div>Category: <span class="value">[[${product.category.title}]]</span>
+                                                            <div>[[#{shoppingCart.category}]] <span class="value">[[${product.category.title}]]</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 quantity">
-                                                    <div th:replace="/blocks/quantity_control :: quantity_control(${basketItem.quantity}, ${product.id})">
+                                                <div class="col-md-4 quantity" style="text-align: center">
+                                                    <div class="quantity-input"
+                                                         th:replace="/blocks/fragments :: quantity_control(${basketItem.quantity}, ${product.id})">
                                                     </div>
-                                                    <div class="subtotal" style="float: left;">
+                                                    <div class="subtotal" style="font-weight: 400">
                                                         <span>x [[${product.price}]]</span><span>₴</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 price">
-                                                    <span class="productSubtotal" style="width:800px; margin:0 auto;"
+                                                    <span class="productSubtotalTitle">[[#{shoppingCart.subtotal}]]</span>
+                                                    <span class="productSubtotal"
+                                                          style="width:800px; margin:0 auto; font-weight: 500;"
                                                           th:id="'subtotal' + ${product.id}">[[${basketItem.subtotal}]]</span><span>₴</span>
                                                 </div>
                                             </div>
@@ -83,34 +77,35 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <hr/>-->
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4" th:unless="${#lists.isEmpty(orderBaskets)}">
                         <div class="summary">
 
-                            <h3>Summary</h3>
-                            <div class="summary-item"><span class="text">Total</span>
+                            <h3>[[#{shoppingCart.summaryTitle}]]</h3>
+                            <div class="summary-item"><span class="text">[[#{shoppingCart.total}]]</span>
                                 <span class="price" id="totalAmount"></span>
                             </div>
-                            <a th:href="@{'/payment'}">
-                                <button value="Checkout"
-                                        class="order-button btn-primary btn-lg btn-block">Checkout
+                            <a th:href="@{'/payment'}"
+                               class="payment-btn btn-lg btn-block mt-3 text-center">[[#{shoppingCart.checkout}]]</a>
+                            <a th:href="@{'/'}" class="d-flex justify-content-center">
+                                <button type="button"
+                                        class="btn-lg btn-sm mt-3 custom_buttons">[[#{shoppingCart.errorSubtitle}]]
                                 </button>
                             </a>
-                            <div class="d-flex justify-content-center">
-                                <a th:href="@{'/'}">
-                                    <button type="button" class="btn btn-primary">Go back to main page
-                                    </button>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!--Scripts-->
+    <div th:insert="~{blocks/fragments :: scripts}"></div>
+    <script th:src="@{/js/shopping-cart.js}"></script>
+    <!--Modal-->
+    <div th:replace="/blocks/fragments :: showModal"></div>
+    <!--Footer-->
+    <footer class="mt-0" th:insert="~{blocks/fragments :: footer}"></footer>
 </main>
-<footer th:insert="~{blocks/fragments :: footer}"></footer>
 </body>
 </html>

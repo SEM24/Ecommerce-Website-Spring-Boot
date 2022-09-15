@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Categories - SENKO', 'none')"></head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.categories.title}]]</h2>
+        <a th:href="@{/admin/categories/new}">[[#{admin.categories.newCategory}]]</a>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl text-center">
+            <thead class="thead-dark">
+            <th>[[#{admin.category.id}]]</th>
+            <th>[[#{admin.category.image}]]</th>
+            <th>[[#{admin.category.title}]]</th>
+            <th>[[#{admin.category.alias}]]</th>
+            <th>[[#{admin.category.enabled}]]</th>
+            <th>[[#{admin.managment}]]</th>
+            </thead>
+            <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id}"></td>
+                <td><img class="img-fluid mx-auto d-block image"
+                         th:src="'/category-images/'+${category.imageURL}"
+                         width="150" height="150">
+                </td>
+                <td th:text="${category.title}"></td>
+                <td th:text="${category.alias}"></td>
+                <td th:text="${category.enabled}"></td>
+                <td><a class="far fa-edit fa-2x green-text"
+                       th:href="@{'/admin/categories/edit/' + ${category.id}}" title="Edit this category"></a>
+                    &nbsp; <a class="fas fa-trash-alt fa-2x red-text"
+                              th:href="@{'/admin/categories/delete/' + ${category.id}}" title="Delete this category"></a></td>
+            </tbody>
+        </table>
+    </div>
+    <!--Pagination-->
+    <div th:replace="blocks/fragments :: pagination('/admin/categories', 'category')"></div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Users - SENKO', 'none')"></head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.users.title}]]</h2>
+        <a th:href="@{/admin/users/new}"><i class="fas fa-user-plus fa-2x"></i></a>
+    </div>
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl text-center">
+            <thead class="thead-dark">
+            <th>[[#{admin.users.id}]]</th>
+            <th>[[#{admin.users.login}]]</th>
+            <th>[[#{admin.users.password}]]</th>
+            <th>[[#{admin.users.name}]]</th>
+            <th>[[#{admin.users.surname}]]</th>
+            <th>[[#{admin.users.phone}]]</th>
+            <th>[[#{admin.users.email}]]</th>
+            <th>[[#{admin.users.role}]]</th>
+            <th>[[#{admin.managment}]]</th>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.login}"></td>
+                <td th:text="${user.password}"></td>
+
+                <td th:text="${user?.userInfo?.name}"></td>
+                <td th:text="${user?.userInfo?.surname}"></td>
+                <td th:text="${user?.userInfo?.phone}"></td>
+
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.role}"></td>
+                <td><a class="far fa-edit fa-2x green-text"
+                       th:href="@{'/admin/users/edit/' + ${user.id}}" title="Edit this user"></a>
+                    &nbsp; <a class="fas fa-trash-alt fa-2x red-text"
+                              th:href="@{'/admin/users/delete/' + ${user.id}}" title="Delete this user"></a></td>
+            </tbody>
+        </table>
+    </div>
+    <!--Pagination-->
+    <div th:replace="blocks/fragments :: pagination('/admin/users', 'user')"></div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

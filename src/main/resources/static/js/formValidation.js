@@ -14,42 +14,11 @@ function emailCheck() {
 
     }
 }
-
-function validation() {
-    if ($("#password, #cpassword").val() == "") {
-        $("#password, #cpassword").addClass('is-invalid');
-        return false;
-    } else {
-        $("#password, #cpassword").removeClass('is-invalid');
-    }
-
-    if ($("#password").val() != $("#cpassword").val()) {
-        $("#cpassword").addClass('is-invalid');
-        $("#cp").html('<span class="text-danger">Password and confirm password not matched!</span>');
-        return false;
-    }
-}
-
-$(document).ready(function (e) {
-    $("#password").on("keyup", function () {
-        if ($("#password").val() == "") {
-            $("#password").addClass('is-invalid');
-            return false;
-        } else {
-            $("#password").removeClass('is-invalid');
-        }
-    });
-    $("#cpassword").on("keyup", function () {
-        if ($("#cpassword").val() == "") {
-            $("#cpassword").addClass('is-invalid');
-            return false;
-        } else {
-            $("#cpassword").removeClass('is-invalid');
-        }
-    });
-});
-
-//Use this script to show another info if the button was pressed successfully before
-$('#alert').load(document.URL + ' #alert', function () {
-    $('#next-form').collapse('show');
+let password = document.getElementById('password');
+let icon1 = document.getElementById('icon1');
+icon1.addEventListener('click', () => {
+    password.type =
+        password.type == 'password' ? 'text' : 'password';
+    icon1.className =
+        icon1.className == 'fas fa-eye' ? 'fas fa-eye-slash' : 'fas fa-eye';
 });

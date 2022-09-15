@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+>
+<!--Header-->
+<head th:replace="blocks/fragments :: head('Products - SENKO', 'none')"></head>
+
+<body class="d-flex flex-column min-vh-100">
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+<div th:replace="blocks/fragments :: navbar"></div>
+
+<div class="container-fluid">
+    <div th:replace="blocks/breadcrumb :: content"></div>
+
+    <div class="row text-center">
+        <th:block th:each="cat : ${category.children}">
+            <div class="col" th:if="${cat.enabled == true}">
+                <a th:href="@{'/category/'+ ${cat.alias}}">
+                    <div class="text-center zoom">
+                        <img style="-webkit-filter: drop-shadow(3px 3px 3px #222); filter: drop-shadow(3px 3px 3px #222);
+                     width: 100px; height: 100px;"
+                             th:src="'/category-images/'+${cat.imageURL}"/>
+                    </div>
+                    <div class="category_label text-center">
+                        [[${cat.title}]]
+                    </div>
+                </a>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="row">&nbsp;</div>
+
+    <div class="row text-center">
+        <th:block th:each="product : ${listProducts}">
+            <div th:replace="product/product_fragment :: content"></div>
+        </th:block>
+    </div>
+
+    <!--Pagination-->
+    <div th:replace="blocks/fragments :: pagination('/category/'+ ${category.alias}, 'product')"></div>
+
+</div>
+<footer th:insert="~{blocks/fragments :: footer}"></footer>
+</body>
+</html>

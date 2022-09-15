@@ -7,6 +7,7 @@ import com.khomsi.site_project.repository.OrderBasketRepository;
 import com.khomsi.site_project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -19,6 +20,15 @@ public class OrderBasketService implements IOrderBasketService {
 
     @Autowired
     private ProductRepository productRep;
+
+    @Override
+    public List<OrderBasket> getAllOrderBaskets() {
+        List<OrderBasket> orderBasket = orderBasketRep.findAll();
+        if (orderBasket.isEmpty()) {
+            throw new NotFoundException("Couldn't find any product in DB");
+        }
+        return orderBasket;
+    }
 
     @Override
     public List<OrderBasket> listOrderBasket(User user) {
@@ -54,15 +64,13 @@ public class OrderBasketService implements IOrderBasketService {
         orderBasketRep.updateQuantity(quantity, productId, user.getId());
         Product product = productRep.getReferenceById(productId);
 
-        float subtotal = product.getPrice() * quantity;
-        return subtotal;
+        return product.getPrice() * quantity;
     }
 
     @Override
     public void removeProduct(Integer productId, User user) {
         orderBasketRep.deleteByUserAndProduct(user.getId(), productId);
     }
-
 
 }
 

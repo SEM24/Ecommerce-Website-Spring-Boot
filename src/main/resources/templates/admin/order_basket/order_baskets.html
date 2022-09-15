@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="blocks/fragments :: head('Order Baskets - SENKO', 'none')"></head>
+<div th:replace="blocks/fragments :: admin_navbar"></div>
+<body>
+<div class="container-fluid">
+    <div>
+        <h2 class="mt-3 text-center">[[#{admin.order_basket.title}]]</h2>
+    </div>
+    <div>
+        <table class="table table-bordered table-striped table-hover table-responsive-xl text-center">
+            <thead class="thead-dark">
+            <th>[[#{admin.order_basket.id}]]</th>
+            <th>[[#{admin.order_basket.companyTitle}]]</th>
+            <th>[[#{admin.order_basket.login}]]</th>
+            <th>[[#{admin.order_basket.quantity}]]</th>
+            </thead>
+            <tbody>
+            <tr th:each="orderBasket : ${orderBaskets}">
+                <td th:text="${orderBasket.id}"></td>
+                <td th:text="${orderBasket?.product?.title}"></td>
+                <td th:text="${orderBasket?.user?.login}"></td>
+                <td th:text="${orderBasket.quantity}"></td>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:insert="~{blocks/fragments :: additional_footer}"></div>
+<div th:insert="~{blocks/fragments :: scripts}"></div>
+</body>
+</html>

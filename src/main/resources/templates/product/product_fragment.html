@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" class="col">
+    <div class="zoom">
+        <a th:href="@{'/product/'+${product.alias}}">
+            <img class="rounded" th:src="'/product-images/'+${product.imageURL}" width="150"/>
+            <br/>
+            <div class="card-body">
+                <b>[[${product.shortTitle}]]</b>
+                <div>
+                    <span class="font-weight-bolder text-dark">[[${product.price}]] &#8372;</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
