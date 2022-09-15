@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class UserService implements IUserService {
@@ -82,7 +83,7 @@ public class UserService implements IUserService {
         if (isCreatingNew) {
             if (userByLogin != null) return "Duplicate";
         } else {
-            if (userByLogin.getId() != id) {
+            if (!Objects.equals(userByLogin.getId(), id)) {
                 return "Duplicate";
             }
         }

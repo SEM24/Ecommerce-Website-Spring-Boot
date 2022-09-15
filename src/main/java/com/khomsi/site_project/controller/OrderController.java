@@ -75,14 +75,8 @@ public class OrderController {
         try {
             ordersService.saveOrder(newOrder);
             attributes.addFlashAttribute("message", "Order was completed! Check your email!");
-            //FIXME заменить почту, когда буду делать гифку для гита
-//            sendVerificationEmail(newOrder);
-        }
-//        catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
-//            model.addAttribute("error", ex.getCause().getCause().getMessage());
-//            return "error/404";
-//        }
-        catch (JpaSystemException ex) {
+            sendVerificationEmail(newOrder);
+        } catch (JpaSystemException | MessagingException | UnsupportedEncodingException ex) {
             model.addAttribute("error", ex.getCause().getCause().getMessage());
             return "error/404";
         }
@@ -111,7 +105,7 @@ public class OrderController {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("senkostore@outlook.com", senderName);
+        helper.setFrom("senkoShop@outlook.com", senderName);
         helper.setTo(order.getUser().getEmail());
         helper.setSubject(subject);
         helper.setText(mailContent, true);

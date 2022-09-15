@@ -35,4 +35,10 @@ public class CategoryRepoTest {
         assertThat(category).isNotNull();
 
     }
+
+    @Test
+    void testListRootCategories(){
+        List<Category> categories = categoryRep.findRootCategories();
+        categories.forEach(category -> System.out.println(category.getTitle()));
+    }
 }

@@ -10,11 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-//@ToString
 @Entity
 @Table(name = "category")
 public class Category {
@@ -66,6 +64,22 @@ public class Category {
         copyCategory.setId(id);
         copyCategory.setTitle(title);
 
+        return copyCategory;
+    }
+
+    public static Category copyFull(Category category) {
+        Category copyCategory = new Category();
+        copyCategory.setId(category.getId());
+        copyCategory.setTitle(category.getTitle());
+        copyCategory.setAlias(category.getAlias());
+        copyCategory.setImageURL(category.getImageURL());
+        copyCategory.setEnabled(category.getEnabled());
+
+        return copyCategory;
+    }
+    public static Category copyFull(Category category, String title) {
+        Category copyCategory = Category.copyFull(category);
+        copyCategory.setTitle(title);
         return copyCategory;
     }
 

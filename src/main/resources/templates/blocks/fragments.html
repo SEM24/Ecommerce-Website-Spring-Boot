@@ -134,7 +134,7 @@
         <!--For smartphones menu-->
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarContent2" aria-controls="navbarContent" aria-expanded="false"
-                aria-label="Toggle navigation" >
+                aria-label="Toggle navigation">
             <i class="fas fa-bars" style="color:#fff; font-size:26px;"></i>
         </button>
         <!--Left-->
@@ -187,9 +187,9 @@
                     </a>
                 </li>
                 <div class="language_selector">
-                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=en'}">EN</a>
+                    <a class="custom_link waves-effect rounded" th:href="@{'/admin?lang=en'}">EN</a>
                     <div class="vertical-line" style="height: 25px;"></div>
-                    <a class="custom_link waves-effect rounded" th:href="@{'?lang=uk'}">UA</a>
+                    <a class="custom_link waves-effect rounded" th:href="@{'/admin?lang=uk'}">UA</a>
                 </div>
             </ul>
         </div>
@@ -264,7 +264,7 @@
 </footer>
 
 
-<!--Pagination-->
+<!--Pagination for whole site-->
 <a th:fragment="page_link(moduleURL, pageNum, label)"
    class="page-link"
    th:href="@{${moduleURL} + '/page/' + ${pageNum}}">
@@ -296,6 +296,44 @@
                 </li>
                 <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
                     <a th:replace="/blocks/fragments :: page_link(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--Pagination for admin page(used only in product,
+but can be also used in another admin pages if you modify code to sort and search-->
+<a th:fragment="page_link2(moduleURL, pageNum, label)"
+   class="page-link"
+   th:href="@{${moduleURL} + '/page/' + ${pageNum} +'?sortField=' +${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId='+ categoryId : ''}}">
+    [[${label}]]
+</a>
+<div th:fragment="paginationAdmin(moduleURL, entityName)" th:remove="tag">
+    <div class="text-center m-1" th:if="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.showing}]] # [[${startCount}]] [[#{pagination.to}]] [[${endCount}]] [[#{pagination.of}]] [[${totalItems}]]</span>
+    </div>
+    <div class="text-center m-1 mb-4 mt-5" th:unless="${totalItems > 0}">
+        <span style="font-weight: 400; color: #6e757d">[[#{pagination.no}]] [[#{pagination.found}]]</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center flex-wrap">
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, 1, #{pagination.first})"></a>
+                </li>
+                <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage - 1}, #{pagination.previous})"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL},${i}, ${i})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${currentPage + 1}, #{pagination.next})"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="/blocks/fragments :: page_link2(${moduleURL}, ${totalPages}, #{pagination.last})"></a>
                 </li>
             </ul>
         </nav>

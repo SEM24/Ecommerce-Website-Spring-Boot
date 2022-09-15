@@ -52,6 +52,7 @@ public class ProductController {
             model.addAttribute("listCategoryParents", listCategoryParents);
             model.addAttribute("listProducts", listProducts);
 
+
             model.addAttribute("category", category);
             return "product/products_by_category";
         } catch (CategoryNotFoundException e) {

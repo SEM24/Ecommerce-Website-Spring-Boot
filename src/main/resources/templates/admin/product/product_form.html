@@ -43,6 +43,10 @@
 </div>
 <div th:insert="~{blocks/fragments :: scripts}"></div>
 <script th:src="@{/richtext_editor/jquery.richtext.min.js}"></script>
+<script type="text/javascript">
+    var productId = "[[${product.id}]]";
+    var productName = "[[${product.title}]]";
+</script>
 <!--Script to check unique product-->
 <script type="text/javascript">
     $(document).ready(function () {

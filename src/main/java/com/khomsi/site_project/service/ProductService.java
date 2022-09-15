@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class ProductService implements IProductService {
@@ -31,8 +33,25 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<Product> listByPage(int pageNum) {
-        Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_ADMIN_PAGE);
+    public Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword,
+                                    Integer categoryId) {
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNum - 1, PRODUCTS_PER_ADMIN_PAGE, sort);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            if (categoryId != null && categoryId > 0) {
+                String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+                return productRepository.searchInCategory(categoryId, categoryIdMatch, keyword, pageable);
+            }
+            return productRepository.findAll(keyword, pageable);
+        }
+        if (categoryId != null && categoryId > 0) {
+            String categoryIdMatch = "-" + String.valueOf(categoryId) + "-";
+            return productRepository.findAllInCategory(categoryId, categoryIdMatch, pageable);
+        }
+
         return productRepository.findAll(pageable);
     }
 
@@ -47,7 +66,7 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> getRandomAmountOfProducts() throws ProductNotFoundException {
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = productRepository.findAllByCategoryId(4);
         if (productList.isEmpty()) {
             throw new ProductNotFoundException("Couldn't find any product in DB");
         }
@@ -99,11 +118,10 @@ public class ProductService implements IProductService {
     public String checkUnique(Integer id, String title) {
         boolean isCreatingNew = (id == null || id == 0);
         Product productByName = productRepository.findByTitle(title);
-
         if (isCreatingNew) {
             if (productByName != null) return "Duplicate";
         } else {
-            if (productByName != null && productByName.getId() != id) {
+            if (productByName != null && !Objects.equals(productByName.getId(), id)) {
                 return "Duplicate";
             }
         }

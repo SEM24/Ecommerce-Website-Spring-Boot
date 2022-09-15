@@ -7,7 +7,9 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IProductService {
-    Page<Product> listByPage(int pageNum);
+
+    Page<Product> listByPage(int pageNum, String sortField, String sortDir, String keyword,
+                             Integer categoryId);
 
     public List<Product> getAllProducts() throws ProductNotFoundException;
 

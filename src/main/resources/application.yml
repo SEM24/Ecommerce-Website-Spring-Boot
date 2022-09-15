@@ -6,7 +6,7 @@ spring:
   mail:
     host: smtp-mail.outlook.com
     port: 587
-    username: senkostore@outlook.com
+    username: senkoShop@outlook.com
     password: Midostar10035
     properties:
       mail:

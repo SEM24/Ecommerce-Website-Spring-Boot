@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -62,7 +63,7 @@ public class VendorService implements IVendorService {
         if (isCreatingNew) {
             if (vendor != null) return "Duplicate";
         } else {
-            if (vendor.getId() != id) {
+            if (!Objects.equals(vendor.getId(), id)) {
                 return "Duplicate";
             }
         }

@@ -44,8 +44,9 @@ public class AdminTools {
     }
 
     @PostMapping("/categories/check")
-    public @ResponseBody String checkCategory(@Param("id") Integer id, @Param("title") String title) {
-        return categoryService.checkCategoryTitle(id,title);
+    public @ResponseBody String checkCategory(@Param("id") Integer id, @Param("title") String title,
+                                              @Param("alias") String alias) {
+        return categoryService.checkCategoryTitle(id, title, alias);
     }
 
     @PostMapping("/vendors/check")
@@ -101,36 +102,61 @@ public class AdminTools {
         return "admin/orders/orders";
     }
 
+
+    //Controller in admin panel for categories to display pagination
+    @GetMapping("/admin/categories/page/{pageNum}")
+    public String listCategoriesByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
+        CategoryPageInfo pageInfo = new CategoryPageInfo();
+        List<Category> categoryList = categoryService.listByPage(pageInfo, pageNum);
+
+        long startCount = (pageNum - 1) * CategoryService.TOP_CATEGORIES_PER_PAGE + 1;
+        long endCount = startCount + CategoryService.TOP_CATEGORIES_PER_PAGE - 1;
+
+        if (endCount > pageInfo.getTotalElements()) {
+            endCount = pageInfo.getTotalElements();
+        }
+        model.addAttribute("totalPages", pageInfo.getTotalPages());
+        model.addAttribute("totalItems", pageInfo.getTotalElements());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("categories", categoryList);
+
+        return "admin/category/categories";
+    }
+
     //Controller in admin panel for products
     @GetMapping("/admin/products/page/{pageNum}")
-    public String listProductsByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
-        Page<Product> page = productService.listByPage(pageNum);
+    public String listProductsByPage(@PathVariable(name = "pageNum") int pageNum, Model model,
+                                     @Param("sortField") String sortField,
+                                     @Param("sortDir") String sortDir,
+                                     @Param("keyword") String keyword,
+                                     @Param("categoryId") Integer categoryId) {
+        Page<Product> page = productService.listByPage(pageNum, sortField, sortDir, keyword, categoryId);
+        List<Category> listCategories = categoryService.listCategoriesUserInForm();
+
         List<Product> productList = page.getContent();
 
         long startCount = (pageNum - 1) * ProductService.PRODUCTS_PER_ADMIN_PAGE + 1;
         long endCount = startCount + ProductService.PRODUCTS_PER_ADMIN_PAGE - 1;
 
-        pageCountMethod(pageNum, model, page, startCount, endCount);
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 
+        if (categoryId != null) model.addAttribute("categoryId",categoryId);
+
+        pageCountMethod(pageNum, model, page, startCount, endCount);
         model.addAttribute("products", productList);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("listCategories", listCategories);
 
         return "admin/product/products";
-    }
-
-    //Controller in admin panel for categories
-    @GetMapping("/admin/categories/page/{pageNum}")
-    public String listCategoriesByPage(@PathVariable(name = "pageNum") int pageNum, Model model) {
-        Page<Category> page = categoryService.listByPage(pageNum);
-        List<Category> categoryList = page.getContent();
-
-        long startCount = (pageNum - 1) * CategoryService.CATEGORIES_PER_PAGE + 1;
-        long endCount = startCount + CategoryService.CATEGORIES_PER_PAGE - 1;
-
-        pageCountMethod(pageNum, model, page, startCount, endCount);
-
-        model.addAttribute("categories", categoryList);
-
-        return "admin/category/categories";
     }
 
     public void pageCountMethod(@PathVariable("pageNum") int pageNum, Model model, Page<?> page,

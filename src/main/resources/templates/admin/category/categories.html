@@ -19,7 +19,6 @@
             <th>[[#{admin.category.title}]]</th>
             <th>[[#{admin.category.alias}]]</th>
             <th>[[#{admin.category.enabled}]]</th>
-            <th>[[#{admin.category.parentCategory}]]</th>
             <th>[[#{admin.managment}]]</th>
             </thead>
             <tbody>
@@ -32,7 +31,6 @@
                 <td th:text="${category.title}"></td>
                 <td th:text="${category.alias}"></td>
                 <td th:text="${category.enabled}"></td>
-                <td th:text="${category?.parent?.title}"></td>
                 <td><a class="far fa-edit fa-2x green-text"
                        th:href="@{'/admin/categories/edit/' + ${category.id}}" title="Edit this category"></a>
                     &nbsp; <a class="fas fa-trash-alt fa-2x red-text"
