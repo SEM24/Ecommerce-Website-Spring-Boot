@@ -31,7 +31,7 @@ Password: admin
 * User can order the products in the shopping cart.
 * User can change their password and view their orders.
 * User will receive email with order after it was finished successfully.
-* Admin can add or modify everything in DB (product, user, category, vendor, basket, delivery.
+* Admin can add or modify everything in DB (product, user, category, vendor, basket, delivery)
 ## Demo
 **Main page**:
 
