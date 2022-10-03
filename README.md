@@ -13,7 +13,7 @@ Password: admin
 
 ## Used Technologies:
 
-* Spring (Boot, Data, Security)
+* Spring (Boot, Data, Security, MVC etc)
 * JPA / Hibernate
 * MYSQL
 * Thymeleaf
