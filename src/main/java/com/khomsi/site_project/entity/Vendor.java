@@ -1,17 +1,8 @@
 package com.khomsi.site_project.entity;
 
-import lombok.*;
-
 import javax.persistence.*;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Entity
 @Table(name = "vendor")
 public class Vendor {
@@ -24,7 +15,38 @@ public class Vendor {
     private String title;
 
     @OneToMany(mappedBy = "vendor")
-    @ToString.Exclude
     private List<Product> products;
 
+    public Vendor() {
+    }
+
+    public Vendor(Integer id, String title, List<Product> products) {
+        this.id = id;
+        this.title = title;
+        this.products = products;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

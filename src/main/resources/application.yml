@@ -1,20 +1,15 @@
 spring:
   datasource:
-    username: spring
-    url: jdbc:mysql://localhost:3306/web_store_test?useSSL=false
-    password: spring
-  mail:
-    host: smtp-mail.outlook.com
-    port: 587
-    username: senkoShop@outlook.com
-    password: Midostar10035
+    url: jdbc:mysql://localhost:3306/ecommerce_db?useSSL=false
+    username: root
+    password: Skizo12345@@##
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
     properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 server:
   port: 8084
-

@@ -1,18 +1,10 @@
 package com.khomsi.site_project.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "category")
 public class Category {
@@ -40,16 +32,16 @@ public class Category {
 
     @OneToMany(mappedBy = "parent")
     @OrderBy("title asc")
-    @ToString.Exclude
     private Set<Category> children = new HashSet<>();
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.ALL, CascadeType.PERSIST})
-    @ToString.Exclude
     private List<Product> products;
 
     @Column(name = "all_parent_ids", length = 255, nullable = true)
-    @ToString.Exclude
     private String allParentsIDs;
+
+    public Category() {
+    }
 
     public static Category copyIdAndTitle(Category category) {
         Category copyCategory = new Category();
@@ -105,5 +97,77 @@ public class Category {
         this.imageURL = imageURL;
         this.enabled = enabled;
         this.parent = parent;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Category getParent() {
+        return parent;
+    }
+
+    public void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    public Set<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Set<Category> children) {
+        this.children = children;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public String getAllParentsIDs() {
+        return allParentsIDs;
+    }
+
+    public void setAllParentsIDs(String allParentsIDs) {
+        this.allParentsIDs = allParentsIDs;
     }
 }
