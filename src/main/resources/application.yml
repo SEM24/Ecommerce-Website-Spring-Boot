@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: spring
-    url: jdbc:mysql://localhost:3306/web_store_test?useSSL=false
-    password: spring
+    url: jdbc:mysql://localhost:3307/web_store?useSSL=false
+    username: yu71
+    password: 53cret
   mail:
     host: smtp-mail.outlook.com
     port: 587
@@ -14,7 +14,10 @@ spring:
           auth: true
           starttls:
             enable: true
+  docker:
+    compose:
+      enabled: true
 
 server:
-  port: 8084
+  port: 8080
 

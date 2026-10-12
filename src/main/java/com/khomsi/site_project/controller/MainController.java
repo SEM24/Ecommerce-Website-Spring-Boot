@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.webjars.NotFoundException;
+import com.khomsi.site_project.exception.NotFoundException;
 
 import java.security.Principal;
 import java.util.List;
