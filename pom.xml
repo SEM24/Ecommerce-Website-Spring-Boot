@@ -15,6 +15,7 @@
     <description>Site project for Spring Boot</description>
     <properties>
         <java.version>23</java.version>
+        <maven.compiler.proc>full</maven.compiler.proc>
     </properties>
 
     <dependencies>
