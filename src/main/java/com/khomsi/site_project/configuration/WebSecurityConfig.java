@@ -3,23 +3,21 @@ package com.khomsi.site_project.configuration;
 import com.khomsi.site_project.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import javax.sql.DataSource;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
     @Autowired
     private DataSource dataSource;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     /*
         loginPage() – the custom login page
@@ -52,11 +50,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource)
-                .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("select login, password, 'true' as enabled from user where login=?")
-                .authoritiesByUsernameQuery("select login, role from user where login=?");
+    public JdbcUserDetailsManager userDetailsService() {
+        JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+        manager.setUsersByUsernameQuery("select login, password, 'true' as enabled from user where login=?");
+        manager.setAuthoritiesByUsernameQuery("select login, role from user where login=?");
+        return manager;
     }
 
 }
