@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
+import com.khomsi.site_project.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
